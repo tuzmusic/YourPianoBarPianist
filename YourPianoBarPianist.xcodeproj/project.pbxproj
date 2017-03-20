@@ -8,11 +8,18 @@
 
 /* Begin PBXBuildFile section */
 		76B07FB11E7ED9ED008F0F45 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76B07FB01E7ED9ED008F0F45 /* AppDelegate.swift */; };
-		76B07FB31E7ED9ED008F0F45 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76B07FB21E7ED9ED008F0F45 /* ViewController.swift */; };
 		76B07FB61E7ED9ED008F0F45 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 76B07FB41E7ED9ED008F0F45 /* Main.storyboard */; };
 		76B07FB81E7ED9ED008F0F45 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 76B07FB71E7ED9ED008F0F45 /* Assets.xcassets */; };
 		76B07FBB1E7ED9ED008F0F45 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 76B07FB91E7ED9ED008F0F45 /* LaunchScreen.storyboard */; };
 		76B07FC61E7ED9ED008F0F45 /* YourPianoBarPianistTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76B07FC51E7ED9ED008F0F45 /* YourPianoBarPianistTests.swift */; };
+		76B07FD21E7EDA68008F0F45 /* Realm.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 76B07FD01E7EDA68008F0F45 /* Realm.framework */; };
+		76B07FD31E7EDA68008F0F45 /* Realm.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 76B07FD01E7EDA68008F0F45 /* Realm.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		76B07FD41E7EDA68008F0F45 /* RealmSwift.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 76B07FD11E7EDA68008F0F45 /* RealmSwift.framework */; };
+		76B07FD51E7EDA68008F0F45 /* RealmSwift.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 76B07FD11E7EDA68008F0F45 /* RealmSwift.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		76B07FD91E7EDA8C008F0F45 /* Globals, Extensions, Etc.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76B07FD81E7EDA8C008F0F45 /* Globals, Extensions, Etc.swift */; };
+		76B07FDB1E7EDA93008F0F45 /* Realm Object Classes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76B07FDA1E7EDA93008F0F45 /* Realm Object Classes.swift */; };
+		76B07FDD1E7EDB20008F0F45 /* AllRequestsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76B07FDC1E7EDB20008F0F45 /* AllRequestsTableViewController.swift */; };
+		76B07FDF1E7EDE5B008F0F45 /* RequestTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76B07FDE1E7EDE5B008F0F45 /* RequestTableViewCell.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -25,10 +32,24 @@
 		};
 /* End PBXContainerItemProxy section */
 
+/* Begin PBXCopyFilesBuildPhase section */
+		76B07FD61E7EDA68008F0F45 /* Embed Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				76B07FD51E7EDA68008F0F45 /* RealmSwift.framework in Embed Frameworks */,
+				76B07FD31E7EDA68008F0F45 /* Realm.framework in Embed Frameworks */,
+			);
+			name = "Embed Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
 /* Begin PBXFileReference section */
 		76B07FAD1E7ED9ED008F0F45 /* YourPianoBarPianist.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = YourPianoBarPianist.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		76B07FB01E7ED9ED008F0F45 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		76B07FB21E7ED9ED008F0F45 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		76B07FB51E7ED9ED008F0F45 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		76B07FB71E7ED9ED008F0F45 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		76B07FBA1E7ED9ED008F0F45 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
@@ -36,6 +57,12 @@
 		76B07FC11E7ED9ED008F0F45 /* YourPianoBarPianistTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = YourPianoBarPianistTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		76B07FC51E7ED9ED008F0F45 /* YourPianoBarPianistTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = YourPianoBarPianistTests.swift; sourceTree = "<group>"; };
 		76B07FC71E7ED9ED008F0F45 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		76B07FD01E7EDA68008F0F45 /* Realm.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Realm.framework; sourceTree = "<group>"; };
+		76B07FD11E7EDA68008F0F45 /* RealmSwift.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = RealmSwift.framework; sourceTree = "<group>"; };
+		76B07FD81E7EDA8C008F0F45 /* Globals, Extensions, Etc.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Globals, Extensions, Etc.swift"; sourceTree = "<group>"; };
+		76B07FDA1E7EDA93008F0F45 /* Realm Object Classes.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Realm Object Classes.swift"; sourceTree = "<group>"; };
+		76B07FDC1E7EDB20008F0F45 /* AllRequestsTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AllRequestsTableViewController.swift; path = ../AllRequestsTableViewController.swift; sourceTree = "<group>"; };
+		76B07FDE1E7EDE5B008F0F45 /* RequestTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RequestTableViewCell.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -43,6 +70,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				76B07FD41E7EDA68008F0F45 /* RealmSwift.framework in Frameworks */,
+				76B07FD21E7EDA68008F0F45 /* Realm.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -60,8 +89,11 @@
 			isa = PBXGroup;
 			children = (
 				76B07FAF1E7ED9ED008F0F45 /* YourPianoBarPianist */,
+				76B07FD71E7EDA75008F0F45 /* Supporting Files */,
 				76B07FC41E7ED9ED008F0F45 /* YourPianoBarPianistTests */,
 				76B07FAE1E7ED9ED008F0F45 /* Products */,
+				76B07FD01E7EDA68008F0F45 /* Realm.framework */,
+				76B07FD11E7EDA68008F0F45 /* RealmSwift.framework */,
 			);
 			sourceTree = "<group>";
 		};
@@ -77,12 +109,11 @@
 		76B07FAF1E7ED9ED008F0F45 /* YourPianoBarPianist */ = {
 			isa = PBXGroup;
 			children = (
-				76B07FB01E7ED9ED008F0F45 /* AppDelegate.swift */,
-				76B07FB21E7ED9ED008F0F45 /* ViewController.swift */,
+				76B07FDC1E7EDB20008F0F45 /* AllRequestsTableViewController.swift */,
 				76B07FB41E7ED9ED008F0F45 /* Main.storyboard */,
-				76B07FB71E7ED9ED008F0F45 /* Assets.xcassets */,
-				76B07FB91E7ED9ED008F0F45 /* LaunchScreen.storyboard */,
-				76B07FBC1E7ED9ED008F0F45 /* Info.plist */,
+				76B07FDE1E7EDE5B008F0F45 /* RequestTableViewCell.swift */,
+				76B07FD81E7EDA8C008F0F45 /* Globals, Extensions, Etc.swift */,
+				76B07FDA1E7EDA93008F0F45 /* Realm Object Classes.swift */,
 			);
 			path = YourPianoBarPianist;
 			sourceTree = "<group>";
@@ -96,6 +127,18 @@
 			path = YourPianoBarPianistTests;
 			sourceTree = "<group>";
 		};
+		76B07FD71E7EDA75008F0F45 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				76B07FB01E7ED9ED008F0F45 /* AppDelegate.swift */,
+				76B07FB71E7ED9ED008F0F45 /* Assets.xcassets */,
+				76B07FB91E7ED9ED008F0F45 /* LaunchScreen.storyboard */,
+				76B07FBC1E7ED9ED008F0F45 /* Info.plist */,
+			);
+			name = "Supporting Files";
+			path = YourPianoBarPianist;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -106,6 +149,7 @@
 				76B07FA91E7ED9ED008F0F45 /* Sources */,
 				76B07FAA1E7ED9ED008F0F45 /* Frameworks */,
 				76B07FAB1E7ED9ED008F0F45 /* Resources */,
+				76B07FD61E7EDA68008F0F45 /* Embed Frameworks */,
 			);
 			buildRules = (
 			);
@@ -201,8 +245,11 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				76B07FB31E7ED9ED008F0F45 /* ViewController.swift in Sources */,
+				76B07FD91E7EDA8C008F0F45 /* Globals, Extensions, Etc.swift in Sources */,
+				76B07FDF1E7EDE5B008F0F45 /* RequestTableViewCell.swift in Sources */,
 				76B07FB11E7ED9ED008F0F45 /* AppDelegate.swift in Sources */,
+				76B07FDB1E7EDA93008F0F45 /* Realm Object Classes.swift in Sources */,
+				76B07FDD1E7EDB20008F0F45 /* AllRequestsTableViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -340,11 +387,16 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				DEVELOPMENT_TEAM = MS76ZC84AE;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)",
+				);
 				INFOPLIST_FILE = YourPianoBarPianist/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = TuzMusic.YourPianoBarPianist;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 3.0;
+				TARGETED_DEVICE_FAMILY = 2;
 			};
 			name = Debug;
 		};
@@ -353,11 +405,16 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				DEVELOPMENT_TEAM = MS76ZC84AE;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)",
+				);
 				INFOPLIST_FILE = YourPianoBarPianist/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = TuzMusic.YourPianoBarPianist;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 3.0;
+				TARGETED_DEVICE_FAMILY = 2;
 			};
 			name = Release;
 		};
