@@ -8,8 +8,6 @@
 
 import Foundation
 
-typealias Song = [String:String]
-
 struct Storyboard {
 	static let CategorySegue = "Category Segue"
 	static let SongSegue = "Songs Segue"

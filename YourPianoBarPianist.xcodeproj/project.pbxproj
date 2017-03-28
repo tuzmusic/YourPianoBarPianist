@@ -7,6 +7,12 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		7615654B1E89DD4400F3A0E8 /* SongImporter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7615654A1E89DD4400F3A0E8 /* SongImporter.swift */; };
+		7615654E1E89DD6400F3A0E8 /* your-piano-bar-blank piano only tab bar item size.png in Resources */ = {isa = PBXBuildFile; fileRef = 7615654C1E89DD6400F3A0E8 /* your-piano-bar-blank piano only tab bar item size.png */; };
+		7615654F1E89DD6400F3A0E8 /* song list 1.tsv in Resources */ = {isa = PBXBuildFile; fileRef = 7615654D1E89DD6400F3A0E8 /* song list 1.tsv */; };
+		761565551E89DDCC00F3A0E8 /* Song.swift in Sources */ = {isa = PBXBuildFile; fileRef = 761565521E89DDCC00F3A0E8 /* Song.swift */; };
+		761565561E89DDCC00F3A0E8 /* Genre.swift in Sources */ = {isa = PBXBuildFile; fileRef = 761565531E89DDCC00F3A0E8 /* Genre.swift */; };
+		761565571E89DDCC00F3A0E8 /* Artist.swift in Sources */ = {isa = PBXBuildFile; fileRef = 761565541E89DDCC00F3A0E8 /* Artist.swift */; };
 		76B07FB11E7ED9ED008F0F45 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76B07FB01E7ED9ED008F0F45 /* AppDelegate.swift */; };
 		76B07FB61E7ED9ED008F0F45 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 76B07FB41E7ED9ED008F0F45 /* Main.storyboard */; };
 		76B07FB81E7ED9ED008F0F45 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 76B07FB71E7ED9ED008F0F45 /* Assets.xcassets */; };
@@ -48,6 +54,12 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		7615654A1E89DD4400F3A0E8 /* SongImporter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SongImporter.swift; sourceTree = "<group>"; };
+		7615654C1E89DD6400F3A0E8 /* your-piano-bar-blank piano only tab bar item size.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "your-piano-bar-blank piano only tab bar item size.png"; sourceTree = "<group>"; };
+		7615654D1E89DD6400F3A0E8 /* song list 1.tsv */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "song list 1.tsv"; sourceTree = "<group>"; };
+		761565521E89DDCC00F3A0E8 /* Song.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Song.swift; sourceTree = "<group>"; };
+		761565531E89DDCC00F3A0E8 /* Genre.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Genre.swift; sourceTree = "<group>"; };
+		761565541E89DDCC00F3A0E8 /* Artist.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Artist.swift; sourceTree = "<group>"; };
 		76B07FAD1E7ED9ED008F0F45 /* YourPianoBarPianist.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = YourPianoBarPianist.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		76B07FB01E7ED9ED008F0F45 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		76B07FB51E7ED9ED008F0F45 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
@@ -85,6 +97,24 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		761565501E89DD8700F3A0E8 /* Song Library */ = {
+			isa = PBXGroup;
+			children = (
+				761565511E89DD9700F3A0E8 /* Realm Classes */,
+			);
+			name = "Song Library";
+			sourceTree = "<group>";
+		};
+		761565511E89DD9700F3A0E8 /* Realm Classes */ = {
+			isa = PBXGroup;
+			children = (
+				761565521E89DDCC00F3A0E8 /* Song.swift */,
+				761565531E89DDCC00F3A0E8 /* Genre.swift */,
+				761565541E89DDCC00F3A0E8 /* Artist.swift */,
+			);
+			name = "Realm Classes";
+			sourceTree = "<group>";
+		};
 		76B07FA41E7ED9ED008F0F45 = {
 			isa = PBXGroup;
 			children = (
@@ -109,7 +139,9 @@
 		76B07FAF1E7ED9ED008F0F45 /* YourPianoBarPianist */ = {
 			isa = PBXGroup;
 			children = (
+				761565501E89DD8700F3A0E8 /* Song Library */,
 				76B07FDC1E7EDB20008F0F45 /* AllRequestsTableViewController.swift */,
+				7615654A1E89DD4400F3A0E8 /* SongImporter.swift */,
 				76B07FB41E7ED9ED008F0F45 /* Main.storyboard */,
 				76B07FDE1E7EDE5B008F0F45 /* RequestTableViewCell.swift */,
 				76B07FD81E7EDA8C008F0F45 /* Globals, Extensions, Etc.swift */,
@@ -130,6 +162,8 @@
 		76B07FD71E7EDA75008F0F45 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				7615654C1E89DD6400F3A0E8 /* your-piano-bar-blank piano only tab bar item size.png */,
+				7615654D1E89DD6400F3A0E8 /* song list 1.tsv */,
 				76B07FB01E7ED9ED008F0F45 /* AppDelegate.swift */,
 				76B07FB71E7ED9ED008F0F45 /* Assets.xcassets */,
 				76B07FB91E7ED9ED008F0F45 /* LaunchScreen.storyboard */,
@@ -226,6 +260,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				76B07FBB1E7ED9ED008F0F45 /* LaunchScreen.storyboard in Resources */,
+				7615654F1E89DD6400F3A0E8 /* song list 1.tsv in Resources */,
+				7615654E1E89DD6400F3A0E8 /* your-piano-bar-blank piano only tab bar item size.png in Resources */,
 				76B07FB81E7ED9ED008F0F45 /* Assets.xcassets in Resources */,
 				76B07FB61E7ED9ED008F0F45 /* Main.storyboard in Resources */,
 			);
@@ -245,11 +281,15 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				761565551E89DDCC00F3A0E8 /* Song.swift in Sources */,
 				76B07FD91E7EDA8C008F0F45 /* Globals, Extensions, Etc.swift in Sources */,
 				76B07FDF1E7EDE5B008F0F45 /* RequestTableViewCell.swift in Sources */,
+				761565571E89DDCC00F3A0E8 /* Artist.swift in Sources */,
 				76B07FB11E7ED9ED008F0F45 /* AppDelegate.swift in Sources */,
 				76B07FDB1E7EDA93008F0F45 /* Realm Object Classes.swift in Sources */,
+				7615654B1E89DD4400F3A0E8 /* SongImporter.swift in Sources */,
 				76B07FDD1E7EDB20008F0F45 /* AllRequestsTableViewController.swift in Sources */,
+				761565561E89DDCC00F3A0E8 /* Genre.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -467,6 +507,7 @@
 				76B07FCC1E7ED9ED008F0F45 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		76B07FCD1E7ED9ED008F0F45 /* Build configuration list for PBXNativeTarget "YourPianoBarPianistTests" */ = {
 			isa = XCConfigurationList;
@@ -475,6 +516,7 @@
 				76B07FCF1E7ED9ED008F0F45 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
