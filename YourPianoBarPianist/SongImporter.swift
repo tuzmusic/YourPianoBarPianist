@@ -37,7 +37,7 @@ class SongImporter {
 
 	*/
 	
-	func createSong (from songComponents: [String], headers: [String]) -> Song {
+	func createSong (from songComponents: [String], in realm: Realm, headers: [String]) -> Song {
 		
 		let newSong = Song()
 		
@@ -46,20 +46,28 @@ class SongImporter {
 		if headers[0] == SongHeaderTags.title {
 			newSong.title = songComponents[0]
 		}
+		
 		if headers[1] == SongHeaderTags.artist {
 			let artistName = songComponents[1]
-			// check our artist list (our = realm's?) to see if an artist with this name exists
-			// } else {
-			newSong.artist = Artist.newArtist(named: artistName)
-			newSong.artist?.name = songComponents[1]
-		}
-		if headers[2] == SongHeaderTags.genre {
-			if !headers[2].isEmpty {
-				newSong.genres.append(Genre(value: ["name":songComponents[2]]))
+			
+			let results = realm.objects(Artist.self).filter("name = %@", artistName)
+			if results.isEmpty {
+				newSong.artist = Artist.newArtist(named: artistName)
 			} else {
-				newSong.genres.append(Genre(value: ["Unknown"]))
+				newSong.artist = results.first
 			}
 		}
+		
+		if headers[2] == SongHeaderTags.genre {
+			let genreName = songComponents[2] == "" ? "Unknown" : songComponents[2]
+			let results = realm.objects(Genre.self).filter("name = %@", genreName)
+			if results.isEmpty {
+				newSong.genre = Genre.newGenre(named: genreName)
+			} else {
+				newSong.genre = results.first
+			}
+		}
+
 		return newSong
 	}
 	
@@ -82,11 +90,12 @@ class SongImporter {
 						if let songsLocalRealm = try? Realm(fileURL: Realm.Configuration().fileURL!.deletingLastPathComponent().appendingPathComponent("songsLocal.realm"))
 						{
 							// Search the realm for a song with this song's title and artist.
+							// This check should probably be in the createSong method. Maybe.
 							if songsLocalRealm.objects(Song.self)
 								.filter("title = %@ AND artist.name = %@", songComponents[0], songComponents[1])
 								.isEmpty
 							{
-								let newSong = createSong(from: songComponents, headers: headers)
+								let newSong = Song.createSong(from: songComponents, in: songsLocalRealm, headers: headers)
 								try! songsLocalRealm.write {
 									songsLocalRealm.add(newSong)
 								}
@@ -104,11 +113,6 @@ class SongImporter {
 		}
 		return songs
 	}
-	
-	func setupRealmOffline() {
-		realm = try! Realm(fileURL: Realm.Configuration().fileURL!.deletingLastPathComponent().appendingPathComponent("songsLocal.realm"))
-	}
-
 	
 	func setupRealm() {
 		

@@ -22,10 +22,8 @@ class ImportSongsViewController: UIViewController {
 	}
 	
 	@IBAction func `import`(_ sender: Any) {
-		importer.setupRealmOffline()
-		//print("\(importer.realm!.objects(Song.self).count) songs in Realm before import")
-		_ = importer.getSongsFromFile(named: fileName)
-		//print("\(importer.realm!.objects(Song.self).count) songs in Realm after import")
-		print(importer.realm!.objects(Song.self))
+		let songsInRealm = importer.getSongsFromFile(named: fileName)
+		print(songsInRealm)
+		//print(importer.realm!.objects(Song.self))
 	}
 }

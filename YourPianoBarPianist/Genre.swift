@@ -11,7 +11,7 @@ import RealmSwift
 
 final class Genre: Object {
 	dynamic var name = ""
-	var songs = List<Song>()
+	let songs = LinkingObjects(fromType: Song.self, property: "genre")
 	
 	static func newGenre(named name: String) -> Genre {
 		let newGenre = Genre()
