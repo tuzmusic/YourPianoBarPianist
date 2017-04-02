@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="11762" systemVersion="16D32" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="XEN-b4-bsn">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="11762" systemVersion="16D32" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="8Yd-Nw-ryn">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
@@ -37,6 +37,101 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="k3N-9a-PFe" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="1496.8" y="111.99400299850076"/>
+        </scene>
+        <!--Split View Controller-->
+        <scene sceneID="kdp-uX-GbI">
+            <objects>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="aiw-X1-Dsd" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <splitViewController id="8Yd-Nw-ryn" sceneMemberID="viewController">
+                    <connections>
+                        <segue destination="vKr-b9-gbA" kind="relationship" relationship="masterViewController" id="c5B-ep-VhQ"/>
+                        <segue destination="XEN-b4-bsn" kind="relationship" relationship="detailViewController" id="stm-3j-u9q"/>
+                    </connections>
+                </splitViewController>
+            </objects>
+            <point key="canvasLocation" x="-244" y="112"/>
+        </scene>
+        <!--Table View Controller-->
+        <scene sceneID="dhq-Jv-3XG">
+            <objects>
+                <tableViewController id="vKr-b9-gbA" sceneMemberID="viewController">
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="static" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" id="3YT-px-FSL">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <sections>
+                            <tableViewSection id="obG-hP-yLs">
+                                <cells>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" accessoryType="disclosureIndicator" indentationWidth="10" textLabel="qie-93-Lnr" style="IBUITableViewCellStyleDefault" id="C81-rB-zt6">
+                                        <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="C81-rB-zt6" id="sgx-bj-Tb6">
+                                            <rect key="frame" x="0.0" y="0.0" width="342" height="43"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="Import Songs" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="qie-93-Lnr">
+                                                    <rect key="frame" x="15" y="0.0" width="325" height="43"/>
+                                                    <autoresizingMask key="autoresizingMask"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                    <nil key="textColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                            </subviews>
+                                        </tableViewCellContentView>
+                                        <connections>
+                                            <segue destination="Pg3-uN-ZHM" kind="showDetail" identifier="Import Songs Segue" action="showViewController:sender:" id="YGE-KF-T31"/>
+                                        </connections>
+                                    </tableViewCell>
+                                </cells>
+                            </tableViewSection>
+                        </sections>
+                        <connections>
+                            <outlet property="dataSource" destination="vKr-b9-gbA" id="G1y-Ap-Ci7"/>
+                            <outlet property="delegate" destination="vKr-b9-gbA" id="cWc-AU-C7U"/>
+                        </connections>
+                    </tableView>
+                </tableViewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="mfp-88-tzA" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="558" y="884"/>
+        </scene>
+        <!--Import Songs View Controller-->
+        <scene sceneID="kYo-2e-O9s">
+            <objects>
+                <viewController id="Pg3-uN-ZHM" customClass="ImportSongsViewController" customModule="YourPianoBarPianist" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="YG6-Y9-iX4"/>
+                        <viewControllerLayoutGuide type="bottom" id="xwg-Ee-jMd"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="4ho-ek-Drb">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="5Ub-dI-e1H">
+                                <rect key="frame" x="132" y="318" width="110" height="30"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <state key="normal" title="Import from file:"/>
+                                <connections>
+                                    <action selector="import:" destination="Pg3-uN-ZHM" eventType="touchUpInside" id="npM-lO-KL6"/>
+                                </connections>
+                            </button>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="6ZW-I3-9et">
+                                <rect key="frame" x="50" y="356" width="260" height="21"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    </view>
+                    <connections>
+                        <outlet property="fileNameLabel" destination="6ZW-I3-9et" id="XYg-Ja-AcE"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="OtP-rt-I9r" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1445.5999999999999" y="899.10044977511257"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="tgv-as-YuR">

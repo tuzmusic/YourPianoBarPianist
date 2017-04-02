@@ -63,7 +63,7 @@ class SongImporter {
 		return newSong
 	}
 	
-	func getSongsFromFile (named fileName: String) -> ([Song]) {
+	func getSongsFromFile (named fileName: String) -> [Song] {
 		
 		var songs = Array<Song>()
 		
@@ -76,19 +76,22 @@ class SongImporter {
 					// Get the headers from the first entry in the database
 					let headers = songList.removeFirst().components(separatedBy: "\t")
 					for song in songList {
-						
 						let songComponents = song.components(separatedBy: "\t")
-						
 						// Check for existing song - check the local database (local realm?)
-						// Do I need two separate realms for this?
-						if let realm = realm {
+						// TODO: This should actually check the songs against the ONLINE realm.
+						if let songsLocalRealm = try? Realm(fileURL: Realm.Configuration().fileURL!.deletingLastPathComponent().appendingPathComponent("songsLocal.realm"))
+						{
 							// Search the realm for a song with this song's title and artist.
-							if realm.objects(Song.self).filter("title = songComponents[0] AND artist = songComponents[1]").isEmpty {
+							if songsLocalRealm.objects(Song.self)
+								.filter("title = %@ AND artist.name = %@", songComponents[0], songComponents[1])
+								.isEmpty
+							{
 								let newSong = createSong(from: songComponents, headers: headers)
-								try! realm.write {
-									realm.add(newSong)
+								try! songsLocalRealm.write {
+									songsLocalRealm.add(newSong)
 								}
-								let songsInRealm = realm.objects(Song.self)
+								// Testing that the above worked
+								let songsInRealm = songsLocalRealm.objects(Song.self)
 								print("\(songsInRealm.count) songs added to Realm")
 								for song in songsInRealm {
 									songs.append(song)
@@ -102,12 +105,18 @@ class SongImporter {
 		return songs
 	}
 	
+	func setupRealmOffline() {
+		realm = try! Realm(fileURL: Realm.Configuration().fileURL!.deletingLastPathComponent().appendingPathComponent("songsLocal.realm"))
+	}
+
+	
 	func setupRealm() {
 		
 		let username = "tuzmusic@gmail.com"
 		let password = "samiam"
 		let localHTTP = "http://54.208.237.32:9080/~/yourPianoBarSongs/JonathanTuzman/"
 
+		 
 		SyncUser.logIn(with: .usernamePassword(username: username, password: password), server: URL(string: localHTTP)!) {
 			
 			// Log in the user

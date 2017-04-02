@@ -14,82 +14,93 @@ class AllRequestsTableViewController: UITableViewController {
 	var realm: Realm!
 	var requests = List<Request>()
 	var notificationToken: NotificationToken!
-	var lastUpdate: Date?
-	
-	var spinner = UIActivityIndicatorView(activityIndicatorStyle: UIActivityIndicatorViewStyle.whiteLarge)
-	
 	
 	override func viewDidLoad() {
 		super.viewDidLoad()
-		
-		spinner.color = UIColor.gray
-		
-		setupRealm()
+//		setupRealmWithoutUser()
+//		 setupRealm()
+		setupRealmOffline()
+
+	}
+	func updateList() {
+		// TODO: Add sorting options
+		// TODO: This does not support live deleting of objects (from the realm browser)
+		if requests.realm == nil {
+			requests.removeAll()
+			for request in realm.objects(Request.self) {
+				requests.append(request)
+			}
+		}
+		tableView.reloadData()
 	}
 	
-	override func viewDidAppear(_ animated: Bool) {
-		super.viewDidAppear(true)
-		if let window = view.window {
-			let spinnerOrigin = CGPoint(x: window.center.x - 20, y: window.center.y - 20)
-			spinner.frame = CGRect(origin: spinnerOrigin, size: CGSize(width: 40, height: 40))
-			spinner.hidesWhenStopped = true
-			spinner.startAnimating()
-			view.addSubview(spinner)
+	func newSpinner() -> UIActivityIndicatorView {
+		let spinner = UIActivityIndicatorView(activityIndicatorStyle: UIActivityIndicatorViewStyle.whiteLarge)
+		spinner.color = UIColor.gray
+		spinner.hidesWhenStopped = true
+		spinner.startAnimating()
+		let spinnerOrigin = CGPoint(x: self.view.frame.midX - 20, y: self.view.frame.midY - 20)
+		spinner.frame = CGRect(origin: spinnerOrigin, size: CGSize(width: 40, height: 40))
+		self.view.addSubview(spinner)
+		return spinner
+	}
+
+	let address = "54.208.237.32:9080/~/yourPianoBarRequests"
+	var localHTTP: URL! { return URL(string: "http://" + address)! }
+	var realmAddress: URL! { return URL(string: "realm://" + address)! }
+
+	func setupRealmWithoutUser() {
+		let spinner = self.newSpinner()
+		DispatchQueue.main.async {
+			let localHTTP = URL(string: "http://" + self.address)!
+			self.realm = try! Realm(fileURL: localHTTP)
+			self.updateList()
+			spinner.stopAnimating()
 		}
+	}
+	
+	func setupRealmOffline() {
+		realm = try! Realm()
+		let userURL = realm.configuration.fileURL!.deletingLastPathComponent().appendingPathComponent("offlineTuzRequests.realm")
+		realm = try! Realm(fileURL: userURL)
 	}
 	
 	func setupRealm() {
 		let username = "tuzmusic@gmail.com"
 		let password = "samiam"
-		let localHTTP = "http://54.208.237.32:9080"
-		let realmAddress = "realm://54.208.237.32:9080/~/yourPianoBarRequests"
 		
-		SyncUser.logIn(with: .usernamePassword(username: username, password: password), server: URL(string: localHTTP)!) {
-			user, error in
+		let usernameCredentials = SyncCredentials.usernamePassword(username: username, password: password)
+		
+		//SyncUser.logIn(with: .usernamePassword(username: username, password: password), server: localHTTP) {
+		SyncUser.logIn(with: usernameCredentials, server: realmAddress) {	user, error in
 			guard let user = user else {
-				let alert = UIAlertController(title: "Error", message: String(describing: error), preferredStyle: .alert)
+				let alert = UIAlertController(title: "Error", message: "Could not load", preferredStyle: .alert)
 				alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
 				self.present(alert, animated: true, completion: nil)
 				print(String(describing: error!))
 				return
 			}
 			
+			let spinner = self.newSpinner()
 			
 			DispatchQueue.main.async {
 				
 				// Open Realm
-				let configuration = Realm.Configuration(
-					syncConfiguration: SyncConfiguration (user: user, realmURL: URL(string: realmAddress)!)
-				)
+				let syncConfig = SyncConfiguration (user: user, realmURL: self.realmAddress)
+				
+				// TODO: Check out the documentation about multiple configurations being expensive.
+				let configuration = Realm.Configuration(syncConfiguration: syncConfig)
+				
 				self.realm = try! Realm(configuration: configuration)
 				
-				func updateList() {
-					
-					// TODO: Add sorting options
-					// TODO: This does not support live deleting of objects (from the realm browser)
-					// TODO: Streamline this code. lastUpdate being optional is a bit of a problem.
-					if self.requests.realm == nil {
-						if self.requests.isEmpty {
-							for request in self.realm.objects(Request.self) {
-								self.requests.append(request)
-							}
-						} else {
-							for request in self.realm.objects(Request.self) where request.date > self.lastUpdate! {
-								self.requests.append(request)
-							}
-						}
-					}
-					self.spinner.stopAnimating()
-					self.tableView.reloadData()
-					self.lastUpdate = Date()
-				}
-				updateList()
+				self.updateList()
+				spinner.stopAnimating()
 				
 				// Notify us when Realm changes
 				self.notificationToken = self.realm.addNotificationBlock {notification in
-					//print(notification) 
+					//print(notification)
 					//This just prints "(RealmSwift.Realm.Notification.didChange, RealmSwift.Realm)", useless
-					updateList()
+					self.updateList()
 				}
 			}
 		}

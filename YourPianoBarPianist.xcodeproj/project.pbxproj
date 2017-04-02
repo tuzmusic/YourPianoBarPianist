@@ -13,19 +13,19 @@
 		761565551E89DDCC00F3A0E8 /* Song.swift in Sources */ = {isa = PBXBuildFile; fileRef = 761565521E89DDCC00F3A0E8 /* Song.swift */; };
 		761565561E89DDCC00F3A0E8 /* Genre.swift in Sources */ = {isa = PBXBuildFile; fileRef = 761565531E89DDCC00F3A0E8 /* Genre.swift */; };
 		761565571E89DDCC00F3A0E8 /* Artist.swift in Sources */ = {isa = PBXBuildFile; fileRef = 761565541E89DDCC00F3A0E8 /* Artist.swift */; };
+		761565591E8A6F6B00F3A0E8 /* ImportSongsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 761565581E8A6F6B00F3A0E8 /* ImportSongsViewController.swift */; };
+		761927E91E8EBC3700F03E23 /* Realm.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 761927E71E8EBC3700F03E23 /* Realm.framework */; };
+		761927EA1E8EBC3700F03E23 /* Realm.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 761927E71E8EBC3700F03E23 /* Realm.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		761927EB1E8EBC3700F03E23 /* RealmSwift.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 761927E81E8EBC3700F03E23 /* RealmSwift.framework */; };
+		761927EC1E8EBC3700F03E23 /* RealmSwift.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 761927E81E8EBC3700F03E23 /* RealmSwift.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		76B07FB11E7ED9ED008F0F45 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76B07FB01E7ED9ED008F0F45 /* AppDelegate.swift */; };
 		76B07FB61E7ED9ED008F0F45 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 76B07FB41E7ED9ED008F0F45 /* Main.storyboard */; };
 		76B07FB81E7ED9ED008F0F45 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 76B07FB71E7ED9ED008F0F45 /* Assets.xcassets */; };
 		76B07FBB1E7ED9ED008F0F45 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 76B07FB91E7ED9ED008F0F45 /* LaunchScreen.storyboard */; };
 		76B07FC61E7ED9ED008F0F45 /* YourPianoBarPianistTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76B07FC51E7ED9ED008F0F45 /* YourPianoBarPianistTests.swift */; };
-		76B07FD21E7EDA68008F0F45 /* Realm.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 76B07FD01E7EDA68008F0F45 /* Realm.framework */; };
-		76B07FD31E7EDA68008F0F45 /* Realm.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 76B07FD01E7EDA68008F0F45 /* Realm.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		76B07FD41E7EDA68008F0F45 /* RealmSwift.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 76B07FD11E7EDA68008F0F45 /* RealmSwift.framework */; };
-		76B07FD51E7EDA68008F0F45 /* RealmSwift.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 76B07FD11E7EDA68008F0F45 /* RealmSwift.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		76B07FD91E7EDA8C008F0F45 /* Globals, Extensions, Etc.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76B07FD81E7EDA8C008F0F45 /* Globals, Extensions, Etc.swift */; };
-		76B07FDB1E7EDA93008F0F45 /* Realm Object Classes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76B07FDA1E7EDA93008F0F45 /* Realm Object Classes.swift */; };
+		76B07FDB1E7EDA93008F0F45 /* Requests - Realm Classes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76B07FDA1E7EDA93008F0F45 /* Requests - Realm Classes.swift */; };
 		76B07FDD1E7EDB20008F0F45 /* AllRequestsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76B07FDC1E7EDB20008F0F45 /* AllRequestsTableViewController.swift */; };
-		76B07FDF1E7EDE5B008F0F45 /* RequestTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76B07FDE1E7EDE5B008F0F45 /* RequestTableViewCell.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -45,8 +45,8 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				76B07FD51E7EDA68008F0F45 /* RealmSwift.framework in Embed Frameworks */,
-				76B07FD31E7EDA68008F0F45 /* Realm.framework in Embed Frameworks */,
+				761927EC1E8EBC3700F03E23 /* RealmSwift.framework in Embed Frameworks */,
+				761927EA1E8EBC3700F03E23 /* Realm.framework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -60,6 +60,9 @@
 		761565521E89DDCC00F3A0E8 /* Song.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Song.swift; sourceTree = "<group>"; };
 		761565531E89DDCC00F3A0E8 /* Genre.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Genre.swift; sourceTree = "<group>"; };
 		761565541E89DDCC00F3A0E8 /* Artist.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Artist.swift; sourceTree = "<group>"; };
+		761565581E8A6F6B00F3A0E8 /* ImportSongsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ImportSongsViewController.swift; sourceTree = "<group>"; };
+		761927E71E8EBC3700F03E23 /* Realm.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Realm.framework; sourceTree = "<group>"; };
+		761927E81E8EBC3700F03E23 /* RealmSwift.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = RealmSwift.framework; sourceTree = "<group>"; };
 		76B07FAD1E7ED9ED008F0F45 /* YourPianoBarPianist.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = YourPianoBarPianist.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		76B07FB01E7ED9ED008F0F45 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		76B07FB51E7ED9ED008F0F45 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
@@ -69,12 +72,9 @@
 		76B07FC11E7ED9ED008F0F45 /* YourPianoBarPianistTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = YourPianoBarPianistTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		76B07FC51E7ED9ED008F0F45 /* YourPianoBarPianistTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = YourPianoBarPianistTests.swift; sourceTree = "<group>"; };
 		76B07FC71E7ED9ED008F0F45 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		76B07FD01E7EDA68008F0F45 /* Realm.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Realm.framework; sourceTree = "<group>"; };
-		76B07FD11E7EDA68008F0F45 /* RealmSwift.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = RealmSwift.framework; sourceTree = "<group>"; };
 		76B07FD81E7EDA8C008F0F45 /* Globals, Extensions, Etc.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Globals, Extensions, Etc.swift"; sourceTree = "<group>"; };
-		76B07FDA1E7EDA93008F0F45 /* Realm Object Classes.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Realm Object Classes.swift"; sourceTree = "<group>"; };
+		76B07FDA1E7EDA93008F0F45 /* Requests - Realm Classes.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Requests - Realm Classes.swift"; sourceTree = "<group>"; };
 		76B07FDC1E7EDB20008F0F45 /* AllRequestsTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AllRequestsTableViewController.swift; path = ../AllRequestsTableViewController.swift; sourceTree = "<group>"; };
-		76B07FDE1E7EDE5B008F0F45 /* RequestTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RequestTableViewCell.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -82,8 +82,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				76B07FD41E7EDA68008F0F45 /* RealmSwift.framework in Frameworks */,
-				76B07FD21E7EDA68008F0F45 /* Realm.framework in Frameworks */,
+				761927EB1E8EBC3700F03E23 /* RealmSwift.framework in Frameworks */,
+				761927E91E8EBC3700F03E23 /* Realm.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -100,6 +100,8 @@
 		761565501E89DD8700F3A0E8 /* Song Library */ = {
 			isa = PBXGroup;
 			children = (
+				761565581E8A6F6B00F3A0E8 /* ImportSongsViewController.swift */,
+				7615654A1E89DD4400F3A0E8 /* SongImporter.swift */,
 				761565511E89DD9700F3A0E8 /* Realm Classes */,
 			);
 			name = "Song Library";
@@ -122,8 +124,8 @@
 				76B07FD71E7EDA75008F0F45 /* Supporting Files */,
 				76B07FC41E7ED9ED008F0F45 /* YourPianoBarPianistTests */,
 				76B07FAE1E7ED9ED008F0F45 /* Products */,
-				76B07FD01E7EDA68008F0F45 /* Realm.framework */,
-				76B07FD11E7EDA68008F0F45 /* RealmSwift.framework */,
+				761927E71E8EBC3700F03E23 /* Realm.framework */,
+				761927E81E8EBC3700F03E23 /* RealmSwift.framework */,
 			);
 			sourceTree = "<group>";
 		};
@@ -139,13 +141,11 @@
 		76B07FAF1E7ED9ED008F0F45 /* YourPianoBarPianist */ = {
 			isa = PBXGroup;
 			children = (
-				761565501E89DD8700F3A0E8 /* Song Library */,
 				76B07FDC1E7EDB20008F0F45 /* AllRequestsTableViewController.swift */,
-				7615654A1E89DD4400F3A0E8 /* SongImporter.swift */,
 				76B07FB41E7ED9ED008F0F45 /* Main.storyboard */,
-				76B07FDE1E7EDE5B008F0F45 /* RequestTableViewCell.swift */,
 				76B07FD81E7EDA8C008F0F45 /* Globals, Extensions, Etc.swift */,
-				76B07FDA1E7EDA93008F0F45 /* Realm Object Classes.swift */,
+				76B07FDA1E7EDA93008F0F45 /* Requests - Realm Classes.swift */,
+				761565501E89DD8700F3A0E8 /* Song Library */,
 			);
 			path = YourPianoBarPianist;
 			sourceTree = "<group>";
@@ -225,11 +225,13 @@
 					76B07FAC1E7ED9ED008F0F45 = {
 						CreatedOnToolsVersion = 8.2.1;
 						DevelopmentTeam = MS76ZC84AE;
+						LastSwiftMigration = 0830;
 						ProvisioningStyle = Automatic;
 					};
 					76B07FC01E7ED9ED008F0F45 = {
 						CreatedOnToolsVersion = 8.2.1;
 						DevelopmentTeam = MS76ZC84AE;
+						LastSwiftMigration = 0830;
 						ProvisioningStyle = Automatic;
 						TestTargetID = 76B07FAC1E7ED9ED008F0F45;
 					};
@@ -283,10 +285,10 @@
 			files = (
 				761565551E89DDCC00F3A0E8 /* Song.swift in Sources */,
 				76B07FD91E7EDA8C008F0F45 /* Globals, Extensions, Etc.swift in Sources */,
-				76B07FDF1E7EDE5B008F0F45 /* RequestTableViewCell.swift in Sources */,
+				761565591E8A6F6B00F3A0E8 /* ImportSongsViewController.swift in Sources */,
 				761565571E89DDCC00F3A0E8 /* Artist.swift in Sources */,
 				76B07FB11E7ED9ED008F0F45 /* AppDelegate.swift in Sources */,
-				76B07FDB1E7EDA93008F0F45 /* Realm Object Classes.swift in Sources */,
+				76B07FDB1E7EDA93008F0F45 /* Requests - Realm Classes.swift in Sources */,
 				7615654B1E89DD4400F3A0E8 /* SongImporter.swift in Sources */,
 				76B07FDD1E7EDB20008F0F45 /* AllRequestsTableViewController.swift in Sources */,
 				761565561E89DDCC00F3A0E8 /* Genre.swift in Sources */,
