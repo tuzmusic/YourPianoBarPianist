@@ -18,8 +18,8 @@ class AllRequestsTableViewController: UITableViewController {
 	override func viewDidLoad() {
 		super.viewDidLoad()
 //		setupRealmWithoutUser()
-//		 setupRealm()
-		setupRealmOffline()
+		setupRealm()
+//		setupRealmOffline()
 
 	}
 	func updateList() {
@@ -44,16 +44,16 @@ class AllRequestsTableViewController: UITableViewController {
 		self.view.addSubview(spinner)
 		return spinner
 	}
-
+	
+	let amazonURL = "ec2-54-208-237-32.compute-1.amazonaws.com"
 	let address = "54.208.237.32:9080/~/yourPianoBarRequests"
-	var localHTTP: URL! { return URL(string: "http://" + address)! }
-	var realmAddress: URL! { return URL(string: "realm://" + address)! }
+	var httpURL: URL! { return URL(string: "http://" + address)! }
+	var realmURL: URL! { return URL(string: "realm://" + address)! }
 
 	func setupRealmWithoutUser() {
 		let spinner = self.newSpinner()
 		DispatchQueue.main.async {
-			let localHTTP = URL(string: "http://" + self.address)!
-			self.realm = try! Realm(fileURL: localHTTP)
+			self.realm = try! Realm(fileURL: self.httpURL)
 			self.updateList()
 			spinner.stopAnimating()
 		}
@@ -63,44 +63,48 @@ class AllRequestsTableViewController: UITableViewController {
 		realm = try! Realm()
 		let userURL = realm.configuration.fileURL!.deletingLastPathComponent().appendingPathComponent("offlineTuzRequests.realm")
 		realm = try! Realm(fileURL: userURL)
+		debugPrint("Path to realm file: " + realm.configuration.fileURL!.absoluteString)
+
 	}
 	
 	func setupRealm() {
 		let username = "tuzmusic@gmail.com"
 		let password = "samiam"
 		
-		let usernameCredentials = SyncCredentials.usernamePassword(username: username, password: password)
+		let localHTTP = URL(string:"http://54.208.237.32:9080")!
+		let realmAddress = URL(string:"realm://54.208.237.32:9080/~/yourPianoBarRequests")!
 		
-		//SyncUser.logIn(with: .usernamePassword(username: username, password: password), server: localHTTP) {
-		SyncUser.logIn(with: usernameCredentials, server: realmAddress) {	user, error in
+		/* to SSH in via terminal:
+		cd /Users/TuzsNewMacBook/Library/Mobile\ Documents/com\~apple\~CloudDocs/Misc\ Stuff\ -\ iCloud\ drive/Programming/IMPORTANT\ Server\ Stuff
+		ssh -i "YourPianoBarKeyPair.pem" ubuntu@ec2-54-208-237-32.compute-1.amazonaws.com
+		
+		sudo systemctl start realm-object-server
+		
+		*/
+		
+		SyncUser.logIn(with: .usernamePassword(username: username, password: password), server: localHTTP) {
+			user, error in
 			guard let user = user else {
-				let alert = UIAlertController(title: "Error", message: "Could not load", preferredStyle: .alert)
+				let alert = UIAlertController(title: "Error",
+				                              //message: String(describing: error),
+					message: "Could not log in",
+					preferredStyle: .alert)
 				alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
 				self.present(alert, animated: true, completion: nil)
 				print(String(describing: error!))
 				return
 			}
 			
-			let spinner = self.newSpinner()
-			
 			DispatchQueue.main.async {
 				
 				// Open Realm
-				let syncConfig = SyncConfiguration (user: user, realmURL: self.realmAddress)
+				var configuration = Realm.Configuration()
+				configuration.syncConfiguration = SyncConfiguration(user: user, realmURL: realmAddress)
 				
-				// TODO: Check out the documentation about multiple configurations being expensive.
-				let configuration = Realm.Configuration(syncConfiguration: syncConfig)
-				
-				self.realm = try! Realm(configuration: configuration)
-				
-				self.updateList()
-				spinner.stopAnimating()
-				
-				// Notify us when Realm changes
-				self.notificationToken = self.realm.addNotificationBlock {notification in
-					//print(notification)
-					//This just prints "(RealmSwift.Realm.Notification.didChange, RealmSwift.Realm)", useless
-					self.updateList()
+				do {
+					self.realm = try Realm(configuration: configuration)
+				} catch {
+					print(error)
 				}
 			}
 		}

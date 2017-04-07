@@ -32,13 +32,13 @@ final class Song: Object {
 		// TODO: Modify this to find which column is which, instead of checking that it's what I expect.
 		
 		if headers[0] == SongHeaderTags.title {
-			newSong.title = songComponents[0]
+			newSong.title = songComponents[0].capitalized
 		}
 		
 		if headers[1] == SongHeaderTags.artist {
-			let artistName = songComponents[1]
+			let artistName = songComponents[1].capitalized
 			
-			let results = realm.objects(Artist.self).filter("name = %@", artistName)
+			let results = realm.objects(Artist.self).filter("name like[c] %@", artistName)
 			if results.isEmpty {
 				newSong.artist = Artist.newArtist(named: artistName)
 			} else {

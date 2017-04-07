@@ -22,8 +22,6 @@ class ImportSongsViewController: UIViewController {
 	}
 	
 	@IBAction func `import`(_ sender: Any) {
-		let songsInRealm = importer.getSongsFromFile(named: fileName)
-		print(songsInRealm)
-		//print(importer.realm!.objects(Song.self))
+		_ = importer.getSongsFromFile(named: fileName)
 	}
 }
