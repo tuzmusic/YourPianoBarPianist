@@ -11,78 +11,67 @@ import RealmSwift
 
 class SongImporter {
 	
-	var songsOnlineRealm: Realm?
+	typealias SongData = [String]
 	
-	func getSongsFromFile (named fileName: String) -> [Song] {
+	func getSongDataFromTSVFile (named fileName: String) -> [SongData]? {
 		
-		var songs = Array<Song>()
+		var songData = [[String]]()
 		
 		if let path = Bundle.main.path(forResource: fileName, ofType: "tsv") {
-			// Get contents of TSV database file
-			if let fullList = try? String(contentsOf: URL(fileURLWithPath: path)).replacingOccurrences(of: "\r", with: "") {
-				// Separate each record in the database and store them in songList
-				var songList = fullList.components(separatedBy: "\n")
-				if !songList.isEmpty {
-					// Get the headers from the first entry in the database
-					let headers = songList.removeFirst().components(separatedBy: "\t")
-					setupRealm()
-					for song in songList {
-						let songComponents = song.components(separatedBy: "\t")
-						// TODO: This should actually check the songs against the ONLINE realm.
-						if let songsLocalRealm = try? Realm(fileURL: Realm.Configuration().fileURL!.deletingLastPathComponent().appendingPathComponent("songsLocal.realm"))
-						{
-							// This check should probably be in the createSong method. Maybe.
-							if songsLocalRealm.objects(Song.self)
-								.filter("title = %@ AND artist.name = %@", songComponents[0], songComponents[1])
-								.isEmpty
-							{
-								let newSong = Song.createSong(from: songComponents, in: songsLocalRealm, headers: headers)
-								songs.append(newSong)
-								try! songsLocalRealm.write { songsLocalRealm.add(newSong) }
-								do {
-									try songsOnlineRealm?.write {
-										songsOnlineRealm?.add(newSong)
-										print("Song added to online realm")
-									}
-								} catch {
-									print("Error when trying to write song to online realm:\(error)")
-								}
-							}
-						}
-					}
+			if let fullList = try? String(contentsOf: URL(fileURLWithPath: path)) {
+				let songList = fullList
+					.replacingOccurrences(of: "\r", with: "")
+					.components(separatedBy: "\n")
+				guard songList.count > 1 else { print("Song list cannot be used: no headers, or no listings!")
+					return nil }
+				for song in songList {
+					songData.append(song.components(separatedBy: "\t"))
 				}
 			}
 		}
-		return songs
+		return songData
 	}
 	
-	func setupRealm() {
+	func writeSongsToLocalRealm(songData: [SongData]) {
+		
+		// Get the headers from the first entry in the database
+		guard let headers = songData.first else {
+			print("Song list is empty, could not extract headers.")
+			return
+		}
+		
+		let configURL = Realm.Configuration().fileURL!.deletingLastPathComponent().appendingPathComponent("songsLocal.realm")
+		if let songsLocalRealm = try? Realm(fileURL: configURL) {
+			for songComponents in songData where songComponents != headers {
+				_ = Song.createSong(from: songComponents, in: songsLocalRealm, headers: headers)
+			}
+		}
+	}
+	
+	func setupOnlineRealm() {
+		
+		var songsOnlineRealm: Realm?
 		
 		let username = "tuzmusic@gmail.com"
 		let password = "samiam"
 		let localHTTP = URL(string:"http://54.208.237.32:9080")!
-		
 		
 		SyncUser.logIn(with: .usernamePassword(username: username, password: password), server: localHTTP) {
 			
 			// Log in the user
 			user, error in
 			guard let user = user else {
-				print(String(describing: error!))
-				return
-			}
+				print(String(describing: error!)); return }
 			print("Initial login successful")
+			
 			DispatchQueue.main.async {
-				
 				// Open the online Realm
-				let realmAddress = "realm://54.208.237.32:9080/~/yourPianoBarSongs/JonathanTuzman/"
-				let configuration = Realm.Configuration(
-					syncConfiguration: SyncConfiguration (user: user, realmURL: URL(string: realmAddress)!)
-				)
-				// Assign the realm to be our realm.
-				// TODO: Is this the realm we want??
+				let realmAddress = URL(string:"realm://54.208.237.32:9080/~/yourPianoBarSongs/JonathanTuzman/")!
+				let syncConfig = SyncConfiguration (user: user, realmURL: realmAddress)
+				let configuration = Realm.Configuration(syncConfiguration: syncConfig)
+				
 				do {
-					self.songsOnlineRealm = try Realm(configuration: configuration)
+					songsOnlineRealm = try Realm(configuration: configuration)
 				} catch {
 					print(error)
 				}
