@@ -23,7 +23,9 @@ final class Song: Object {
 	
 	class func createSong (from songComponents: [String], in realm: Realm, headers: inout [String]) -> Song? {
 		
-		headers.forEach { $0 = $0.lowercased() }
+		var headers2 = [String]()
+		headers.forEach { headers2.append($0.lowercased()) }
+		headers = headers2
 		
 		// Prep the data
 		struct SongHeaderTags {
@@ -60,17 +62,20 @@ final class Song: Object {
 		if let existingSong = realm.objects(Song.self)
 			.filter("title like[c] %@ AND artist.name like[c] %@", songComponents[titleIndex], artistName)
 			.first {
+			print("\"\(songComponents[titleIndex])\" by \(artistName) is already in this database.")
 			return existingSong
 		}
 		
 		let newSong = Song()
 		newSong.title = songComponents[titleIndex].capitalized
 		
+		func genericStuffThatDidntWork() {
+		
 		// Generic function for finding or creating objects for properties
 		func objectFor<T: Object> (songProperty: String, type: T.Type, nameForBlankItem: String, createWith newObjectNamed: (String) -> T) -> T? {
 			var object = T()
 			var name = ""
-			if let index = headers.index(of: songProperty.capitalized) {
+			if let index = headers.index(of: songProperty) {
 				name = songComponents[index].isEmpty ? nameForBlankItem : songComponents[index].capitalized
 			} else {
 				print("Could not find column for \"\(songProperty)\". Using \"\(nameForBlankItem)\".")
@@ -82,11 +87,23 @@ final class Song: Object {
 			return object
 		}
 		
-		newSong.artist = objectFor(songProperty: SongHeaderTags.artist, type: Artist.self,
-		                          nameForBlankItem: "Unknown Artist", createWith: Artist.newArtist(named:))
+		//newSong.artist = objectFor(songProperty: SongHeaderTags.artist, type: Artist.self, nameForBlankItem: "Unknown Artist", createWith: Artist.newArtist(named:))
 		
-		newSong.genre = objectFor(songProperty: SongHeaderTags.genre, type: Genre.self,
-		                         nameForBlankItem: "Unknown", createWith: Genre.newGenre(named:))
+		//newSong.genre = objectFor(songProperty: SongHeaderTags.genre, type: Genre.self, nameForBlankItem: "Unknown", createWith: Genre.newGenre(named:))
+		}
+		
+		if let artistIndex = headers.index(of: SongHeaderTags.artist) {
+			let artistName = songComponents[artistIndex].isEmpty ? "Unknown Artist" : songComponents[artistIndex].capitalized
+			let results = realm.objects(Artist.self).filter("name like[c] %@", artistName)
+			newSong.artist = results.isEmpty ? Artist.newArtist(named: artistName) : results.first
+		}
+		
+		if let genreIndex = headers.index(of: SongHeaderTags.genre) {
+			let genreName = songComponents[genreIndex].isEmpty ? "Unknown" : songComponents[genreIndex].capitalized
+			let results = realm.objects(Genre.self).filter("name =[c] %@", genreName)
+			newSong.genre = results.isEmpty ? Genre.newGenre(named: genreName) : results.first
+		}
+		
 		
 		// Generic function for creating values for properties
 		func valueFor (songProperty: String) -> Any? {
@@ -102,21 +119,11 @@ final class Song: Object {
 		newSong.dateModified = valueFor(songProperty: SongHeaderTags.dateModified) as? Date
 		newSong.dateAdded = Date()
 
-		/*
-		if let artistIndex = headers.index(of: SongHeaderTags.artist) {
-		let artistName = songComponents[artistIndex].isEmpty ? "Unknown Artist" : songComponents[artistIndex].capitalized
-		let results = realm.objects(Artist.self).filter("name like[c] %@", artistName)
-		newSong.artist = results.isEmpty ? Artist.newArtist(named: artistName) : results.first
+		try! realm.write {
+			realm.add(newSong)
+			let count = realm.objects(Song.self).count
+			print("Song #\(count) added to realm: \(newSong)")
 		}
-		
-		if let genreIndex = headers.index(of: SongHeaderTags.genre) {
-		let genreName = songComponents[genreIndex].isEmpty ? "Unknown" : songComponents[genreIndex].capitalized
-		let results = realm.objects(Genre.self).filter("name =[c] %@", genreName)
-		newSong.genre = results.isEmpty ? Genre.newGenre(named: genreName) : results.first
-		}
-		*/
-		
-		try! realm.write { realm.add(newSong) }
 		return newSong
 	}
 }

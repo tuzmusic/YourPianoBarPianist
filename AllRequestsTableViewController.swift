@@ -17,9 +17,7 @@ class AllRequestsTableViewController: UITableViewController {
 	
 	override func viewDidLoad() {
 		super.viewDidLoad()
-//		setupRealmWithoutUser()
-		setupRealm()
-//		setupRealmOffline()
+//		setupRealm()
 
 	}
 	func updateList() {

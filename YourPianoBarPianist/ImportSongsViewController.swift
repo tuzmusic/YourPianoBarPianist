@@ -22,6 +22,8 @@ class ImportSongsViewController: UIViewController {
 	}
 	
 	@IBAction func `import`(_ sender: Any) {
-		importer.writeSongsToLocalRealm(songData: importer.getSongDataFromTSVFile(named: fileName))
+		if let songData = importer.getSongDataFromTSVFile(named: fileName) {
+			importer.writeSongsToLocalRealm(songData: songData)
+		}
 	}
 }

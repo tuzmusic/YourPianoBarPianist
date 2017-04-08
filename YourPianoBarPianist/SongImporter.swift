@@ -35,17 +35,25 @@ class SongImporter {
 	func writeSongsToLocalRealm(songData: [SongData]) {
 		
 		// Get the headers from the first entry in the database
-		guard let headers = songData.first else {
+		guard var headers = songData.first else {
 			print("Song list is empty, could not extract headers.")
 			return
 		}
 		
 		let configURL = Realm.Configuration().fileURL!.deletingLastPathComponent().appendingPathComponent("songsLocal.realm")
-		if let songsLocalRealm = try? Realm(fileURL: configURL) {
+		do {
+			let songsLocalRealm = try Realm(fileURL: configURL)
 			for songComponents in songData where songComponents != headers {
-				_ = Song.createSong(from: songComponents, in: songsLocalRealm, headers: headers)
+				_ = Song.createSong(from: songComponents, in: songsLocalRealm, headers: &headers)
 			}
+		} catch {
+			print(error)
 		}
+//		if let songsLocalRealm = try? Realm(fileURL: configURL) {
+//			for songComponents in songData where songComponents != headers {
+//				_ = Song.createSong(from: songComponents, in: songsLocalRealm, headers: &headers)
+//			}
+//		} else { print("Couldn't access local realm.") }
 	}
 	
 	func setupOnlineRealm() {
