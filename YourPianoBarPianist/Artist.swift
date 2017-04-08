@@ -12,7 +12,6 @@ import RealmSwift
 final class Artist: Object {
 	dynamic var name = ""
 	let songs = LinkingObjects(fromType: Song.self, property: "artist")
-	//var songs = List<Song>()
 
 	static func newArtist(named name: String) -> Artist {
 		let newArtist = Artist()

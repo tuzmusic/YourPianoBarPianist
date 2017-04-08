@@ -139,6 +139,7 @@ class AllRequestsTableViewController: UITableViewController {
 		
 		return cell
 	}
+	
 	@IBAction func importPressed(_ sender: Any) {
 		
 		// MARK: Model (for Alert Controller, actually does the initial importing)
@@ -170,6 +171,8 @@ class AllRequestsTableViewController: UITableViewController {
 			do {
 				let songsLocalRealm = try Realm(fileURL: configURL)
 				dvc.importingSongs = Array(songsLocalRealm.objects(Song.self))
+					.sorted { $0.title.localizedCaseInsensitiveCompare($1.title) == ComparisonResult.orderedAscending }
+
 			} catch {
 				print(error)
 			}

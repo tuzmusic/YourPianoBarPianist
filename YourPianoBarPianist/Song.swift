@@ -11,13 +11,13 @@ import RealmSwift
 
 final class Song: Object {
 	dynamic var title = ""
-	var artist: Artist?
-	var genre: Genre?
-	var decade: Int?
+	dynamic var artist: Artist?
+	dynamic var genre: Genre?
+	var decade: Int?  // Can't be dynamic. Fix?
 	dynamic var decadeString = ""
 	var requests: List<Request>?
-	var dateAdded: Date?
-	var dateModified: Date?
+	dynamic var dateAdded: Date?
+	dynamic var dateModified: Date?
 	
 	var popularity: Int { return self.requests?.count ?? 0 }
 	
@@ -62,7 +62,7 @@ final class Song: Object {
 		if let existingSong = realm.objects(Song.self)
 			.filter("title like[c] %@ AND artist.name like[c] %@", songComponents[titleIndex], artistName)
 			.first {
-			print("\"\(songComponents[titleIndex])\" by \(artistName) is already in this database.")
+			// print("\"\(songComponents[titleIndex])\" by \(artistName) is already in this database.")
 			return existingSong
 		}
 		

@@ -63,10 +63,10 @@
             </objects>
             <point key="canvasLocation" x="1496.8" y="111.99400299850076"/>
         </scene>
-        <!--Song Importer-->
+        <!--Songs to Import-->
         <scene sceneID="jdO-cP-ZTL">
             <objects>
-                <tableViewController title="Song Importer" id="9Tw-4Q-Svz" customClass="ImportSongsTableViewController" customModule="YourPianoBarPianist" customModuleProvider="target" sceneMemberID="viewController">
+                <tableViewController title="Songs to Import" id="9Tw-4Q-Svz" customClass="ImportSongsTableViewController" customModule="YourPianoBarPianist" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" id="ETn-yv-rwV">
                         <rect key="frame" x="0.0" y="0.0" width="768" height="1024"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -102,10 +102,19 @@
                             <outlet property="delegate" destination="9Tw-4Q-Svz" id="qwJ-qV-xyt"/>
                         </connections>
                     </tableView>
+                    <toolbarItems/>
+                    <navigationItem key="navigationItem" title="Songs to Import" id="M6N-a9-f17" userLabel="Songs to Import">
+                        <barButtonItem key="rightBarButtonItem" title="Import/Upload" id="e2S-Sd-eLe">
+                            <connections>
+                                <action selector="uploadPressed:" destination="9Tw-4Q-Svz" id="UIK-1S-cSd"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
+                    <simulatedToolbarMetrics key="simulatedBottomBarMetrics"/>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="rMS-cJ-hJw" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2234" y="118"/>
+            <point key="canvasLocation" x="2216" y="112"/>
         </scene>
         <!--Split View Controller-->
         <scene sceneID="kdp-uX-GbI">
