@@ -16,6 +16,7 @@ struct Storyboard {
 	static let BrowseSongsSegue = "Browse Songs Segue"
 	static let SelectSongSegue = "Select Song Segue"
 	static let ImportSongsSegue = "Import Songs Segue"
+	static let ImportSongsTable = "Import Songs Table"
 }
 
 struct Info {
