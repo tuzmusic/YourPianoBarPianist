@@ -24,14 +24,12 @@ class ImportSongsTableViewController: UITableViewController {
 		var songsOnlineRealm: Realm! {
 			didSet {
 				alert.message! += "\n  Realm set!"
-				for offlineSong in importingSongs {
-					let onlineSong = offlineSong
-					try! songsOnlineRealm.write {
-						// This works as written, but doesn't check for uniqueness is any object whatsoever.
-						// It needs to create the song using a new Song.createSong(from songObject:) method.
+				try! songsOnlineRealm.write {
+					for song in importingSongs {
 						// Also give the song a primary key to allow updating (once I understand what this updating is)
-						songsOnlineRealm.create(Song.self, value: onlineSong, update: false)
+						_ = Song.createSong(from: song, in: songsOnlineRealm)
 					}
+					alert.message! += "\n  Done!"
 				}
 			}
 		}

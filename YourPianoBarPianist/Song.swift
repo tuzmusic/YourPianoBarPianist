@@ -12,6 +12,7 @@ import RealmSwift
 final class Song: Object {
 	dynamic var title = ""
 	dynamic var artist: Artist?
+	dynamic var songDescription = ""
 	dynamic var genre: Genre?
 	var decade: Int?  // Can't be dynamic. Fix?
 	dynamic var decadeString = ""
@@ -19,7 +20,43 @@ final class Song: Object {
 	dynamic var dateAdded: Date?
 	dynamic var dateModified: Date?
 	
+//	override static func primaryKey() -> String? {
+//		return "songDescription"
+//	}
+	
 	var popularity: Int { return self.requests?.count ?? 0 }
+	
+	class func createSong (from song: Song, in realm: Realm) -> Song? {
+
+		
+		if let existingSong = realm.objects(Song.self)
+			// Should this be filtering for primary key instead? Or is there a way that Realm uniques with the primay key automatically?
+			.filter("title like[c] %@ AND artist.name like[c] %@", song.title, song.artist!.name)
+			.first {
+			return existingSong
+		}
+		
+		let newSong = Song()
+		newSong.title = song.title
+		if let artistName = song.artist?.name {
+			let results = realm.objects(Artist.self).filter("name like[c] %@", artistName)
+			newSong.artist = results.isEmpty ? Artist.newArtist(named: artistName) : results.first
+			newSong.songDescription = "\(song.title) - \(artistName)"
+		}
+		
+		if let genreName = song.genre?.name {
+			let results = realm.objects(Genre.self).filter("name =[c] %@", genreName)
+			newSong.genre = results.isEmpty ? Genre.newGenre(named: genreName) : results.first
+		}
+		
+		newSong.decade = song.decade
+		newSong.dateModified = song.dateModified
+		newSong.dateAdded = song.dateAdded
+		
+		realm.create(Song.self, value: newSong, update: false)
+		
+		return newSong
+	}
 	
 	class func createSong (from songComponents: [String], in realm: Realm, headers: inout [String]) -> Song? {
 		

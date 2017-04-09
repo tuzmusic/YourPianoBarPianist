@@ -13,6 +13,10 @@ final class Genre: Object {
 	dynamic var name = ""
 	let songs = LinkingObjects(fromType: Song.self, property: "genre")
 	
+	override static func primaryKey() -> String? {
+		return "name"
+	}
+	
 	static func newGenre(named name: String) -> Genre {
 		let newGenre = Genre()
 		newGenre.name = name

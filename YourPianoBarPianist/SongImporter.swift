@@ -49,11 +49,6 @@ class SongImporter {
 		} catch {
 			print(error)
 		}
-//		if let songsLocalRealm = try? Realm(fileURL: configURL) {
-//			for songComponents in songData where songComponents != headers {
-//				_ = Song.createSong(from: songComponents, in: songsLocalRealm, headers: &headers)
-//			}
-//		} else { print("Couldn't access local realm.") }
 	}
 	
 	
