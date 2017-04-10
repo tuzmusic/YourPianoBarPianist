@@ -10,7 +10,6 @@ import Foundation
 import RealmSwift
 
 final class Request: Object {
-	// this may need "dynamic" before "var"
 	dynamic var user: YpbUser?
 	dynamic var userString: String = ""
 	dynamic var songString: String = ""
