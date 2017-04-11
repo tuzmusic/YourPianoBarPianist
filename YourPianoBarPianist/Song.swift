@@ -28,7 +28,6 @@ final class Song: Object {
 	
 	class func createSong (from song: Song, in realm: Realm) -> Song? {
 
-		
 		if let existingSong = realm.objects(Song.self)
 			// Should this be filtering for primary key instead? Or is there a way that Realm uniques with the primay key automatically?
 			.filter("title like[c] %@ AND artist.name like[c] %@", song.title, song.artist!.name)
@@ -58,27 +57,62 @@ final class Song: Object {
 		return newSong
 	}
 	
+	struct SongHeaderTags {
+		static let titleOptions = ["song", "title", "name"]
+		static let artist = "artist"
+		static let genre = "genre"
+		static let decade = "decade"
+		static let dateModified = "date modified"
+	}
+	
 	class func createSong (from songComponents: [String], in realm: Realm, headers: inout [String]) -> Song? {
 		
-		var headers2 = [String]()
-		headers.forEach { headers2.append($0.lowercased()) }
-		headers = headers2
-		
-		// Prep the data
-		struct SongHeaderTags {
-			static let titleOptions = ["song", "title", "name"]
-			static let artist = "artist"
-			static let genre = "genre"
-			static let decade = "decade"
-			static let dateModified = "date modified"
+		var titleNum: Int? {
+			for header in headers {
+				if SongHeaderTags.titleOptions.contains(header) {
+					return headers.index(of: header)!
+				}
+			}
+			return nil
 		}
 		
+		guard let titleIndex = titleNum else {
+			print("Song could not be created: Title field could not be found.")
+			return nil
+		}
+		
+		// This is just for checking to see if we already have the song. This artistName won't be used in checking/assigning the artist.
+		var artistName = ""
+		if let artistIndex = headers.index(of: SongHeaderTags.artist) {
+			artistName = songComponents[artistIndex]
+		}
+		
+		// Check to see if we already have this song (by this artist)
+		if let existingSong = realm.objects(Song.self)
+			.filter("title like[c] %@ AND artist.name like[c] %@", songComponents[titleIndex], artistName)
+			.first {
+			// print("\"\(songComponents[titleIndex])\" by \(artistName) is already in this database.")
+			return existingSong
+		}
+		
+		let newSong = Song()
+		newSong.title = songComponents[titleIndex].capitalized
+		
+		for property in Song.indexedProperties() {
+			if let index = headers.index(of: property.description) {
+				newSong.setValue(headers[index], forKey: property.description)
+			}
+		}
+		
+		return newSong
+	}
+	
+	class func createSongOld (from songComponents: [String], in realm: Realm, headers: inout [String]) -> Song? {
+		
 		var titleNum: Int? {
-			for option in SongHeaderTags.titleOptions {
-				for header in headers {
-					if header == option {
-						return headers.index(of: header)!
-					}
+			for header in headers {
+				if SongHeaderTags.titleOptions.contains(header) {
+					return headers.index(of: header)!
 				}
 			}
 			return nil
@@ -141,7 +175,13 @@ final class Song: Object {
 			newSong.genre = results.isEmpty ? Genre.newGenre(named: genreName) : results.first
 		}
 		
-		
+		for property in Song.indexedProperties() {
+			if let index = headers.index(of: property.description) {
+				newSong.setValue(headers[index], forKey: property.description)
+			}
+		}
+
+		/*
 		// Generic function for creating values for properties
 		func valueFor (songProperty: String) -> Any? {
 			if let index = headers.index(of: songProperty.capitalized) {
@@ -154,8 +194,9 @@ final class Song: Object {
 		
 		newSong.decade = valueFor(songProperty: SongHeaderTags.decade) as? Int
 		newSong.dateModified = valueFor(songProperty: SongHeaderTags.dateModified) as? Date
-		newSong.dateAdded = Date()
+		*/
 
+		newSong.dateAdded = Date()
 		try! realm.write {
 			realm.add(newSong)
 			let count = realm.objects(Song.self).count

@@ -35,7 +35,7 @@ class SongImporter {
 	func writeSongsToLocalRealm(songData: [SongData]) {
 		
 		// Get the headers from the first entry in the database
-		guard var headers = songData.first else {
+		guard var headers = songData.first?.map({$0.lowercased()}) else {
 			print("Song list is empty, could not extract headers.")
 			return
 		}
