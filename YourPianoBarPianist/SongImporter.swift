@@ -43,8 +43,14 @@ class SongImporter {
 		let configURL = Realm.Configuration().fileURL!.deletingLastPathComponent().appendingPathComponent("songsLocal.realm")
 		do {
 			let songsLocalRealm = try Realm(fileURL: configURL)
-			for songComponents in songData where songComponents != headers {
-				_ = Song.createSong(from: songComponents, in: songsLocalRealm, headers: &headers)
+			for songComponents in songData where songComponents.map({$0.lowercased()}) != headers {
+				var shouldImport = true
+				if let appIndex = headers.index(of: "app") {
+					if songComponents[appIndex] != "Y" { shouldImport = false }
+				}
+				if shouldImport {
+					_ = Song.createSong(from: songComponents, in: songsLocalRealm, headers: &headers)
+				}
 			}
 		} catch {
 			print(error)

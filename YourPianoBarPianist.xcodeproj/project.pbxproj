@@ -13,7 +13,6 @@
 		761565551E89DDCC00F3A0E8 /* Song.swift in Sources */ = {isa = PBXBuildFile; fileRef = 761565521E89DDCC00F3A0E8 /* Song.swift */; };
 		761565561E89DDCC00F3A0E8 /* Genre.swift in Sources */ = {isa = PBXBuildFile; fileRef = 761565531E89DDCC00F3A0E8 /* Genre.swift */; };
 		761565571E89DDCC00F3A0E8 /* Artist.swift in Sources */ = {isa = PBXBuildFile; fileRef = 761565541E89DDCC00F3A0E8 /* Artist.swift */; };
-		761565591E8A6F6B00F3A0E8 /* ImportSongsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 761565581E8A6F6B00F3A0E8 /* ImportSongsViewController.swift */; };
 		761927E91E8EBC3700F03E23 /* Realm.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 761927E71E8EBC3700F03E23 /* Realm.framework */; };
 		761927EA1E8EBC3700F03E23 /* Realm.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 761927E71E8EBC3700F03E23 /* Realm.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		761927EB1E8EBC3700F03E23 /* RealmSwift.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 761927E81E8EBC3700F03E23 /* RealmSwift.framework */; };
@@ -27,6 +26,7 @@
 		76B07FD91E7EDA8C008F0F45 /* Globals, Extensions, Etc.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76B07FD81E7EDA8C008F0F45 /* Globals, Extensions, Etc.swift */; };
 		76B07FDB1E7EDA93008F0F45 /* Requests - Realm Classes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76B07FDA1E7EDA93008F0F45 /* Requests - Realm Classes.swift */; };
 		76B07FDD1E7EDB20008F0F45 /* AllRequestsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76B07FDC1E7EDB20008F0F45 /* AllRequestsTableViewController.swift */; };
+		76F638221E9E8CA5001BBFB1 /* song list 2.tsv in Resources */ = {isa = PBXBuildFile; fileRef = 76F638211E9E8CA5001BBFB1 /* song list 2.tsv */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -61,7 +61,6 @@
 		761565521E89DDCC00F3A0E8 /* Song.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Song.swift; sourceTree = "<group>"; };
 		761565531E89DDCC00F3A0E8 /* Genre.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Genre.swift; sourceTree = "<group>"; };
 		761565541E89DDCC00F3A0E8 /* Artist.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Artist.swift; sourceTree = "<group>"; };
-		761565581E8A6F6B00F3A0E8 /* ImportSongsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ImportSongsViewController.swift; sourceTree = "<group>"; };
 		761927E71E8EBC3700F03E23 /* Realm.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Realm.framework; sourceTree = "<group>"; };
 		761927E81E8EBC3700F03E23 /* RealmSwift.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = RealmSwift.framework; sourceTree = "<group>"; };
 		76ACB9AC1E98DCF900923D6F /* ImportSongsTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ImportSongsTableViewController.swift; sourceTree = "<group>"; };
@@ -77,6 +76,7 @@
 		76B07FD81E7EDA8C008F0F45 /* Globals, Extensions, Etc.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Globals, Extensions, Etc.swift"; sourceTree = "<group>"; };
 		76B07FDA1E7EDA93008F0F45 /* Requests - Realm Classes.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Requests - Realm Classes.swift"; sourceTree = "<group>"; };
 		76B07FDC1E7EDB20008F0F45 /* AllRequestsTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AllRequestsTableViewController.swift; path = ../AllRequestsTableViewController.swift; sourceTree = "<group>"; };
+		76F638211E9E8CA5001BBFB1 /* song list 2.tsv */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "song list 2.tsv"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -102,10 +102,9 @@
 		761565501E89DD8700F3A0E8 /* Song Library */ = {
 			isa = PBXGroup;
 			children = (
-				761565581E8A6F6B00F3A0E8 /* ImportSongsViewController.swift */,
 				7615654A1E89DD4400F3A0E8 /* SongImporter.swift */,
-				761565511E89DD9700F3A0E8 /* Realm Classes */,
 				76ACB9AC1E98DCF900923D6F /* ImportSongsTableViewController.swift */,
+				761565511E89DD9700F3A0E8 /* Realm Classes */,
 			);
 			name = "Song Library";
 			sourceTree = "<group>";
@@ -167,6 +166,7 @@
 			children = (
 				7615654C1E89DD6400F3A0E8 /* your-piano-bar-blank piano only tab bar item size.png */,
 				7615654D1E89DD6400F3A0E8 /* song list 1.tsv */,
+				76F638211E9E8CA5001BBFB1 /* song list 2.tsv */,
 				76B07FB01E7ED9ED008F0F45 /* AppDelegate.swift */,
 				76B07FB71E7ED9ED008F0F45 /* Assets.xcassets */,
 				76B07FB91E7ED9ED008F0F45 /* LaunchScreen.storyboard */,
@@ -265,6 +265,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				76B07FBB1E7ED9ED008F0F45 /* LaunchScreen.storyboard in Resources */,
+				76F638221E9E8CA5001BBFB1 /* song list 2.tsv in Resources */,
 				7615654F1E89DD6400F3A0E8 /* song list 1.tsv in Resources */,
 				7615654E1E89DD6400F3A0E8 /* your-piano-bar-blank piano only tab bar item size.png in Resources */,
 				76B07FB81E7ED9ED008F0F45 /* Assets.xcassets in Resources */,
@@ -288,7 +289,6 @@
 			files = (
 				761565551E89DDCC00F3A0E8 /* Song.swift in Sources */,
 				76B07FD91E7EDA8C008F0F45 /* Globals, Extensions, Etc.swift in Sources */,
-				761565591E8A6F6B00F3A0E8 /* ImportSongsViewController.swift in Sources */,
 				761565571E89DDCC00F3A0E8 /* Artist.swift in Sources */,
 				76B07FB11E7ED9ED008F0F45 /* AppDelegate.swift in Sources */,
 				76ACB9AD1E98DCF900923D6F /* ImportSongsTableViewController.swift in Sources */,

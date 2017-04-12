@@ -144,7 +144,7 @@ class AllRequestsTableViewController: UITableViewController {
 		
 		// MARK: Model (for Alert Controller, actually does the initial importing)
 		let importer = SongImporter()
-		let fileName: String! = "song list 1"
+		let fileName: String! = "song list 2"
 
 		let alert = UIAlertController(
 			title: "Import",

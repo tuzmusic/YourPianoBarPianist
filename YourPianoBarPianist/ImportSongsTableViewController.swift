@@ -12,7 +12,7 @@ import RealmSwift
 class ImportSongsTableViewController: UITableViewController {
 	
 	let importer = SongImporter()
-	let fileName: String! = "song list 1"
+	let fileName: String! = "song list 2"
 	var importingSongs: [Song]!
 	
 	@IBAction func uploadPressed(_ sender: Any) {

@@ -12,13 +12,17 @@ import RealmSwift
 final class Song: Object {
 	dynamic var title = ""
 	dynamic var artist: Artist?
-	dynamic var songDescription = ""
 	dynamic var genre: Genre?
+	dynamic var year = Int()
 	var decade: Int?  // Can't be dynamic. Fix?
-	dynamic var decadeString = ""
+	dynamic var decadeString: String {
+		return year == 0 ? "??" : "'" + String(((year - (year<2000 ? 1900 : 2000)) / 10)) + "0s"
+	}
+
 	var requests: List<Request>?
 	dynamic var dateAdded: Date?
 	dynamic var dateModified: Date?
+	dynamic var songDescription = ""
 	
 //	override static func primaryKey() -> String? {
 //		return "songDescription"
@@ -61,11 +65,9 @@ final class Song: Object {
 		static let titleOptions = ["song", "title", "name"]
 		static let artist = "artist"
 		static let genre = "genre"
-		static let decade = "decade"
-		static let dateModified = "date modified"
 	}
 	
-	class func createSong (from songComponents: [String], in realm: Realm, headers: inout [String]) -> Song? {
+	class func createSongUsingKeyValueCoding (from songComponents: [String], in realm: Realm, headers: inout [String]) -> Song? {
 		
 		var titleNum: Int? {
 			for header in headers {
@@ -82,6 +84,7 @@ final class Song: Object {
 		}
 		
 		// This is just for checking to see if we already have the song. This artistName won't be used in checking/assigning the artist.
+		let title = songComponents[titleIndex].capitalized
 		var artistName = ""
 		if let artistIndex = headers.index(of: SongHeaderTags.artist) {
 			artistName = songComponents[artistIndex]
@@ -90,13 +93,10 @@ final class Song: Object {
 		// Check to see if we already have this song (by this artist)
 		if let existingSong = realm.objects(Song.self)
 			.filter("title like[c] %@ AND artist.name like[c] %@", songComponents[titleIndex], artistName)
-			.first {
-			// print("\"\(songComponents[titleIndex])\" by \(artistName) is already in this database.")
-			return existingSong
-		}
+			.first { return existingSong }
 		
-		let newSong = Song()
-		newSong.title = songComponents[titleIndex].capitalized
+		let newSong = Song(value: title)
+		//newSong.title = songComponents[titleIndex].capitalized
 		
 		for property in Song.indexedProperties() {
 			if let index = headers.index(of: property.description) {
@@ -107,40 +107,41 @@ final class Song: Object {
 		return newSong
 	}
 	
-	class func createSongOld (from songComponents: [String], in realm: Realm, headers: inout [String]) -> Song? {
+	class func createSong (from songComponents: [String], in realm: Realm, headers: inout [String]) -> Song? {
 		
-		var titleNum: Int? {
-			for header in headers {
-				if SongHeaderTags.titleOptions.contains(header) {
-					return headers.index(of: header)!
-				}
-			}
-			return nil
-		}
+//		var titleNum: Int? {
+//			for header in headers {
+//				if SongHeaderTags.titleOptions.contains(header) {
+//					return headers.index(of: header)!
+//				}
+//			}
+//			return nil
+//		}
 		
-		guard let titleIndex = titleNum else {
+		// Find the title
+		guard let titleHeader = headers.first(where: { SongHeaderTags.titleOptions.contains($0) }),
+			let titleIndex = headers.index(of: titleHeader) else
+		{
 			print("Song could not be created: Title field could not be found.")
 			return nil
 		}
 		
-		// This is just for checking to see if we already have the song. This artistName won't be used in checking/assigning the artist.
-		var artistName = ""
-		if let artistIndex = headers.index(of: SongHeaderTags.artist) {
-			artistName = songComponents[artistIndex]
+		let title = songComponents[titleIndex].capitalized
+		
+		// Find the artist's name
+		var artistName: String = "Unknown Artist"
+		if let artistIndex = headers.index(of: SongHeaderTags.artist), !songComponents[artistIndex].isEmpty {
+			artistName = songComponents[artistIndex].capitalized
 		}
 		
-		// Check to see if we already have this song (by this artist)
-		if let existingSong = realm.objects(Song.self)
-			.filter("title like[c] %@ AND artist.name like[c] %@", songComponents[titleIndex], artistName)
-			.first {
-			// print("\"\(songComponents[titleIndex])\" by \(artistName) is already in this database.")
+		// Check to see if we already have this song by this artist
+		if let existingSong = realm.objects(Song.self).filter("title like[c] %@ AND artist.name like[c] %@", title, artistName).first {
 			return existingSong
 		}
 		
-		let newSong = Song()
-		newSong.title = songComponents[titleIndex].capitalized
+		let newSong = Song(value: [title])
 		
-		func genericStuffThatDidntWork() {
+		/* func genericStuffThatDidntWork() {
 		
 		// Generic function for finding or creating objects for properties
 		func objectFor<T: Object> (songProperty: String, type: T.Type, nameForBlankItem: String, createWith newObjectNamed: (String) -> T) -> T? {
@@ -161,41 +162,53 @@ final class Song: Object {
 		//newSong.artist = objectFor(songProperty: SongHeaderTags.artist, type: Artist.self, nameForBlankItem: "Unknown Artist", createWith: Artist.newArtist(named:))
 		
 		//newSong.genre = objectFor(songProperty: SongHeaderTags.genre, type: Genre.self, nameForBlankItem: "Unknown", createWith: Genre.newGenre(named:))
+		} */
+		
+		// If we already an  artist with this name, assign that artist to this song.
+		// Otherwise create a new artist and assign it to this song.
+		let artistSearch = realm.objects(Artist.self).filter("name like[c] %@", artistName)
+		newSong.artist = artistSearch.isEmpty ? Artist(value: [artistName]) : artistSearch.first
+		
+		// Find the genre name
+		var genreName: String = "Unknown"
+		if let genreIndex = headers.index(of: SongHeaderTags.genre), !songComponents[genreIndex].isEmpty {
+			genreName = songComponents[genreIndex].capitalized
 		}
 		
-		if let artistIndex = headers.index(of: SongHeaderTags.artist) {
-			let artistName = songComponents[artistIndex].isEmpty ? "Unknown Artist" : songComponents[artistIndex].capitalized
-			let results = realm.objects(Artist.self).filter("name like[c] %@", artistName)
-			newSong.artist = results.isEmpty ? Artist.newArtist(named: artistName) : results.first
-		}
-		
-		if let genreIndex = headers.index(of: SongHeaderTags.genre) {
-			let genreName = songComponents[genreIndex].isEmpty ? "Unknown" : songComponents[genreIndex].capitalized
-			let results = realm.objects(Genre.self).filter("name =[c] %@", genreName)
-			newSong.genre = results.isEmpty ? Genre.newGenre(named: genreName) : results.first
-		}
-		
-		for property in Song.indexedProperties() {
-			if let index = headers.index(of: property.description) {
-				newSong.setValue(headers[index], forKey: property.description)
-			}
-		}
+		// If we already a genre with this name, assign that genre to this song.
+		// Otherwise create a new genre and assign it to this song.
+		let genreSearch = realm.objects(Genre.self).filter("name =[c] %@", genreName)
+		newSong.genre = genreSearch.isEmpty ? Genre(value: [genreName]) : genreSearch.first
 
+		var propertiesWithoutHeaders = [String]()
+		let propertiesToSkip = ["title", "artist", "genre"]
+
+		// Iterating through properties using mirror
 		/*
-		// Generic function for creating values for properties
-		func valueFor (songProperty: String) -> Any? {
-			if let index = headers.index(of: songProperty.capitalized) {
-				return songComponents[index] as Any // does this work if the column is blank?
-			} else {
-				print("Could not find column for \"\(songProperty)\".")
-			}
-			return nil
-		}
-		
-		newSong.decade = valueFor(songProperty: SongHeaderTags.decade) as? Int
-		newSong.dateModified = valueFor(songProperty: SongHeaderTags.dateModified) as? Date
-		*/
+		let propertiesToSkip = ["title", "artist", "genre"]
+		let mirror = Mirror(reflecting: newSong)
 
+		for property in mirror.children where !propertiesToSkip.contains(property.label!) {
+			if let index = headers.index(of: property.label!) {
+				newSong.setValue(headers[index], forKey: property.label!)
+			} else {
+				propertiesWithoutHeaders.append(property.label!)
+			}
+		}
+		*/
+		
+		for property in newSong.objectSchema.properties
+			where !propertiesToSkip.contains(property.name)
+			//where property.type != Object && property.type != List
+		{
+			if let index = headers.index(of: property.name) {
+				newSong.setValue(songComponents[index], forKey: property.name)
+			} else {
+				propertiesWithoutHeaders.append(property.name)
+			}
+		}
+		//print("Properties not in table: \n \(propertiesWithoutHeaders)")
+		
 		newSong.dateAdded = Date()
 		try! realm.write {
 			realm.add(newSong)
