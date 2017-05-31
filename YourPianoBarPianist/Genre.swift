@@ -16,10 +16,4 @@ final class Genre: Object {
 	override static func primaryKey() -> String? {
 		return "name"
 	}
-	
-	static func newGenre(named name: String) -> Genre {
-		let newGenre = Genre()
-		newGenre.name = name
-		return newGenre
-	}
 }

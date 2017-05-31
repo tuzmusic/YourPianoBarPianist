@@ -48,7 +48,7 @@ class ImportSongsTableViewController: UITableViewController {
 				
 				DispatchQueue.main.async {
 					// Open the online Realm
-					let realmAddress = URL(string:"realm://54.208.237.32:9080/~/yourPianoBarSongs/JonathanTuzman/")!
+					let realmAddress = URL(string:"realm://54.208.237.32:9080/~/YourPianoBar/JonathanTuzman/")!
 					let syncConfig = SyncConfiguration (user: user, realmURL: realmAddress)
 					let configuration = Realm.Configuration(syncConfiguration: syncConfig)
 					
@@ -66,10 +66,6 @@ class ImportSongsTableViewController: UITableViewController {
 	
 	// MARK: - Table view data source
 	
-	override func numberOfSections(in tableView: UITableView) -> Int {
-		return 1
-	}
-	
 	override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
 		return importingSongs.count
 	}
@@ -79,7 +75,7 @@ class ImportSongsTableViewController: UITableViewController {
 		
 		let song = importingSongs[indexPath.row]
 		cell.textLabel?.text = song.title + " - " + song.artist!.name
-		cell.detailTextLabel?.text = "Genre: \(song.genre!.name)"
+		cell.detailTextLabel?.text = "Genre: \(song.genre!.name), Decade: \(song.decadeString)"
 		
 		return cell
 	}
