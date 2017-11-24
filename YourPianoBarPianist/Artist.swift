@@ -9,13 +9,8 @@
 import Foundation
 import RealmSwift
 
-final class Artist: Object {
-	dynamic var name = ""
-	let songs = LinkingObjects(fromType: Song.self, property: "artist")
-	
-	override static func primaryKey() -> String? {
-		return "name"
-	}
+final class Artist: BrowserCategory {
+	var songs = LinkingObjects(fromType: Song.self, property: "artist")
+	var songCount: Int { return songs.count }   
 }
-
 

@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import UserNotifications
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -15,9 +16,29 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
 
 	func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
-		// Override point for customization after application launch.
-		
+
 		print("Documents folder: \(NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true)[0])")
+
+		YPB.setupRealm()
+		
+		// MARK: Register and set up Notifications
+		
+		let center = UNUserNotificationCenter.current()
+		center.requestAuthorization(options: [.alert, .sound]) { (granted, error) in
+			if granted {
+				print("notification permissions granted")
+			} else if let error = error {
+				print("Error:" + error)
+			}
+		}
+		
+		let generalCategory = UNNotificationCategory(identifier: "GENERAL",
+											actions: [],
+											intentIdentifiers: [],
+											options: .customDismissAction)
+				
+		// Register the category.
+		center.setNotificationCategories([generalCategory])
 		
 		return true
 	}

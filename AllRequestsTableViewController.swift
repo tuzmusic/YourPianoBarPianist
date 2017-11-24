@@ -140,29 +140,6 @@ class AllRequestsTableViewController: UITableViewController {
 		return cell
 	}
 	
-	@IBAction func importPressed(_ sender: Any) {
-		
-		// MARK: Model (for Alert Controller, actually does the initial importing)
-		let importer = SongImporter()
-		let fileName: String! = "song list 2"
-
-		let alert = UIAlertController(
-			title: "Import",
-			message: "Import songs from \(fileName!)?",
-			preferredStyle: .alert)
-		alert.addAction(UIAlertAction(title: "Import", style: .default) { _ in
-			
-			
-			// Get songs from file and import them to local realm
-			if let songData = importer.getSongDataFromTSVFile(named: fileName) {
-				importer.writeSongsToLocalRealm(songData: songData)
-			}
-			// Segue to table showing results of import
-			self.performSegue(withIdentifier: Storyboard.ImportSongsTable, sender: nil)
-		})
-		present(alert, animated: true, completion: nil)
-	}
-	
 	override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
 		
 		if segue.identifier == Storyboard.ImportSongsTable, let dvc = segue.destination as? ImportSongsTableViewController {

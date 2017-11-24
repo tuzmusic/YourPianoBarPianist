@@ -9,124 +9,177 @@
 import Foundation
 import RealmSwift
 
-final class Song: Object {
-	dynamic var title = ""
-	dynamic var artist: Artist?
-	dynamic var genre: Genre?
-	dynamic var year: Int = -1
-	var decade: Int?  // Can't be dynamic. Fix?
-	dynamic var decadeString: String {
-		if year < 0 {
-			return "??"
-		} else if year < 10 {
-			return "'" + String(year) + "0s"
-		} else {
-		return "'" + String(((year - (year<2000 ? 1900 : 2000)) / 10)) + "0s"
+final class Song: BrowserObject {
+	@objc dynamic var title = "" {
+		didSet {
+			sortName = title.forSorting()
 		}
 	}
 
-	var requests: List<Request>?
-	dynamic var dateAdded: Date?
-	dynamic var dateModified: Date?
-	dynamic var songDescription = ""
-	
-//	override static func primaryKey() -> String? {
-//		return "songDescription"
-//	}
-	
-	var popularity: Int { return self.requests?.count ?? 0 }
-	
-	class func createSong (from song: Song, in realm: Realm) -> Song? {
+	static let separator = " ^^ "
 
+	@objc dynamic var artist: Artist!
+	var artists = List<Artist>() {
+		didSet {
+			artist = artists.first
+		}
+	}
+
+	@objc dynamic var genre: Genre!
+	var genres = List<Genre>(){
+		didSet {
+			genre = genres.first
+		}
+	}
+	
+	@objc dynamic var decade: Decade!
+	var decades = List<Decade>() {
+		didSet {
+			decade = decades.first
+		}
+	}
+
+	let requests = List<Request>()
+	@objc dynamic var dateAdded: Date?
+	@objc dynamic var dateModified: Date?
+	@objc dynamic var songDescription = ""
+
+	var popularity: Int { return self.requests.count }
+	
+	typealias Indices = (title: Int, artist: Int?, genre: Int?, year: Int?)
+	
+	class func createSong (fromComponents songComponents: [String], with indices: Indices, in realm: Realm) -> Song? {
+		
+		let title = songComponents[indices.title].capitalizedWithOddities()
+		
+		// MARK: Artists
+		var artists = List<Artist>()
+		if let artistIndex = indices.artist {
+			let itemNames = songComponents[artistIndex]
+			let names = itemNames.isEmpty ? ["Unknown"] : itemNames.components(separatedBy: Song.separator)
+			artists = BrowserCategory.items(forComponents: names, in: realm)
+		}
+		
+		if let existingSong = realm.objects(Song.self).filter("title like[c] %@ AND artist.name like[c] %@", title, artists.first!.name).first {
+			return existingSong
+		}
+		
+		// MARK: Create the new song
+		let newSong = Song()
+		newSong.title = title
+		newSong.artists = artists
+		
+		newSong.songDescription = title
+		for artist in newSong.artists {
+			if artist == newSong.artists.first! {
+				newSong.songDescription += " - \(artist.name)"
+			} else {
+				newSong.songDescription += ", \(artist.name)"
+			}
+		}
+		
+		// MARK: Decade
+		if let yearIndex = indices.year {
+			newSong.decades = BrowserCategory.items(forComponents: Decade.decadeNames(for: songComponents[yearIndex]), in: realm)
+		}
+		
+		// MARK: Genre
+		if let genreIndex = indices.genre {
+			let itemNames = songComponents[genreIndex]
+			let names = itemNames.isEmpty ? ["Unknown"] : itemNames.components(separatedBy: Song.separator)
+			newSong.genres = BrowserCategory.items(forComponents: names, in: realm)
+		}
+		
+		newSong.dateAdded = Date()
+
+		realm.add(newSong)
+		print("Song #\(realm.objects(Song.self).count) added to realm: \(newSong.songDescription)")
+		return newSong
+	}
+
+	class func createSong (fromObject song: Song, in realm: Realm) -> Song? {
 		if let existingSong = realm.objects(Song.self)
-			.filter("title like[c] %@ AND artist.name like[c] %@", song.title, song.artist!.name)
-			.first {
+			.filter("title like[c] %@ AND artist.name like[c] %@", song.title, song.artist.name).first {
 			return existingSong
 		}
 		
 		let newSong = Song()
+		let simpleCopyKeyPaths = ["title", "songDescription", "dateAdded", "dateModified"]
+		for key in simpleCopyKeyPaths {
+			newSong.setValue(song.value(forKey: key), forKey: key)
+		}
+		
+		// KVC implementation for categories, doesn't quite work.
+		/* let categoryKeyPaths = ["artists", "decades", "genres"]
+		for key in categoryKeyPaths {
+			let value = song.value(forKey: key)
+			let items = BrowserCategory.items(forObjects: value, in: realm)
+			newSong.setValue(items, forKey: key)
+		} */
+		newSong.artists = BrowserCategory.items(forObjects: song.artists, in: realm)
+		newSong.decades = BrowserCategory.items(forObjects: song.decades, in: realm)
+		newSong.genres = BrowserCategory.items(forObjects: song.genres, in: realm)
+		// notes about duplicates:
+		/*
+		Even with the new items(fromObjects:in:) implementation, this adds two.
+		But it's not an issue with the implementation. It adds it once when setting "artists" and then again when didSet sets "artist".
+		However, it only does it when first adding the artist! Meaning, each additional song by the same artist doesn't add it again! (this is correct, of course)
+		So, I could do a band-aid fix which is after the realm is populated I can delete all categories that are duplicates. But will this cause problems? Are the songs' "artist" properties assigned to the duplicates?
+		*/
+
+		realm.create(Song.self, value: newSong, update: false)
+
+		return newSong
+	}
+	
+	class func createSongOLD (fromObject song: Song, in realm: Realm) -> Song? {
+
+		if let existingSong = realm.objects(Song.self)
+			.filter("title like[c] %@ AND artist.name like[c] %@", song.title, song.artist.name).first {
+			return existingSong
+		}
+		
+		Song.createCategories(fromObject: song, in: realm)	// This creates one (of each, of course)
+
+		let newSong = Song()
 		newSong.title = song.title
-		if let artistName = song.artist?.name {
-			let results = realm.objects(Artist.self).filter("name like[c] %@", artistName)
-			newSong.artist = results.isEmpty ? Artist(value: artistName) : results.first
-			newSong.songDescription = "\(song.title) - \(artistName)"
-		}
-		
-		if let genreName = song.genre?.name {
-			let results = realm.objects(Genre.self).filter("name =[c] %@", genreName)
-			newSong.genre = results.isEmpty ? Genre(value: genreName) : results.first
-		}
-		
-		newSong.decade = song.decade
+
+		newSong.songDescription = song.songDescription
 		newSong.dateModified = song.dateModified
 		newSong.dateAdded = song.dateAdded
-		
+		//newSong = song
 		realm.create(Song.self, value: newSong, update: false)
 		
 		return newSong
 	}
 	
-	struct SongHeaderTags {
-		static let titleOptions = ["song", "title", "name"]
-		static let artist = "artist"
-		static let genre = "genre"
-	}
-	
-	class func createSong (from songComponents: [String], in realm: Realm, headers: inout [String]) -> Song? {
-		
-		// Find the title
-		guard let titleHeader = headers.first(where: { SongHeaderTags.titleOptions.contains($0) }),
-			let titleIndex = headers.index(of: titleHeader) else
-		{
-			print("Song could not be created: Title field could not be found.")
-			return nil
-		}
-		
-		let title = songComponents[titleIndex].capitalized
-		
-		var artistName: String = "Unknown Artist"
-		if let artistIndex = headers.index(of: SongHeaderTags.artist), !songComponents[artistIndex].isEmpty {
-			artistName = songComponents[artistIndex].capitalized
-		}
-		
-		if let existingSong = realm.objects(Song.self).filter("title like[c] %@ AND artist.name like[c] %@", title, artistName).first {
-			return existingSong
-		}
-		
-		let newSong = Song(value: [title])
-
-		let artistSearch = realm.objects(Artist.self).filter("name like[c] %@", artistName)
-		newSong.artist = artistSearch.isEmpty ? Artist(value: [artistName]) : artistSearch.first
-		newSong.songDescription = "\(title) - \(artistName)"
-
-		var genreName: String = "Unknown"
-		if let genreIndex = headers.index(of: SongHeaderTags.genre), !songComponents[genreIndex].isEmpty {
-			genreName = songComponents[genreIndex].capitalized
-		}
-		let genreSearch = realm.objects(Genre.self).filter("name =[c] %@", genreName)
-		newSong.genre = genreSearch.isEmpty ? Genre(value: [genreName]) : genreSearch.first
-
-		var propertiesWithoutHeaders = [String]()
-		let propertiesToSkip = ["title", "artist", "genre"]
-
-		for property in newSong.objectSchema.properties
-			where !propertiesToSkip.contains(property.name)
-			//where property.type != Object && property.type != List
-		{
-			if let index = headers.index(of: property.name) {
-				newSong.setValue(songComponents[index], forKey: property.name)
+	class func createCategories(fromObject song: Song, in realm: Realm) {
+		for artist in song.artists {
+			if realm.objects(Artist.self).filter("name =[c] %@", artist.name).isEmpty {
+				print("Creating \(artist.name)")
+				realm.create(Artist.self, value: artist, update: false)
 			} else {
-				propertiesWithoutHeaders.append(property.name)
+				print("\(artist.name) already exists")
 			}
 		}
-		//print("Properties not in table: \n \(propertiesWithoutHeaders)")
 		
-		newSong.dateAdded = Date()
-		try! realm.write {
-			realm.add(newSong)
-			let count = realm.objects(Song.self).count
-			print("Song #\(count) added to realm: \(newSong)")
+		for decade in song.decades {
+			if realm.objects(Decade.self).filter("name =[c] %@", decade.name).isEmpty {
+				print("Creating \(decade.name)")
+				realm.create(Decade.self, value: decade, update: false)
+			} else {
+				print("\(decade.name) already exists")
+			}
 		}
-		return newSong
+		
+		for genre in song.genres {
+			if realm.objects(Genre.self).filter("name =[c] %@", genre.name).isEmpty {
+				print("Creating \(genre.name)")
+				realm.create(Genre.self, value: genre, update: false)
+			} else {
+				print("\(genre.name) already exists")
+			}
+		}
 	}
+
 }
