@@ -27,7 +27,7 @@ class ImportSongsTableViewController: UITableViewController {
 				try! songsOnlineRealm.write {
 					for song in importingSongs {
 						// Also give the song a primary key to allow updating (once I understand what this updating is)
-						_ = Song.createSong(from: song, in: songsOnlineRealm)
+						_ = Song.createSong(fromObject: song, in: songsOnlineRealm)
 					}
 					alert.message! += "\n  Done!"
 				}
@@ -75,7 +75,7 @@ class ImportSongsTableViewController: UITableViewController {
 		
 		let song = importingSongs[indexPath.row]
 		cell.textLabel?.text = song.title + " - " + song.artist!.name
-		cell.detailTextLabel?.text = "Genre: \(song.genre!.name), Decade: \(song.decadeString)"
+		//cell.detailTextLabel?.text = "Genre: \(song.genre!.name), Decade: \(song.decade.decadeNames.first)"
 		
 		return cell
 	}

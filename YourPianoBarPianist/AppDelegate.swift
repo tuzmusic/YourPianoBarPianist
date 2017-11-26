@@ -28,7 +28,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 			if granted {
 				print("notification permissions granted")
 			} else if let error = error {
-				print("Error:" + error)
+				print("Error: \(error)")
 			}
 		}
 		

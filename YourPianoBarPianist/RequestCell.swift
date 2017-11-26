@@ -9,9 +9,9 @@
 import UIKit
 import RealmSwift
 
-class RequestTableViewCell: UITableViewCell 
+class RequestTableViewCell: UITableViewCell {
 	
-	var request = Request! {
+	var request = Request() {
 		didSet {
 			updateUI()
 		}
@@ -25,7 +25,8 @@ class RequestTableViewCell: UITableViewCell
 
 	func timeSince(time: Date) -> String {
 		
-		let hoursAgo = DateInterval(start: request.date, end: Date()).duration / hour
+		// this used to divide by "hour" instead of "24", whatever that meant.
+		let hoursAgo = DateInterval(start: time, end: Date()).duration / 24
 		let minutesAgo = hoursAgo * 60
 		let timeAgo = "\(Int(minutesAgo / 60))h \(Int(minutesAgo.truncatingRemainder(dividingBy: 60)))m ago"
 		
@@ -33,15 +34,15 @@ class RequestTableViewCell: UITableViewCell
 	}
 	
 	func updateUI() {
-		var userName = "\(request.user.firstName) \(request.user.lastName)"
+		var userName = "\(request.user!.firstName) \(request.user!.lastName)"
 		if !request.userString.isEmpty {
 			userName = "\(request.userString) (\(userName))"
 		}
 		userDateLabel.text = "\(userName) - \(timeSince(time: request.date))"
-		songTitleLabel.text = request.songObject.title ?? request.songString
-		artistLabel.text = request.songObject.artist ?? nil
+		songTitleLabel.text = request.songObject?.title ?? request.songString
+		artistLabel.text = request.songObject?.artist.name ?? nil
 		notesLabel.text = request.notes
-		tipLabel.text = "$\(request.tip)" ?? nil
+		tipLabel.text = request.tip != nil ? "$\(request.tip!)" : ""
 	}
 	
 	@IBAction func markComplete(_ sender: UIButton) {
@@ -50,8 +51,8 @@ class RequestTableViewCell: UITableViewCell
 	}
 	
 	@IBAction func copyAndOpenApp(_ sender: UIButton) {
-		let pasteboard = UIPasteboard.general()
-		pasteboard.string = request.songObject.songDescription
+		let pasteboard = UIPasteboard.general
+		pasteboard.string = request.songObject?.songDescription ?? request.songString
 		
 	}
 

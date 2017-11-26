@@ -141,7 +141,7 @@ class AllRequestsTableViewController: UITableViewController {
 	}
 	
 	override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-		
+		/*
 		if segue.identifier == Storyboard.ImportSongsTable, let dvc = segue.destination as? ImportSongsTableViewController {
 		
 			let configURL = Realm.Configuration().fileURL!.deletingLastPathComponent().appendingPathComponent("songsLocal.realm")
@@ -154,5 +154,6 @@ class AllRequestsTableViewController: UITableViewController {
 				print(error)
 			}
 		}
+		*/
 	}
 }
