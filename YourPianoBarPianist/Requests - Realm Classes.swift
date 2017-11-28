@@ -10,7 +10,14 @@ import Foundation
 import RealmSwift
 
 final class Request: Object {
-	@objc dynamic var user: YpbUser?
+	@objc dynamic var user: YpbUser? {
+		didSet {
+			if let user = user {
+				userString = user.firstName + " " + user.lastName
+			}
+		}
+	}
+	
 	@objc dynamic var userString: String = ""
 	@objc dynamic var songString: String = ""
 	@objc dynamic var songObject: Song?
@@ -19,10 +26,10 @@ final class Request: Object {
 	var tip: Double?
 	@objc dynamic var played = false
 	@objc dynamic var event: Event?
-
+	
 	// Implement later
 	@objc dynamic var singAtMic = false
-
+	
 }
 
 final class Event: Object {

@@ -22,7 +22,7 @@ class RequestTableViewCell: UITableViewCell {
 	@IBOutlet weak var songTitleLabel: UILabel!
 	@IBOutlet weak var artistLabel: UILabel!
 	@IBOutlet weak var notesLabel: UILabel!
-
+	
 	func timeSince(time: Date) -> String {
 		
 		// this used to divide by "hour" instead of "24", whatever that meant.
@@ -34,8 +34,15 @@ class RequestTableViewCell: UITableViewCell {
 	}
 	
 	func updateUI() {
-		var userName = "\(request.user!.firstName) \(request.user!.lastName)"
+		var userName = ""
+		if let firstName = request.user?.firstName,
+			let lastName = request.user?.lastName {
+			userName = "\(firstName) \(lastName)"
+		}
 		if !request.userString.isEmpty {
+			// If they've entered a name, we assume that it's a nickname or something like that, so we show the pianist their real name in parens.
+			// TO-DO: This should be handled more "automatically," somewhere else.
+			// If the list shows the name, and the name in parentheses, that's of the didSet on Request.user
 			userName = "\(request.userString) (\(userName))"
 		}
 		userDateLabel.text = "\(userName) - \(timeSince(time: request.date))"
@@ -46,8 +53,13 @@ class RequestTableViewCell: UITableViewCell {
 	}
 	
 	@IBAction func markComplete(_ sender: UIButton) {
-		request.played = true
-		sender.titleLabel?.textColor = UIColor.green
+		
+		// NOTE: This doesn't change the appearance of the request.
+		// I really shouldn't be doing this with a button, anyway, but rather with a swipe! (which would go in the RequestTVC delegate)
+		
+		try! YPB.realm.write {
+			request.played = true
+		}
 	}
 	
 	@IBAction func copyAndOpenApp(_ sender: UIButton) {
@@ -55,6 +67,6 @@ class RequestTableViewCell: UITableViewCell {
 		pasteboard.string = request.songObject?.songDescription ?? request.songString
 		
 	}
-
-
+	
+	
 }
