@@ -12,7 +12,7 @@ import RealmSwift
 
 class RequestsTableViewController: UITableViewController {
 	
-	let realm = YPB.realm
+	var realm = YPB.realm
 	var notificationToken: NotificationToken!
 
 	// This needs to be narrowed down to whatever subset of all requests we're using.
@@ -26,15 +26,18 @@ class RequestsTableViewController: UITableViewController {
 	
 	func addRequest() {
 
+		realm = YPB.realm
+		
 		let user1 = YpbUser.user(firstName: "Jonathan", lastName: "Tuzman", email: "tuzmusic@gmail.com", in: YPB.realm)
 		let request1 = Request()
 		let requestsInRealm = realm.objects(Request.self).count
 		request1.user = user1
 		request1.songObject = realm.objects(Song.self)[requestsInRealm]
+		print(request1.songObject)
 		request1.notes = "Sample request #\(requestsInRealm)"
 		
 		try! realm.write {
-			realm.add(request1)
+			realm.create(Request.self, value: request1, update: false)
 		}
 	}
 	
@@ -42,11 +45,10 @@ class RequestsTableViewController: UITableViewController {
 		super.viewDidLoad()
 		
 		navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(addRequest))
-
 		createSampleRequests()
 		
 		DispatchQueue.main.async {
-			self.notificationToken = self.realm.observe { _,_ in
+			self.notificationToken = YPB.realm.observe { _,_ in
 				self.tableView.reloadData()
 			}
 		}
@@ -72,6 +74,7 @@ class RequestsTableViewController: UITableViewController {
 	}
 	
 	func createSampleRequests() {
+		
 		let user1 = YpbUser.user(firstName: "Jonathan", lastName: "Tuzman", email: "tuzmusic@gmail.com", in: YPB.realm)
 		let user2 = YpbUser.user(firstName: "Holly", lastName: "Shulman", email: "holly@gmail.com", in: YPB.realm)
 		
@@ -92,5 +95,13 @@ class RequestsTableViewController: UITableViewController {
 		}
 	}
 	
-	
+	func checkWhichRealm() {
+		if realm == YPB.realmSynced {
+			print("online realm")
+		} else if realm == YPB.realmLocal {
+			print("local realm")
+		} else {
+			print("neither realm")
+		}
+	}
 }
