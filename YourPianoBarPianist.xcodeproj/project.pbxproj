@@ -10,6 +10,7 @@
 		70121F9249440663E4EEBBE9 /* Pods_YourPianoBarPianist.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CDF94278FF7B20D0D740F114 /* Pods_YourPianoBarPianist.framework */; };
 		7615654E1E89DD6400F3A0E8 /* your-piano-bar-blank piano only tab bar item size.png in Resources */ = {isa = PBXBuildFile; fileRef = 7615654C1E89DD6400F3A0E8 /* your-piano-bar-blank piano only tab bar item size.png */; };
 		7673D26E1FCB24BD00E45A95 /* YPB.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7673D26D1FCB24BD00E45A95 /* YPB.swift */; };
+		76810B001FD4F73C00D7321D /* LoadingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76810AFF1FD4F73C00D7321D /* LoadingViewController.swift */; };
 		7696E2E71FCA3A6800D22FE0 /* song list.tsv in Resources */ = {isa = PBXBuildFile; fileRef = 7696E2E61FCA3A6800D22FE0 /* song list.tsv */; };
 		76B07FB11E7ED9ED008F0F45 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76B07FB01E7ED9ED008F0F45 /* AppDelegate.swift */; };
 		76B07FB81E7ED9ED008F0F45 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 76B07FB71E7ED9ED008F0F45 /* Assets.xcassets */; };
@@ -64,6 +65,7 @@
 		7673D26B1FCB24A100E45A95 /* Globals, Extensions, Etc.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = "Globals, Extensions, Etc.swift"; path = "../../Your Song/Your Song/Globals, Extensions, Etc.swift"; sourceTree = "<group>"; };
 		7673D26C1FCB24A200E45A95 /* SongImporter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = SongImporter.swift; path = "../../Your Song/Your Song/SongImporter.swift"; sourceTree = "<group>"; };
 		7673D26D1FCB24BD00E45A95 /* YPB.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = YPB.swift; path = "../../Your Song/Your Song/YPB.swift"; sourceTree = "<group>"; };
+		76810AFF1FD4F73C00D7321D /* LoadingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadingViewController.swift; sourceTree = "<group>"; };
 		7696E2E61FCA3A6800D22FE0 /* song list.tsv */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "song list.tsv"; sourceTree = "<group>"; };
 		76B07FAD1E7ED9ED008F0F45 /* YourPianoBarPianist.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = YourPianoBarPianist.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		76B07FB01E7ED9ED008F0F45 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -189,6 +191,8 @@
 				76B07FB01E7ED9ED008F0F45 /* AppDelegate.swift */,
 				7673D26D1FCB24BD00E45A95 /* YPB.swift */,
 				76DE8A251EF06F4200B0208C /* Main.storyboard */,
+				76810AFF1FD4F73C00D7321D /* LoadingViewController.swift */,
+				76DE8A281EF06F5400B0208C /* RequestsTableViewController.swift */,
 				7696E2E41FCA394300D22FE0 /* Realm Object Classes */,
 				76DE8A201EF06EF200B0208C /* Request Table */,
 				7673D2691FCB24A000E45A95 /* Utility */,
@@ -220,9 +224,8 @@
 		76DE8A201EF06EF200B0208C /* Request Table */ = {
 			isa = PBXGroup;
 			children = (
-				76B07FDC1E7EDB20008F0F45 /* OLD - AllRequestsTableViewController.swift */,
 				76DE8A271EF06F5400B0208C /* RequestCell.swift */,
-				76DE8A281EF06F5400B0208C /* RequestsTableViewController.swift */,
+				76B07FDC1E7EDB20008F0F45 /* OLD - AllRequestsTableViewController.swift */,
 			);
 			name = "Request Table";
 			sourceTree = "<group>";
@@ -489,6 +492,7 @@
 			files = (
 				76D8EFA21FC86F2C00F11FAD /* Requests - Realm Classes.swift in Sources */,
 				76D8EF9F1FC86F2C00F11FAD /* Song.swift in Sources */,
+				76810B001FD4F73C00D7321D /* LoadingViewController.swift in Sources */,
 				76D8EFAB1FC86F2C00F11FAD /* YpbUser.swift in Sources */,
 				76D8EFA11FC86F2C00F11FAD /* String Extensions.swift in Sources */,
 				76D8EFA41FC86F2C00F11FAD /* BrowserObject.swift in Sources */,
