@@ -17,6 +17,7 @@ class LoadingViewController: UIViewController {
 		let realmSet = NotificationCenter.default.addObserver(forName: NSNotification.Name("realm set"), object: nil, queue: OperationQueue.main) { (notification) in
 			self.performSegue(withIdentifier: "Show Request List", sender: nil)
 		}
+		NotificationCenter.default.removeObserver(realmSet)
 	}
 	
 	override func prepare(for segue: UIStoryboardSegue, sender: Any?) {

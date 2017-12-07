@@ -25,10 +25,11 @@ class RequestTableViewCell: UITableViewCell {
 	
 	func timeSince(time: Date) -> String {
 		
-		// this used to divide by "hour" instead of "24", whatever that meant.
-		let hoursAgo = DateInterval(start: time, end: Date()).duration / 24
-		let minutesAgo = hoursAgo * 60
-		let timeAgo = "\(Int(minutesAgo / 60))h \(Int(minutesAgo.truncatingRemainder(dividingBy: 60)))m ago"
+		let now = Date()
+		let secondsAgo = DateInterval(start: time, end: now).duration
+		let minutesAgo = secondsAgo / 60
+		let hoursAgo = Int(minutesAgo / 60)
+		let timeAgo = "\(hoursAgo)h \(Int(minutesAgo.truncatingRemainder(dividingBy: 60)))m ago"
 		
 		return timeAgo
 	}

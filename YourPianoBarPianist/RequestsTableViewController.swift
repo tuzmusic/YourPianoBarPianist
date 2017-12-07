@@ -18,12 +18,16 @@ class RequestsTableViewController: UITableViewController {
 	// This needs to be narrowed down to whatever subset of all requests we're using.
 	// And not just filtered in the view, because the realm contains all requests EVER!
 	var requests: [Request] {
-		// unplayed requests only:
-		let allRequests = Array(YPB.realmSynced.objects(Request.self))
-		let allUnplayed = allRequests.filter { return !$0.played }
-		//let allUnplayedAndNotIgnored = allUnplayed.filter { return !$0.ignored }
-		
-		return allUnplayed
+		if YPB.realmSynced != nil {
+			
+			// unplayed requests only:
+			let allRequests = Array(YPB.realmSynced.objects(Request.self))
+			let allUnplayed = allRequests.filter { return !$0.played }
+			//let allUnplayedAndNotIgnored = allUnplayed.filter { return !$0.ignored }
+			
+			return allUnplayed.reversed()
+		}
+		return []
 	}
 	
 	// Eventually there will be some way or another to filter requests.
@@ -31,17 +35,22 @@ class RequestsTableViewController: UITableViewController {
 	var filteredRequests: [Request]?
 	
 	func addRequest() {
-		
-		let user1 = YpbUser.user(firstName: "Jonathan", lastName: "Tuzman", email: "tuzmusic@gmail.com", in: YPB.realm)
-		let request1 = Request()
-		let requestsInRealm = YPB.realmSynced.objects(Request.self).count
-		request1.user = user1
-		request1.songObject = YPB.realmSynced.objects(Song.self)[requestsInRealm]
-		//print(request1.songObject)
-		request1.notes = "Sample request #\(requestsInRealm)"
-		
-		try! YPB.realmSynced.write {
-			YPB.realmSynced.create(Request.self, value: request1, update: false)
+		if let realm = YPB.realmSynced {
+			let user1 = YpbUser.user(firstName: "Jonathan", lastName: "Tuzman", email: "tuzmusic@gmail.com", in: YPB.realm)
+			let request1 = Request()
+			let requestsInRealm = realm.objects(Request.self).count
+			request1.user = user1
+			request1.songObject = realm.objects(Song.self)[requestsInRealm]
+			//print(request1.songObject)
+			request1.notes = "Sample request #\(requestsInRealm)"
+			
+			try! realm.write {
+				realm.create(Request.self, value: request1, update: false)
+			}
+		} else {
+			let alert = UIAlertController(title: "Can't add request", message: "realm = nil", preferredStyle: .alert)
+			alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
+			present(alert, animated: true)
 		}
 	}
 	
@@ -49,15 +58,20 @@ class RequestsTableViewController: UITableViewController {
 		super.viewDidLoad()
 		
 		navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(addRequest))
-		if YPB.realmSynced != nil {
-			createSampleRequests()
+		
+		var realmSet: NSObjectProtocol?
+		
+		realmSet = NotificationCenter.default.addObserver(forName: NSNotification.Name("realm set"), object: nil, queue: OperationQueue.main) { (notification) in
+			self.tableView.reloadData()
+			//self.createSampleRequests()
+			DispatchQueue.main.async {
+				self.notificationToken = YPB.realmSynced.observe { _,_ in
+					self.tableView.reloadData()
+				}
+			}
+		NotificationCenter.default.removeObserver(realmSet!)
 		}
 		
-		DispatchQueue.main.async {
-			self.notificationToken = YPB.realm.observe { _,_ in
-				self.tableView.reloadData()
-			}
-		}
 	}
 	
 	// MARK: - Table view data source
@@ -73,6 +87,10 @@ class RequestsTableViewController: UITableViewController {
 	override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
 		let cell = tableView.dequeueReusableCell(withIdentifier: "requestCell", for: indexPath)
 		if let cell = cell as? RequestTableViewCell {
+			if requests.isEmpty {
+				cell.songTitleLabel.text = "No Requests to Display"
+				cell.songTitleLabel.textColor = .gray
+			}
 			cell.request = filteredRequests?[indexPath.row] ?? requests[indexPath.row]
 		}
 		
@@ -82,50 +100,14 @@ class RequestsTableViewController: UITableViewController {
 	// MARK: Table view delegate
 	
 	@available(iOS 11.0, *)
-	override func tableView(_ tableView: UITableView, leadingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration?
-	{
-		
-		let request = requests[indexPath.row]
-		
-		let markPlayed = UIContextualAction(style: .normal, title: "Mark as Played") { (action, sourceView, _) in
-			try! self.realm.write { request.played = true }
-		}
-		markPlayed.backgroundColor = .green
-		
-		let ignoreSong = UIContextualAction(style: .normal, title: "Ignore") { (action, sourceView, _) in
-			// add "ignored" property to Request object
-			// request.ignored = true
-		}
-		ignoreSong.backgroundColor = .red
-		
-		return UISwipeActionsConfiguration(actions: [markPlayed, ignoreSong])
-	}
-	
-	//	{
-	//
-	//		let request = requests[indexPath.row]
-	//
-	//		// leading actions: copy, copy and open forscore, search in safari, more options (add "lyrics", add "musicnotes", etc)
-	//
-	//		let searchInSafari = UIContextualAction(style: .normal, title: "Search") { (action, sourceView, _) in
-	//			let songWithoutSpaces = request.songString.trimmingCharacters(in: .whitespaces)
-	//			if let searchURL = URL(string: "https://www.google.com/#q=\(songWithoutSpaces)") {
-	//				UIApplication.shared.open(searchURL, options: [:], completionHandler: nil)
-	//			}
-	//		}
-	//
-	//		return UISwipeActionsConfiguration(actions: [searchInSafari])
-	//	}
-	
-	@available(iOS 11.0, *)
 	override func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
 		
 		let request = requests[indexPath.row]
 		
 		let markPlayed = UIContextualAction(style: .normal, title: "Mark as Played") { (action, sourceView, _) in
-			try! self.realm.write { request.played = true }
+			try! YPB.realmSynced.write { request.played = true }
 		}
-		markPlayed.backgroundColor = .green
+		markPlayed.backgroundColor = UIColor(red: 0, green: 0.153, blue: 0, alpha: 1)
 		
 		let ignoreSong = UIContextualAction(style: .normal, title: "Ignore") { (action, sourceView, _) in
 			// add "ignored" property to Request object
@@ -136,13 +118,17 @@ class RequestsTableViewController: UITableViewController {
 		let lyricSuffix = "%20lyrics"
 	
 		let searchInSafari = UIContextualAction(style: .normal, title: "Search") { (action, sourceView, _) in
+			let pasteboard = UIPasteboard.general
+			pasteboard.string = request.songObject?.title ?? request.songString
 			if let songWithoutSpaces = request.songObject?.title.replacingOccurrences(of: " ", with: "%20"),
 				let searchURL = URL(string: "https://www.google.com/search?q=\(songWithoutSpaces + lyricSuffix)") {
 					UIApplication.shared.open(searchURL, options: [:], completionHandler: nil)
 				}
 			
 		}
-		return UISwipeActionsConfiguration(actions: [searchInSafari, ignoreSong, markPlayed])
+		
+		let actions = [markPlayed, searchInSafari, ignoreSong]
+		return UISwipeActionsConfiguration(actions: actions)
 	}
 	
 	// MARK: for testing
