@@ -11,6 +11,7 @@ import UserNotifications
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
+	var worker = CacheWorker()
 
 	var window: UIWindow?
 
@@ -33,8 +34,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 				}
 			}
 			
+			// Define actions to take from notifications (not all that important)
+			
 			let dismissAction = UNNotificationAction(identifier: "Dismiss", title: "Dismiss", options: [])
 			let detailsAction = UNNotificationAction(identifier: "Details", title: "Details", options: [.foreground])
+						
 			let newRequestCategory = UNNotificationCategory(identifier: "NewRequest",
 												   actions: [dismissAction, detailsAction],
 												   intentIdentifiers: [],
