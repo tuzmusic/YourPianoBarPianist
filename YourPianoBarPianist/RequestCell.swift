@@ -24,14 +24,14 @@ class RequestTableViewCell: UITableViewCell {
 	@IBOutlet weak var notesLabel: UILabel!
 	
 	func timeSince(time: Date) -> String {
-		
+        
 		let now = Date()
 		let secondsAgo = DateInterval(start: time, end: now).duration
 		let minutesAgo = secondsAgo / 60
 		let hoursAgo = Int(minutesAgo / 60)
 		let timeAgo = "\(hoursAgo)h \(Int(minutesAgo.truncatingRemainder(dividingBy: 60)))m ago"
-		
-		return timeAgo
+
+        return timeAgo
 	}
 	
 	func updateUI() {

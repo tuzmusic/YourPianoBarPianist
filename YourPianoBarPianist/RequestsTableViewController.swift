@@ -12,7 +12,9 @@ import Foundation
 import RealmSwift
 
 class RequestsTableViewController: UITableViewController {
-	
+    
+    var worker: CacheWorker!
+
 	var realm: Realm!
 	var notificationToken: NotificationToken!
 	
@@ -36,18 +38,26 @@ class RequestsTableViewController: UITableViewController {
 		navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(addSampleRequest))
 		
 		var realmSetObserver: NSObjectProtocol?
-		
-		realmSetObserver = NotificationCenter.default.addObserver(forName: NSNotification.Name("realm set"), object: nil, queue: OperationQueue.main) { (_) in
-			self.tableView.reloadData()	// initial loading of the table when realmSynced is first set
-			//self.createSampleRequests()
-			DispatchQueue.main.async {
-				self.notificationToken = YPB.realmSynced.observe { _,_ in
-					self.tableView.reloadData()
-					self.notifyOf(self.requests.first!)
-				}
-			}
-		NotificationCenter.default.removeObserver(realmSetObserver!)
-		}
+        let triggeredBlock: (Notification)->Void = { [weak self] (_) in
+            self?.realm = YPB.realmSynced
+            self?.tableView.reloadData()    // initial loading
+            
+            if let requests = self?.realm?.objects(Request.self).filter("played = false") {
+                self?.worker = CacheWorker(observing: requests) { [weak self] changes in
+                    switch changes {
+                    case .update(_,_,let insertions, _):
+                        for index in insertions{
+                            self?.tableView.reloadData()
+                            self?.notifyOf(requests[index])
+                        }
+                    default: break
+                    }
+                }
+                NotificationCenter.default.removeObserver(realmSetObserver!)
+            }
+        }
+        
+        realmSetObserver = NotificationCenter.default.addObserver(forName: NSNotification.Name("realm set"), object: nil, queue: OperationQueue.main, using: triggeredBlock)
 		
 	}
 	

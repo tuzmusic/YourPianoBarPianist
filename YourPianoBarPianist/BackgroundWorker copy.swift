@@ -11,7 +11,7 @@ import Realm
 import RealmSwift
 import UserNotifications
 
-class BackgroundWorker: NSObject {
+class BackgroundWorkerBACKUP: NSObject {
 	private var thread: Thread!
 	private var block: (() -> Void)!
 	
@@ -42,20 +42,53 @@ class BackgroundWorker: NSObject {
 	}
 }
 
-class CacheWorker: BackgroundWorker // should be renamed to what I actually want this worker to do
+class BACKUPCacheWorkerBACKUP: BackgroundWorker // should be renamed to what I actually want this worker to do
 {
 	private var token: NotificationToken?
-	typealias change = RealmCollectionChange<Results<Request>>
 	
-	init(observing collection: Results<Request>, block: @escaping (change)->Void) {
+    var thisBlock: (() -> Void)!
+    
+     init(block: (() -> Void)!) {
 		super.init()
-		
-		startWorker { [weak self] (_) in
-			self?.token = collection.observe(block)
+        self.thisBlock = block
+		startWorker { [weak self] in
+			
+			var realmSetObserver: NSObjectProtocol?
+			realmSetObserver = NotificationCenter.default.addObserver(forName: NSNotification.Name("realm set"), object: nil, queue: OperationQueue.main) { (_) in
+					if let realm = YPB.realmSynced {
+						let requests = realm.objects(Request.self).filter("played = false")
+						self?.token = requests.observe { changes in
+							switch changes {
+							case .update(_,_,let insertions, _):
+								for index in insertions{
+									self?.notifyOf(requests[index])
+								}
+							default: break
+							}
+						}
+					}
+				NotificationCenter.default.removeObserver(realmSetObserver!)
+			}
+			
+			/* if let realm = YPB.realmSynced {
+				let requests = realm.objects(Request.self).filter("played = false")
+				self?.token = requests.observe { changes in
+					switch changes {
+					case .update(_,_,let insertions, _):
+						for index in insertions{
+							self?.notifyOf(requests[index])
+						}
+					default: break
+					}
+					
+				}
+			} */
 		}
 	}
 	
 	func notifyOf(_ request: Request) {
+		
+		// THIS WORKS! But notifyOf(_) only gets called if app is in foreground.
 		
 		let content = UNMutableNotificationContent()
 		content.title = "Something has happened"
@@ -66,5 +99,6 @@ class CacheWorker: BackgroundWorker // should be renamed to what I actually want
 		let center = UNUserNotificationCenter.current()
 		center.add(request, withCompletionHandler: nil)
 	}
+	
 	
 }

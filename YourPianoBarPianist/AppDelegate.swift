@@ -11,7 +11,7 @@ import UserNotifications
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
-	var worker = CacheWorker()
+	
 
 	var window: UIWindow?
 
