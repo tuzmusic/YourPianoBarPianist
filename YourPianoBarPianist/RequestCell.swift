@@ -23,6 +23,8 @@ class RequestTableViewCell: UITableViewCell {
 	@IBOutlet weak var artistLabel: UILabel!
 	@IBOutlet weak var notesLabel: UILabel!
 	
+	var isNewRequest = false
+	
 	func timeSince(time: Date) -> String {
         
 		let now = Date()
@@ -35,6 +37,11 @@ class RequestTableViewCell: UITableViewCell {
 	}
 	
 	func updateUI() {
+
+		if isNewRequest {
+			// make even bolder, somehow! (or change color, or blink or something)
+		}
+		
 		var userName = ""
 		if let firstName = request.user?.firstName,
 			let lastName = request.user?.lastName {
@@ -43,6 +50,7 @@ class RequestTableViewCell: UITableViewCell {
 		if !request.userString.isEmpty && request.userString != userName {
 			userName = "\(request.userString) (\(userName))"
 		}
+		
 		userDateLabel.text = "\(userName) - \(timeSince(time: request.date))"
 		songTitleLabel.text = request.songObject?.title ?? request.songString
 		artistLabel.text = request.songObject?.artist.name ?? nil

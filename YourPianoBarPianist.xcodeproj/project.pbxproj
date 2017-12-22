@@ -9,10 +9,12 @@
 /* Begin PBXBuildFile section */
 		0FAD74AD0AAF4E68C81B4ACE /* Pods_YourPianoBarPianistTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4784F4C0DE41C62B5E163C1E /* Pods_YourPianoBarPianistTests.framework */; };
 		36B0F917D4B7F9837C218902 /* Pods_YourPianoBarPianist.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3C971FB50195821134E4F8A8 /* Pods_YourPianoBarPianist.framework */; };
+		52B6B1881FE0BBF000DAAE0A /* BackgroundWorker copy 2.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52B6B1871FE0BBF000DAAE0A /* BackgroundWorker copy 2.swift */; };
+		52B6B18A1FE0BBFF00DAAE0A /* RequestsTableViewController copy 2.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52B6B1891FE0BBFE00DAAE0A /* RequestsTableViewController copy 2.swift */; };
 		52EF55CA1FDE011E00AEB2A1 /* BackgroundWorker copy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52EF55C91FDE011E00AEB2A1 /* BackgroundWorker copy.swift */; };
 		52EF55CC1FDE012400AEB2A1 /* RequestsTableViewController copy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52EF55CB1FDE012400AEB2A1 /* RequestsTableViewController copy.swift */; };
 		7615654E1E89DD6400F3A0E8 /* your-piano-bar-blank piano only tab bar item size.png in Resources */ = {isa = PBXBuildFile; fileRef = 7615654C1E89DD6400F3A0E8 /* your-piano-bar-blank piano only tab bar item size.png */; };
-		763262FA1FDC557D0029B80C /* RequestsTableViewController as Realm Objects.swift in Sources */ = {isa = PBXBuildFile; fileRef = 763262F91FDC557D0029B80C /* RequestsTableViewController as Realm Objects.swift */; };
+		763262FA1FDC557D0029B80C /* RequestsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 763262F91FDC557D0029B80C /* RequestsTableViewController.swift */; };
 		7651056B1FE03A520049356C /* YPB.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7651056A1FE03A520049356C /* YPB.swift */; };
 		7651056D1FE03A620049356C /* YPB BACKUP 12-12-17.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7651056C1FE03A620049356C /* YPB BACKUP 12-12-17.swift */; };
 		76591F951FDCC16C0096FF0B /* BackgroundWorker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76591F941FDCC16C0096FF0B /* BackgroundWorker.swift */; };
@@ -21,6 +23,8 @@
 		76B07FB81E7ED9ED008F0F45 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 76B07FB71E7ED9ED008F0F45 /* Assets.xcassets */; };
 		76B07FBB1E7ED9ED008F0F45 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 76B07FB91E7ED9ED008F0F45 /* LaunchScreen.storyboard */; };
 		76B07FC61E7ED9ED008F0F45 /* YourPianoBarPianistTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76B07FC51E7ED9ED008F0F45 /* YourPianoBarPianistTests.swift */; };
+		76D675391FE6FAA2006782C8 /* RTVC reformed.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76D675381FE6FAA2006782C8 /* RTVC reformed.swift */; };
+		76D6753B1FE74B4A006782C8 /* Pianist.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76D6753A1FE74B4A006782C8 /* Pianist.swift */; };
 		76D8EF9F1FC86F2C00F11FAD /* Song.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76D8EF901FC86F2200F11FAD /* Song.swift */; };
 		76D8EFA01FC86F2C00F11FAD /* Artist.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76D8EF911FC86F2300F11FAD /* Artist.swift */; };
 		76D8EFA11FC86F2C00F11FAD /* String Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76D8EF921FC86F2300F11FAD /* String Extensions.swift */; };
@@ -34,7 +38,7 @@
 		76D8EFAB1FC86F2C00F11FAD /* YpbUser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76D8EF9C1FC86F2B00F11FAD /* YpbUser.swift */; };
 		76DE8A261EF06F4200B0208C /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 76DE8A251EF06F4200B0208C /* Main.storyboard */; };
 		76DE8A291EF06F5400B0208C /* RequestCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76DE8A271EF06F5400B0208C /* RequestCell.swift */; };
-		76DE8A2A1EF06F5400B0208C /* RequestsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76DE8A281EF06F5400B0208C /* RequestsTableViewController.swift */; };
+		76DE8A2A1EF06F5400B0208C /* RequestsTableViewController2.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76DE8A281EF06F5400B0208C /* RequestsTableViewController2.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -64,11 +68,13 @@
 		3C971FB50195821134E4F8A8 /* Pods_YourPianoBarPianist.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_YourPianoBarPianist.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		3D8493AEDC0723287F817968 /* Pods-YourPianoBarPianistTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-YourPianoBarPianistTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-YourPianoBarPianistTests/Pods-YourPianoBarPianistTests.release.xcconfig"; sourceTree = "<group>"; };
 		4784F4C0DE41C62B5E163C1E /* Pods_YourPianoBarPianistTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_YourPianoBarPianistTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		52B6B1871FE0BBF000DAAE0A /* BackgroundWorker copy 2.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "BackgroundWorker copy 2.swift"; sourceTree = "<group>"; };
+		52B6B1891FE0BBFE00DAAE0A /* RequestsTableViewController copy 2.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "RequestsTableViewController copy 2.swift"; sourceTree = "<group>"; };
 		52EF55C91FDE011E00AEB2A1 /* BackgroundWorker copy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "BackgroundWorker copy.swift"; sourceTree = "<group>"; };
 		52EF55CB1FDE012400AEB2A1 /* RequestsTableViewController copy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "RequestsTableViewController copy.swift"; sourceTree = "<group>"; };
 		5DA5280AFB2582BB2C8562DE /* Pods-YourPianoBarPianist.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-YourPianoBarPianist.release.xcconfig"; path = "Pods/Target Support Files/Pods-YourPianoBarPianist/Pods-YourPianoBarPianist.release.xcconfig"; sourceTree = "<group>"; };
 		7615654C1E89DD6400F3A0E8 /* your-piano-bar-blank piano only tab bar item size.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "your-piano-bar-blank piano only tab bar item size.png"; sourceTree = "<group>"; };
-		763262F91FDC557D0029B80C /* RequestsTableViewController as Realm Objects.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "RequestsTableViewController as Realm Objects.swift"; sourceTree = "<group>"; };
+		763262F91FDC557D0029B80C /* RequestsTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RequestsTableViewController.swift; sourceTree = "<group>"; };
 		7651056A1FE03A520049356C /* YPB.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = YPB.swift; path = "../../Your Song/Your Song/YPB.swift"; sourceTree = "<group>"; };
 		7651056C1FE03A620049356C /* YPB BACKUP 12-12-17.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "YPB BACKUP 12-12-17.swift"; sourceTree = "<group>"; };
 		76591F941FDCC16C0096FF0B /* BackgroundWorker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BackgroundWorker.swift; sourceTree = "<group>"; };
@@ -83,6 +89,8 @@
 		76B07FC11E7ED9ED008F0F45 /* YourPianoBarPianistTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = YourPianoBarPianistTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		76B07FC51E7ED9ED008F0F45 /* YourPianoBarPianistTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = YourPianoBarPianistTests.swift; sourceTree = "<group>"; };
 		76B07FC71E7ED9ED008F0F45 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		76D675381FE6FAA2006782C8 /* RTVC reformed.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "RTVC reformed.swift"; sourceTree = "<group>"; };
+		76D6753A1FE74B4A006782C8 /* Pianist.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Pianist.swift; sourceTree = "<group>"; };
 		76D8EF901FC86F2200F11FAD /* Song.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Song.swift; sourceTree = "<group>"; };
 		76D8EF911FC86F2300F11FAD /* Artist.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Artist.swift; sourceTree = "<group>"; };
 		76D8EF921FC86F2300F11FAD /* String Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "String Extensions.swift"; sourceTree = "<group>"; };
@@ -96,7 +104,7 @@
 		76D8EF9C1FC86F2B00F11FAD /* YpbUser.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = YpbUser.swift; sourceTree = "<group>"; };
 		76DE8A251EF06F4200B0208C /* Main.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Main.storyboard; sourceTree = "<group>"; };
 		76DE8A271EF06F5400B0208C /* RequestCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RequestCell.swift; sourceTree = "<group>"; };
-		76DE8A281EF06F5400B0208C /* RequestsTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RequestsTableViewController.swift; sourceTree = "<group>"; };
+		76DE8A281EF06F5400B0208C /* RequestsTableViewController2.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RequestsTableViewController2.swift; sourceTree = "<group>"; };
 		E68570E6D5F758162443604C /* Pods-YourPianoBarPianistTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-YourPianoBarPianistTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-YourPianoBarPianistTests/Pods-YourPianoBarPianistTests.debug.xcconfig"; sourceTree = "<group>"; };
 		FA91F8A7DB23842A41A1921F /* Pods-YourPianoBarPianist.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-YourPianoBarPianist.debug.xcconfig"; path = "Pods/Target Support Files/Pods-YourPianoBarPianist/Pods-YourPianoBarPianist.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -135,8 +143,10 @@
 		52EF55C81FDE011500AEB2A1 /* Backups */ = {
 			isa = PBXGroup;
 			children = (
+				52B6B1871FE0BBF000DAAE0A /* BackgroundWorker copy 2.swift */,
 				7651056C1FE03A620049356C /* YPB BACKUP 12-12-17.swift */,
 				52EF55CB1FDE012400AEB2A1 /* RequestsTableViewController copy.swift */,
+				52B6B1891FE0BBFE00DAAE0A /* RequestsTableViewController copy 2.swift */,
 				52EF55C91FDE011E00AEB2A1 /* BackgroundWorker copy.swift */,
 			);
 			name = Backups;
@@ -204,9 +214,11 @@
 			children = (
 				76B07FB01E7ED9ED008F0F45 /* AppDelegate.swift */,
 				7651056A1FE03A520049356C /* YPB.swift */,
+				76D6753A1FE74B4A006782C8 /* Pianist.swift */,
 				76DE8A251EF06F4200B0208C /* Main.storyboard */,
-				76DE8A281EF06F5400B0208C /* RequestsTableViewController.swift */,
-				763262F91FDC557D0029B80C /* RequestsTableViewController as Realm Objects.swift */,
+				76DE8A281EF06F5400B0208C /* RequestsTableViewController2.swift */,
+				763262F91FDC557D0029B80C /* RequestsTableViewController.swift */,
+				76D675381FE6FAA2006782C8 /* RTVC reformed.swift */,
 				76DE8A271EF06F5400B0208C /* RequestCell.swift */,
 				76591F941FDCC16C0096FF0B /* BackgroundWorker.swift */,
 				52EF55C81FDE011500AEB2A1 /* Backups */,
@@ -304,13 +316,13 @@
 					76B07FAC1E7ED9ED008F0F45 = {
 						CreatedOnToolsVersion = 8.2.1;
 						DevelopmentTeam = MS76ZC84AE;
-						LastSwiftMigration = 0830;
+						LastSwiftMigration = 0920;
 						ProvisioningStyle = Automatic;
 					};
 					76B07FC01E7ED9ED008F0F45 = {
 						CreatedOnToolsVersion = 8.2.1;
 						DevelopmentTeam = MS76ZC84AE;
-						LastSwiftMigration = 0830;
+						LastSwiftMigration = 0920;
 						ProvisioningStyle = Automatic;
 						TestTargetID = 76B07FAC1E7ED9ED008F0F45;
 					};
@@ -479,18 +491,22 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				76D6753B1FE74B4A006782C8 /* Pianist.swift in Sources */,
 				76D8EFA21FC86F2C00F11FAD /* Requests - Realm Classes.swift in Sources */,
 				76D8EF9F1FC86F2C00F11FAD /* Song.swift in Sources */,
+				76D675391FE6FAA2006782C8 /* RTVC reformed.swift in Sources */,
 				52EF55CC1FDE012400AEB2A1 /* RequestsTableViewController copy.swift in Sources */,
 				76D8EFAB1FC86F2C00F11FAD /* YpbUser.swift in Sources */,
 				76D8EFA11FC86F2C00F11FAD /* String Extensions.swift in Sources */,
+				52B6B18A1FE0BBFF00DAAE0A /* RequestsTableViewController copy 2.swift in Sources */,
 				76591F951FDCC16C0096FF0B /* BackgroundWorker.swift in Sources */,
 				76D8EFA41FC86F2C00F11FAD /* BrowserObject.swift in Sources */,
 				7651056D1FE03A620049356C /* YPB BACKUP 12-12-17.swift in Sources */,
 				7651056B1FE03A520049356C /* YPB.swift in Sources */,
 				76D8EFA81FC86F2C00F11FAD /* SortedName.swift in Sources */,
+				52B6B1881FE0BBF000DAAE0A /* BackgroundWorker copy 2.swift in Sources */,
 				76DE8A291EF06F5400B0208C /* RequestCell.swift in Sources */,
-				76DE8A2A1EF06F5400B0208C /* RequestsTableViewController.swift in Sources */,
+				76DE8A2A1EF06F5400B0208C /* RequestsTableViewController2.swift in Sources */,
 				76B07FB11E7ED9ED008F0F45 /* AppDelegate.swift in Sources */,
 				76D8EFA61FC86F2C00F11FAD /* Decade.swift in Sources */,
 				76D8EFA01FC86F2C00F11FAD /* Artist.swift in Sources */,
@@ -498,7 +514,7 @@
 				76D8EFA31FC86F2C00F11FAD /* Genre.swift in Sources */,
 				52EF55CA1FDE011E00AEB2A1 /* BackgroundWorker copy.swift in Sources */,
 				76D8EFAA1FC86F2C00F11FAD /* Utility Functions.swift in Sources */,
-				763262FA1FDC557D0029B80C /* RequestsTableViewController as Realm Objects.swift in Sources */,
+				763262FA1FDC557D0029B80C /* RequestsTableViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -649,7 +665,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = TuzMusic.YourPianoBarPianist;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 3.0;
+				SWIFT_VERSION = 4.0;
 				TARGETED_DEVICE_FAMILY = 2;
 			};
 			name = Debug;
@@ -668,7 +684,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = TuzMusic.YourPianoBarPianist;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 3.0;
+				SWIFT_VERSION = 4.0;
 				TARGETED_DEVICE_FAMILY = 2;
 			};
 			name = Release;
@@ -684,7 +700,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = TuzMusic.YourPianoBarPianistTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 3.0;
+				SWIFT_VERSION = 4.0;
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/YourPianoBarPianist.app/YourPianoBarPianist";
 			};
 			name = Debug;
@@ -700,7 +716,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = TuzMusic.YourPianoBarPianistTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 3.0;
+				SWIFT_VERSION = 4.0;
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/YourPianoBarPianist.app/YourPianoBarPianist";
 			};
 			name = Release;

@@ -15,14 +15,12 @@ class BackgroundWorker: NSObject {
 	private var thread: Thread!
 	private var block: (() -> Void)!
 	
-	internal func runBlock () {
+	@objc internal func runBlock () {
 		block()
 	}
 	
 	internal func startWorker (_ block: @escaping () -> Void) {
 		self.block = block
-		
-		let threadName = String(describing: self).components(separatedBy: .punctuationCharacters)
 		
 		thread = Thread { [weak self] in
 			while self != nil && !self!.thread.isCancelled {
@@ -30,7 +28,6 @@ class BackgroundWorker: NSObject {
 			}
 			Thread.exit()
 		}
-		thread.name = "\(threadName) - \(UUID().uuidString)"
 		
 		thread.start()
 		
@@ -42,29 +39,40 @@ class BackgroundWorker: NSObject {
 	}
 }
 
-class CacheWorker: BackgroundWorker // should be renamed to what I actually want this worker to do
+class RequestsObserver: BackgroundWorker
 {
 	private var token: NotificationToken?
-	typealias change = RealmCollectionChange<Results<Request>>
 	
-	init(observing collection: Results<Request>, block: @escaping (change)->Void) {
+	override init() {
 		super.init()
-		
-		startWorker { [weak self] (_) in
-			self?.token = collection.observe(block)
+		startWorker {
+			OperationQueue.main.addOperation { [weak self] in
+				if let realm = YPB.realmSynced {
+					self?.token = realm.objects(Request.self).observe { changes in
+						switch changes {
+						case .update(_,_,let insertions, _):
+							for index in insertions {
+								self?.notifyOf(requests[index])
+							}
+						default: break
+						}
+					}
+				}
+			}
 		}
 	}
 	
 	func notifyOf(_ request: Request) {
 		
 		let content = UNMutableNotificationContent()
-		content.title = "Something has happened"
-		content.body = "Realm has changed in some way."
+		content.title = "New Request!"
+		content.body = request.userString + " wants to hear " + (request.songObject?.title ?? request.songString)
 		
 		let trigger = UNTimeIntervalNotificationTrigger(timeInterval: 1, repeats: false)
 		let request = UNNotificationRequest(identifier: "oneSec", content: content, trigger: trigger)
 		let center = UNUserNotificationCenter.current()
 		center.add(request, withCompletionHandler: nil)
 	}
+	
 	
 }

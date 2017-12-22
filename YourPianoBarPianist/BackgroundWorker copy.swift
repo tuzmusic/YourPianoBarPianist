@@ -15,7 +15,7 @@ class BackgroundWorkerBACKUP: NSObject {
 	private var thread: Thread!
 	private var block: (() -> Void)!
 	
-	internal func runBlock () {
+	@objc internal func runBlock () {
 		block()
 	}
 	
@@ -42,7 +42,7 @@ class BackgroundWorkerBACKUP: NSObject {
 	}
 }
 
-class BACKUPCacheWorkerBACKUP: BackgroundWorker // should be renamed to what I actually want this worker to do
+class BACKUPRequestsObserverBACKUP: BackgroundWorker // should be renamed to what I actually want this worker to do
 {
 	private var token: NotificationToken?
 	

@@ -12,7 +12,7 @@
         <!--Requests-->
         <scene sceneID="9DS-uR-yt5">
             <objects>
-                <tableViewController id="IMy-Ez-j0x" customClass="RequestsTableViewController2" customModule="YourPianoBarPianist" customModuleProvider="target" sceneMemberID="viewController">
+                <tableViewController id="IMy-Ez-j0x" customClass="RTVC_reformed" customModule="YourPianoBarPianist" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" allowsSelection="NO" rowHeight="89" sectionHeaderHeight="28" sectionFooterHeight="28" id="H8l-Cy-M2q">
                         <rect key="frame" x="0.0" y="0.0" width="768" height="1024"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
