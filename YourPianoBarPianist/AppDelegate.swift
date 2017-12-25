@@ -8,6 +8,7 @@
 
 import UIKit
 import UserNotifications
+import RealmSwift
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -51,6 +52,24 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 		setupNotifications()
 		
 		return true
+	}
+	
+	func applicationDidEnterBackground(_ application: UIApplication) {
+		if let realm = YPB.realmSynced {
+			
+			let localRealm = try! Realm()
+			localRealm.beginWrite()
+			
+			for song in realm.objects(Song.self) {
+				localRealm.create(Song.self, value: song, update: false)
+			}
+			YPB.deleteDuplicateCategories(in: localRealm)
+			
+			for req in realm.objects(Request.self) {
+				localRealm.create(Request.self, value: req, update: false)
+			}
+			try! localRealm.commitWrite()
+		}
 	}
 	
 	func userNotificationCenter(_ center: UNUserNotificationCenter, willPresent notification: UNNotification, withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void) {

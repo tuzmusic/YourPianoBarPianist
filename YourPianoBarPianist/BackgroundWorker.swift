@@ -51,7 +51,7 @@ class RequestsObserver: BackgroundWorker {
 					switch changes {
 					case .update(_,_,let insertions, _):
 						for index in insertions {
-							YPB.notifyOf(requests[index])
+							PH.notifyOf(requests[index])
 						}
 					default: break
 					}

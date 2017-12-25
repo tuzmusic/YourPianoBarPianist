@@ -22,7 +22,7 @@
 //	
 //	class func populateLocalRealmIfEmpty() {
 //		if YPB.realmLocal.objects(Song.self).isEmpty {
-//			//SongImporter().importSongs()
+//			//SongImporter().importSongsFromToLocalRealm()
 //		}
 //	}
 //	
@@ -105,7 +105,7 @@
 //			if !YPB.realmSynced.objects(Song.self).isEmpty {
 //				YPB.populateLocalRealmFromSyncedRealm()
 //			} else {
-//				//SongImporter().importSongs()
+//				//SongImporter().importSongsFromToLocalRealm()
 //				YPB.populateSyncedRealmFromLocalRealm()
 //			}
 //		} else {

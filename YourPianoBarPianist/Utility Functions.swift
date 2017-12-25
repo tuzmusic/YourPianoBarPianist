@@ -14,15 +14,15 @@ extension YPB {
 	
 	class func deleteDuplicateCategories (in realm: Realm) {
 		
+		realm.beginWrite()
+		
 		let allArtists = realm.objects(Artist.self)
 		for artist in allArtists {
 			let search = allArtists.filter("name = %@", artist.name)
 			if search.count > 1 {
 				if artist.songs.isEmpty {
 					print("Deleting duplicate with no songs: \(artist.name)")
-					try! realm.write {
-						realm.delete(artist)
-					}
+					realm.delete(artist)
 				}
 			}
 		}
@@ -33,9 +33,7 @@ extension YPB {
 			if search.count > 1 {
 				if genre.songs.isEmpty {
 					print("Deleting duplicate with no songs: \(genre.name)")
-					try! realm.write {
-						realm.delete(genre)
-					}
+					realm.delete(genre)
 				}
 			}
 		}
@@ -46,12 +44,13 @@ extension YPB {
 			if search.count > 1 {
 				if decade.songs.isEmpty {
 					print("Deleting duplicate with no songs: \(decade.name)")
-					try! realm.write {
-						realm.delete(decade)
-					}
+					realm.delete(decade)
 				}
 			}
 		}
+		
+		do { try realm.commitWrite() }
+		catch { print("Could not delete duplicates.")}
 		
 		// Attempt to genericize this that I can't get to work.
 		func deleteDuplicates<T: BrowserCategory>(of type: T, in realm: Realm) {

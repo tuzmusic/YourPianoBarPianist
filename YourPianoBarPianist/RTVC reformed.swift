@@ -104,7 +104,7 @@ class RTVC_reformed: UITableViewController {
 							switch changes {
 							case .update(_,_,let insertions, _):
 								for index in insertions {
-									YPB.notifyOf(requests[index])
+									PH.notifyOf(requests[index])
 								}
 							default: break
 							}
@@ -169,8 +169,8 @@ class RTVC_reformed: UITableViewController {
 	}
 	
 	@objc func addSampleRequest () {
-		if !YPB.addSampleRequest() {
-			let alert = UIAlertController(title: "Can't add request", message: "realm = nil", preferredStyle: .alert)
+		if !Request.addSampleRequest() {
+			let alert = UIAlertController(title: "Can't add request", message: "Can't connect", preferredStyle: .alert)
 			alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
 			present(alert, animated: true)
 		}
@@ -193,6 +193,17 @@ class RTVC_reformed: UITableViewController {
 	override func viewWillDisappear(_ animated: Bool) {
 		super.viewWillDisappear(true)
 		lastViewed = Date()
+	}
+	
+	override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+		if segue.identifier == "Request Detail Segue" {
+			if let detail = segue.destination as? RequestDetailTableViewController,
+				let cell = sender as? RequestTableViewCell {
+				
+				detail.request = cell.request
+				detail.originatingCell = cell
+			}
+		}
 	}
 	
 	// MARK: - Table view data source
