@@ -14,14 +14,17 @@ extension YPB {
 	
 	class func deleteDuplicateCategories (in realm: Realm) {
 		
-		realm.beginWrite()
+		let alreadyWriting = realm.isInWriteTransaction
+		if !alreadyWriting {
+			realm.beginWrite()
+		}
 		
 		let allArtists = realm.objects(Artist.self)
 		for artist in allArtists {
 			let search = allArtists.filter("name = %@", artist.name)
 			if search.count > 1 {
 				if artist.songs.isEmpty {
-					print("Deleting duplicate with no songs: \(artist.name)")
+					//print("Deleting duplicate with no songs: \(artist.name)")
 					realm.delete(artist)
 				}
 			}
@@ -32,7 +35,7 @@ extension YPB {
 			let search = allGenres.filter("name = %@", genre.name)
 			if search.count > 1 {
 				if genre.songs.isEmpty {
-					print("Deleting duplicate with no songs: \(genre.name)")
+					//print("Deleting duplicate with no songs: \(genre.name)")
 					realm.delete(genre)
 				}
 			}
@@ -43,14 +46,15 @@ extension YPB {
 			let search = allDecades.filter("name = %@", decade.name)
 			if search.count > 1 {
 				if decade.songs.isEmpty {
-					print("Deleting duplicate with no songs: \(decade.name)")
+					//print("Deleting duplicate with no songs: \(decade.name)")
 					realm.delete(decade)
 				}
 			}
 		}
-		
-		do { try realm.commitWrite() }
-		catch { print("Could not delete duplicates.")}
+		if !alreadyWriting {
+			do { try realm.commitWrite() }
+			catch { print("Could not delete duplicates.")}
+		}
 		
 		// Attempt to genericize this that I can't get to work.
 		func deleteDuplicates<T: BrowserCategory>(of type: T, in realm: Realm) {

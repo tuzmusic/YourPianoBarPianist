@@ -14,61 +14,68 @@ import RealmSwift
 class AppDelegate: UIResponder, UIApplicationDelegate {
 	
 	var window: UIWindow?
-
-	func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
-
-		//print("Documents folder: \(NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true)[0])")
-
-		YPB.setupRealm()
+	
+	fileprivate func setupNotifications () {
 		
-		func setupNotifications () {
-			
-			// MARK: Register and set up Notifications
-			
-			let center = UNUserNotificationCenter.current()
-			center.requestAuthorization(options: [.alert, .sound]) { (granted, error) in
-				if granted {
-					//print("notification permissions granted")
-				} else if let error = error {
-					print("Error in notification permissions: \(error)")
-				}
+		// MARK: Register and set up Notifications
+		
+		let center = UNUserNotificationCenter.current()
+		center.requestAuthorization(options: [.alert, .sound]) { (granted, error) in
+			if granted {
+				//print("notification permissions granted")
+			} else if let error = error {
+				print("Error in notification permissions: \(error)")
 			}
-			
-			// Define actions to take from notifications (not all that important)
-			
-			let dismissAction = UNNotificationAction(identifier: "Dismiss", title: "Dismiss", options: [])
-			let detailsAction = UNNotificationAction(identifier: "Details", title: "Details", options: [.foreground])
-						
-			let newRequestCategory = UNNotificationCategory(identifier: "NewRequest",
-												   actions: [dismissAction, detailsAction],
-												   intentIdentifiers: [],
-												   options: .customDismissAction)
-			center.setNotificationCategories([newRequestCategory])
-			
-			// TO-DO: Last 2 sections of "Managing Your App's Notification Support"
-			
 		}
 		
+		// Define actions to take from notifications (not all that important)
+		
+		let dismissAction = UNNotificationAction(identifier: "Dismiss", title: "Dismiss", options: [])
+		let detailsAction = UNNotificationAction(identifier: "Details", title: "Details", options: [.foreground])
+		
+		let newRequestCategory = UNNotificationCategory(identifier: "NewRequest",
+											   actions: [dismissAction, detailsAction],
+											   intentIdentifiers: [],
+											   options: .customDismissAction)
+		center.setNotificationCategories([newRequestCategory])
+		
+		// TO-DO: Last 2 sections of "Managing Your App's Notification Support"
+		
+	}
+	
+	func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
+		
+		//print("Documents folder: \(NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true)[0])")
+		
+		YPB.setupRealm()
 		setupNotifications()
 		
 		return true
 	}
 	
-	func applicationDidEnterBackground(_ application: UIApplication) {
-		if let realm = YPB.realmSynced {
-			
-			let localRealm = try! Realm()
-			localRealm.beginWrite()
-			
-			for song in realm.objects(Song.self) {
+	fileprivate func backupToLocalRealm(from realm: Realm) {
+		let localRealm = try! Realm()
+		localRealm.beginWrite()
+		
+		for song in realm.objects(Song.self) {
+			if !realm.objects(Song.self).contains(song) {
 				localRealm.create(Song.self, value: song, update: false)
 			}
-			YPB.deleteDuplicateCategories(in: localRealm)
-			
-			for req in realm.objects(Request.self) {
+		}
+		
+		YPB.deleteDuplicateCategories(in: localRealm)
+		
+		for req in realm.objects(Request.self) {
+			if !realm.objects(Request.self).contains(req) {
 				localRealm.create(Request.self, value: req, update: false)
 			}
-			try! localRealm.commitWrite()
+		}
+		try! localRealm.commitWrite()
+	}
+	
+	func applicationDidEnterBackground(_ application: UIApplication) {
+		if let realm = YPB.realmSynced {
+			backupToLocalRealm(from: realm)
 		}
 	}
 	

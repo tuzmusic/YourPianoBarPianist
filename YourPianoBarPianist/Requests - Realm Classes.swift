@@ -30,7 +30,7 @@ final class Request: Object {
 	}
 	@objc dynamic var notes: String = ""
 	@objc dynamic var date = Date()
-	var tip: Double? //pretty sure this isn't @objc dynamic because realm doesn't do optional doubles, at least not simply. it's probably best to make this not an optional.
+	var tip: Double? // This needs to either be a RealmOptional<Double> or non-optional and default to $0
 	@objc dynamic var played = false
 	@objc dynamic var event: Event?
 	
@@ -38,7 +38,7 @@ final class Request: Object {
 	@objc dynamic var singAtMic = false
 	
 	class func addSampleRequest() -> Bool {
-		if let realm = YPB.realmSynced {
+		if let realm = YPB.realm {
 			let user = YpbUser.user(firstName: "Jonathan", lastName: "Tuzman", email: "tuzmusic@gmail.com", in: realm)
 			let request = Request()
 			let requestsInRealm = realm.objects(Request.self).count
