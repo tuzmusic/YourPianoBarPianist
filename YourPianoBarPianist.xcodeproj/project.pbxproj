@@ -159,6 +159,7 @@
 				52EF55C91FDE011E00AEB2A1 /* BackgroundWorker copy.swift */,
 			);
 			name = Backups;
+			path = YourPianoBarPianist;
 			sourceTree = "<group>";
 		};
 		7673D2691FCB24A000E45A95 /* Utility */ = {
@@ -179,8 +180,8 @@
 				76D8EF931FC86F2500F11FAD /* Requests - Realm Classes.swift */,
 				76CD8E8D1FF06D4B00081206 /* RandomRequestCreator.swift */,
 				76CD8E8A1FF06CEE00081206 /* Event.swift */,
-				76CD8E8C1FF06D0E00081206 /* Song List Classes */,
 				76D8EF9C1FC86F2B00F11FAD /* YpbUser.swift */,
+				76CD8E8C1FF06D0E00081206 /* Song List Classes */,
 			);
 			name = "Realm Object Classes";
 			sourceTree = "<group>";
@@ -199,6 +200,7 @@
 			isa = PBXGroup;
 			children = (
 				76B07FAF1E7ED9ED008F0F45 /* YourPianoBarPianist */,
+				52EF55C81FDE011500AEB2A1 /* Backups */,
 				76B07FD71E7EDA75008F0F45 /* Supporting Files */,
 				76B07FC41E7ED9ED008F0F45 /* YourPianoBarPianistTests */,
 				76B07FAE1E7ED9ED008F0F45 /* Products */,
@@ -227,7 +229,6 @@
 				76CD8E821FEF771500081206 /* RequestDetailTableViewController.swift */,
 				76DE8A271EF06F5400B0208C /* RequestCell.swift */,
 				76591F941FDCC16C0096FF0B /* BackgroundWorker.swift */,
-				52EF55C81FDE011500AEB2A1 /* Backups */,
 				7696E2E41FCA394300D22FE0 /* Realm Object Classes */,
 				7673D2691FCB24A000E45A95 /* Utility */,
 			);
