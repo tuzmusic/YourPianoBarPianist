@@ -12,6 +12,63 @@ import RealmSearchViewController
 
 extension YPB {
 	
+	class func deleteDuplicateSongs (in realm: Realm) {
+		var alreadyWriting = realm.isInWriteTransaction
+		if alreadyWriting {
+			try! realm.commitWrite()
+			alreadyWriting = false
+		}
+		
+//		if !alreadyWriting {
+//			realm.beginWrite()
+//		}
+		
+		var songsWithNoArtist = [Song]()
+		let allSongs = realm.objects(Song.self)
+ 		for song in allSongs {
+			if song.artist != nil {
+				let songsWithThisTitleAndThisArtist = allSongs.filter("title = %@", song.title).filter("artist.name = %@", song.artist.name)
+				//print("\(songsWithThisTitleAndThisArtist.count) songs called \(song.title) by \(song.artist.name)")
+				while songsWithThisTitleAndThisArtist.count > 1 {
+					let song = songsWithThisTitleAndThisArtist.last!
+					let string = "Deleting, \(song.title), leaving \(songsWithThisTitleAndThisArtist.count-1) songs called \(song.title) by \(song.artist.name)"
+					try! realm.write {
+						realm.delete(song)
+					}
+					print(string)
+				}
+			} else {
+				songsWithNoArtist.append(song)
+				print("\(songsWithNoArtist.count) songs with no artist found")
+			}
+		}
+		
+//		if !alreadyWriting {
+//			try! realm.commitWrite()
+//		}
+	
+//		for song in songsWithNoArtist {
+//			print("\(song.title) has no artist!")
+//		}
+		print("Done deleting duplicate songs")
+	}
+	
+	class func populateNilArtists (in realm: Realm) {
+		
+		let alreadyWriting = realm.isInWriteTransaction
+		if !alreadyWriting { realm.beginWrite() }
+		
+		if let nilArtist = realm.objects(Artist.self).filter("name = %@", "nil artist").first {
+			for song in realm.objects(Song.self) where song.artist == nil {
+				print("\(song.title) has no artist")
+				song.artist = nilArtist
+			}
+		}
+		
+		if !alreadyWriting { try! realm.commitWrite() }
+
+	}
+	
 	class func deleteDuplicateCategories (in realm: Realm) {
 		
 		let alreadyWriting = realm.isInWriteTransaction
@@ -56,6 +113,8 @@ extension YPB {
 			catch { print("Could not delete duplicates.")}
 		}
 		
+		print("Done deleting duplicate categories")
+		
 		// Attempt to genericize this that I can't get to work.
 		func deleteDuplicates<T: BrowserCategory>(of type: T, in realm: Realm) {
 			let allItems = realm.objects(T.self)
@@ -73,7 +132,7 @@ extension YPB {
 			}
 		}
 	}
-
+	
 	class func createBloggerBlogFromSongCatalog() {
 		
 	}
@@ -82,18 +141,18 @@ extension YPB {
 		
 		/*
 		func precedeSecondArtistWithComma() {
-			for song in YPB.realmLocal.objects(Song.self) {
-				var components = song.songDescription.components(separatedBy: " - ")
-				if components.count > 2 {
-					var newDescription = components[0] + " - " + components[1]
-					for i in 2 ..< components.count {
-						newDescription += ", " + components[i]
-					}
-					try! YPB.realmLocal.write {
-						song.songDescription = newDescription
-					}
-				}
-			}
+		for song in YPB.realmLocal.objects(Song.self) {
+		var components = song.songDescription.components(separatedBy: " - ")
+		if components.count > 2 {
+		var newDescription = components[0] + " - " + components[1]
+		for i in 2 ..< components.count {
+		newDescription += ", " + components[i]
+		}
+		try! YPB.realmLocal.write {
+		song.songDescription = newDescription
+		}
+		}
+		}
 		} */
 		
 		// Assemble the text
