@@ -10,11 +10,12 @@ import Foundation
 import RealmSwift
 
 final class YpbUser: Object {
-	@objc dynamic var id: String = ""
+	@objc dynamic var id: String = "" // copied from realm sync user
 	@objc dynamic var firstName: String = ""
 	@objc dynamic var lastName: String = ""
 	@objc dynamic var registeredDate = Date()
 	@objc dynamic var email: String = ""
+	
 	let requests = LinkingObjects(fromType: Request.self, property: "user")
 	
 	var tips: [Double] {
