@@ -10,12 +10,15 @@ import Foundation
 import RealmSwift
 
 final class YpbUser: Object {
-	@objc dynamic var id: String = "" // copied from realm sync user
+	
+	public static var current: YpbUser?
+	
+	@objc dynamic var id: String = "" // copied from realm SyncUser
+	@objc dynamic var email: String = ""
 	@objc dynamic var firstName: String = ""
 	@objc dynamic var lastName: String = ""
 	@objc dynamic var registeredDate = Date()
-	@objc dynamic var email: String = ""
-	
+
 	let requests = LinkingObjects(fromType: Request.self, property: "user")
 	
 	var tips: [Double] {
@@ -30,9 +33,18 @@ final class YpbUser: Object {
 		return tips.reduce(0, { $0 + $1 }) / Double(tips.count)
 	}
 	
+	class func user(id: String?, email: String, firstName: String, lastName: String?) -> YpbUser {
+		let user = YpbUser()
+		user.id = id ?? ""
+		user.email = email
+		user.firstName = firstName
+		user.lastName = lastName ?? ""
+		
+		return user
+	}
+	
 	class func user(firstName: String, lastName: String, email: String, in realm: Realm) -> YpbUser? {
-		if let existingUser = realm.objects(YpbUser.self)
-			.filter("email =[c] %@", email).first
+		if let existingUser = realm.objects(YpbUser.self).filter("email =[c] %@", email).first
 		{
 			return existingUser
 		} else {
