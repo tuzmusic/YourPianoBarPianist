@@ -18,6 +18,10 @@ final class YpbUser: Object {
 	@objc dynamic var firstName: String = ""
 	@objc dynamic var lastName: String = ""
 	@objc dynamic var registeredDate = Date()
+	
+	var fullName: String {
+		return firstName + " " + lastName
+	}
 
 	let requests = LinkingObjects(fromType: Request.self, property: "user")
 	

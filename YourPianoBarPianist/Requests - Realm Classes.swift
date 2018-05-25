@@ -11,13 +11,13 @@ import RealmSwift
 
 final class Request: Object {
 	
-	@objc dynamic var user: YpbUser? {
-		didSet {
+	@objc dynamic var user: YpbUser?
+		/* { didSet {
 			if let user = user {
 				userString = user.firstName + " " + user.lastName
 			}
 		}
-	}
+	} */
 	
 	@objc dynamic var userString: String = ""
 	@objc dynamic var songString: String = ""
