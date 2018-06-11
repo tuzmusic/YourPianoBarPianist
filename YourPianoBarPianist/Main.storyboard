@@ -307,7 +307,7 @@
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="aKh-oq-5uD" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-1161" y="-241"/>
+            <point key="canvasLocation" x="-1296" y="-241"/>
         </scene>
         <!--Login-->
         <scene sceneID="yQW-th-4fX">
@@ -423,12 +423,12 @@
                     <connections>
                         <outlet property="emailField" destination="rGi-oZ-j37" id="8Jr-WY-XV8"/>
                         <outlet property="passwordField" destination="8C8-h4-o5e" id="MWQ-zE-cK3"/>
-                        <segue destination="IMy-Ez-j0x" kind="show" identifier="Login to New Request Segue" id="f52-E4-ROc"/>
+                        <segue destination="IMy-Ez-j0x" kind="show" identifier="LoginToRequests" id="f52-E4-ROc"/>
                     </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="czI-Kc-0gw" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-391" y="-241"/>
+            <point key="canvasLocation" x="-465" y="-241"/>
         </scene>
     </scenes>
 </document>

@@ -129,7 +129,6 @@ class RequestsTableViewController: UITableViewController {
 		}
 	}
 
-
 	@objc func filterRequests() {
 		let sheet = UIAlertController(title: "Filter requests", message: nil, preferredStyle: .alert)
 		
@@ -140,7 +139,7 @@ class RequestsTableViewController: UITableViewController {
 		}
 		sheet.addAction(showOrHidePlayedAction)
 		
-		let showRecentsString = ViewOptions.showingRecentsOnly ? "Show only requests from last 24 hours" : "Show requests regardless of time"
+        let showRecentsString = ViewOptions.showingRecentsOnly ? "Show requests regardless of time" : "Show only requests from last 24 hours"
 		let showRecentsAction = UIAlertAction(title: showRecentsString, style: .default) { (_) in
 			ViewOptions.showingRecentsOnly = !ViewOptions.showingRecentsOnly
 			self.tableView.reloadData()
@@ -191,8 +190,29 @@ class RequestsTableViewController: UITableViewController {
 		
 		realmSetObserver = NotificationCenter.default.addObserver(forName: NSNotification.Name("realm set"), object: nil, queue: OperationQueue.main) { [weak self] _ in self?.realm = YPB.realm
 		}
-	}
-	
+        
+        navigationItem.hidesBackButton = true
+        navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Logout", style: .plain, target: self, action: #selector(confirmLogout))
+    }
+    
+    @objc func confirmLogout() {
+        let alert = UIAlertController(title: "Log Out", message: "Are you sure you want to log out?",  preferredStyle: .alert)
+        
+        let yesButton = UIAlertAction(title: "Log out", style: .destructive) { (_) in
+            if let loginVC = self.navigationController?.viewControllers.first as? SignInTableViewController_Pianist {
+                self.navigationController?.popToRootViewController(animated: true)
+                loginVC.emailField.becomeFirstResponder()
+                loginVC.logOutAll()
+            }
+        }
+        
+        let noButton = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
+        alert.addAction(yesButton)
+        alert.addAction(noButton)
+        present(alert, animated: true, completion: nil)
+        
+    }
+
 	var lastViewed: Date?
 	
 	override func viewWillDisappear(_ animated: Bool) {
