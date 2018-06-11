@@ -47,7 +47,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 		
 		//print("Documents folder: \(NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true)[0])")
 		
-		YPB.setupRealm()
 		setupNotifications()
 		
 		return true
