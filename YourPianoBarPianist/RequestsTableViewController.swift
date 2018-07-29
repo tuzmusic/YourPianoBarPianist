@@ -13,19 +13,66 @@ import RealmSwift
 
 class RequestsTableViewController: UITableViewController {
 
-	var realm: Realm! {
-		didSet {
-			observeChanges()
-		}
-	}
+	var realm: Realm! { didSet { observeChanges() } }
 	
-	// Notification objects
+	// MARK: Notifications
 	var realmSetObserver: NSObjectProtocol?
 	var notificationRunLoop: CFRunLoop? = nil
 	var token: NotificationToken!
 	var token2: NotificationToken!
 	var worker: RequestsObserver?
 	
+	fileprivate func observeChanges() {
+		
+		//self?.worker = RequestsObserver() // sets up User Notifications, with its own query. Hopefully works in background.
+		
+		tableView.reloadData()    // initial loading of the table when realmSynced is first set
+		
+		// Observe changes for table
+		DispatchQueue.main.async { [weak self] in
+			self?.token = self?.requests?.observe { _ in
+				self?.tableView.reloadData()
+			}
+		}
+		
+		// Observe changes, in background, for local notifications
+		// Note 12/22 late night: This still deosn't work in the background. Trying to check it on iPad in case it only works on an actual device but I can't get it to run from Xcode but only from opening on iPad (it won't trust coming from Xcode for some reason). So I can't debug, and I can't be 100% sure it's running the most current version.
+		
+		DispatchQueue.global(qos: .background).async { [weak self] in
+			
+			self?.notificationRunLoop = CFRunLoopGetCurrent()
+			
+			CFRunLoopPerformBlock(self?.notificationRunLoop, CFRunLoopMode.defaultMode.rawValue) { [weak self] in
+				
+				let realm: Realm! = (YPB.realmConfig != nil) ? (try! Realm(configuration: YPB.realmConfig)) : (try! Realm())
+				let requests = realm.objects(Request.self)
+				self?.token2 = requests.observe { changes in
+					switch changes {
+					case .update(_,_,let insertions, _):
+						for index in insertions {
+							PH.notifyOf(requests[index])
+						}
+					default: break
+					}
+				}
+			}
+			
+			// Run the runloop on this thread until we tell it to stop
+			CFRunLoopRun()
+		}
+		
+		NotificationCenter.default.removeObserver(realmSetObserver!)
+	}
+	
+	deinit {
+		token?.invalidate()
+		token2?.invalidate()
+		if let runloop = notificationRunLoop {
+			CFRunLoopStop(runloop)
+		}
+	}
+
+	// MARK: - Sorting and filtering
 	struct ViewOptions {
 		
 		enum sortBy: String {
@@ -79,55 +126,7 @@ class RequestsTableViewController: UITableViewController {
 		return sortedRequests
 	}
 
-	fileprivate func observeChanges() {
-		
-		//self?.worker = RequestsObserver() // sets up User Notifications, with its own query. Hopefully works in background.
-		
-		tableView.reloadData()    // initial loading of the table when realmSynced is first set
-		
-		// Observe changes for table
-		DispatchQueue.main.async { [weak self] in
-			self?.token = self?.requests?.observe { _ in
-				self?.tableView.reloadData()
-			}
-		}
-		
-		// Observe changes, in background, for local notifications
-		// Note 12/22 late night: This still deosn't work in the background. Trying to check it on iPad in case it only works on an actual device but I can't get it to run from Xcode but only from opening on iPad (it won't trust coming from Xcode for some reason). So I can't debug, and I can't be 100% sure it's running the most current version.
-		
-		DispatchQueue.global(qos: .background).async { [weak self] in
-			
-			self?.notificationRunLoop = CFRunLoopGetCurrent()
-			
-			CFRunLoopPerformBlock(self?.notificationRunLoop, CFRunLoopMode.defaultMode.rawValue) { [weak self] in
-				
-				let realm: Realm! = (YPB.realmConfig != nil) ? (try! Realm(configuration: YPB.realmConfig)) : (try! Realm())
-				let requests = realm.objects(Request.self)
-				self?.token2 = requests.observe { changes in
-					switch changes {
-					case .update(_,_,let insertions, _):
-						for index in insertions {
-							PH.notifyOf(requests[index])
-						}
-					default: break
-					}
-				}
-			}
-			
-			// Run the runloop on this thread until we tell it to stop
-			CFRunLoopRun()
-		}
-		
-		NotificationCenter.default.removeObserver(realmSetObserver!)
-	}
-	
-	deinit {
-		token?.invalidate()
-		token2?.invalidate()
-		if let runloop = notificationRunLoop {
-			CFRunLoopStop(runloop)
-		}
-	}
+	var lastViewed: Date?
 
 	@objc func filterRequests() {
 		let sheet = UIAlertController(title: "Filter requests", message: nil, preferredStyle: .alert)
@@ -167,18 +166,6 @@ class RequestsTableViewController: UITableViewController {
 		present(sheet, animated: true)
 	}
 	
-	@objc func addSampleRequest () {
-		try! realm.write { [weak self] in
-			self?.realm.create(Request.self, value: Request.randomRequest(in: realm), update: false)
-		}
-		
-//		if !Request.addSampleRequest() {
-//			let alert = UIAlertController(title: "Can't add request", message: "Can't connect", preferredStyle: .alert)
-//			alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
-//			present(alert, animated: true)
-//		}
-	}
-	
 	// MARK: - View Controller Lifecycle
 	
 	override func viewDidLoad() {
@@ -212,8 +199,6 @@ class RequestsTableViewController: UITableViewController {
         present(alert, animated: true, completion: nil)
         
     }
-
-	var lastViewed: Date?
 	
 	override func viewWillDisappear(_ animated: Bool) {
 		super.viewWillDisappear(true)
@@ -311,4 +296,20 @@ class RequestsTableViewController: UITableViewController {
 		let actions = [markPlayed, searchInSafari, openInForScore, ignoreRequest]
 		return UISwipeActionsConfiguration(actions: actions)
 	}
+}
+
+extension RequestsTableViewController {
+	
+	@objc func addSampleRequest () {
+		try! realm.write { [weak self] in
+			self?.realm.create(Request.self, value: Request.randomRequest(in: realm), update: false)
+		}
+		
+		//		if !Request.addSampleRequest() {
+		//			let alert = UIAlertController(title: "Can't add request", message: "Can't connect", preferredStyle: .alert)
+		//			alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
+		//			present(alert, animated: true)
+		//		}
+	}
+	
 }

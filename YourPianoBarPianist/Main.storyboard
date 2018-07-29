@@ -100,6 +100,53 @@
             </objects>
             <point key="canvasLocation" x="404" y="-241"/>
         </scene>
+        <!--RequestsSMALL Table View Controller-->
+        <scene sceneID="LnG-kn-w8u">
+            <objects>
+                <tableViewController id="bB0-Vo-uOr" customClass="Requests_SMALL_TableViewController" customModule="YourPianoBarPianist" customModuleProvider="target" sceneMemberID="viewController">
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" id="8oS-KB-sIv">
+                        <rect key="frame" x="0.0" y="0.0" width="768" height="1024"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <prototypes>
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="cell" id="6vK-dR-970" customClass="Request_SMALL_Cell" customModule="YourPianoBarPianist" customModuleProvider="target">
+                                <rect key="frame" x="0.0" y="28" width="768" height="44"/>
+                                <autoresizingMask key="autoresizingMask"/>
+                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="6vK-dR-970" id="hDZ-jk-Uo5">
+                                    <rect key="frame" x="0.0" y="0.0" width="768" height="43.5"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                    <subviews>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="hLa-qr-Rv9">
+                                            <rect key="frame" x="20" y="0.0" width="728" height="44"/>
+                                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                            <nil key="textColor"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
+                                    </subviews>
+                                    <constraints>
+                                        <constraint firstItem="hLa-qr-Rv9" firstAttribute="trailing" secondItem="hDZ-jk-Uo5" secondAttribute="trailingMargin" id="4J4-rh-4lo"/>
+                                        <constraint firstItem="hLa-qr-Rv9" firstAttribute="centerX" secondItem="hDZ-jk-Uo5" secondAttribute="centerX" id="9Qi-Kv-zko"/>
+                                        <constraint firstAttribute="bottom" secondItem="hLa-qr-Rv9" secondAttribute="bottom" id="Dsi-yx-l3C"/>
+                                        <constraint firstItem="hLa-qr-Rv9" firstAttribute="leading" secondItem="hDZ-jk-Uo5" secondAttribute="leadingMargin" id="gyJ-gV-z0g"/>
+                                        <constraint firstItem="hLa-qr-Rv9" firstAttribute="centerY" secondItem="hDZ-jk-Uo5" secondAttribute="centerY" id="iVF-tX-3t0"/>
+                                        <constraint firstItem="hLa-qr-Rv9" firstAttribute="top" secondItem="hDZ-jk-Uo5" secondAttribute="top" id="rEb-86-Zk4"/>
+                                    </constraints>
+                                </tableViewCellContentView>
+                                <connections>
+                                    <outlet property="label" destination="hLa-qr-Rv9" id="V5D-I8-DYr"/>
+                                </connections>
+                            </tableViewCell>
+                        </prototypes>
+                        <connections>
+                            <outlet property="dataSource" destination="bB0-Vo-uOr" id="hRI-WY-KyO"/>
+                            <outlet property="delegate" destination="bB0-Vo-uOr" id="gWq-Lx-tZd"/>
+                        </connections>
+                    </tableView>
+                </tableViewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="nER-2k-mxX" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="397.65625" y="403.7109375"/>
+        </scene>
         <!--Request Detail-->
         <scene sceneID="tUY-lz-Koa">
             <objects>
