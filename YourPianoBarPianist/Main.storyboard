@@ -118,7 +118,7 @@
                                     <subviews>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="hLa-qr-Rv9">
                                             <rect key="frame" x="20" y="0.0" width="728" height="44"/>
-                                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                            <fontDescription key="fontDescription" style="UICTFontTextStyleBody"/>
                                             <nil key="textColor"/>
                                             <nil key="highlightedColor"/>
                                         </label>
@@ -478,6 +478,7 @@
                         <outlet property="emailField" destination="rGi-oZ-j37" id="8Jr-WY-XV8"/>
                         <outlet property="passwordField" destination="8C8-h4-o5e" id="MWQ-zE-cK3"/>
                         <segue destination="IMy-Ez-j0x" kind="show" identifier="LoginToRequests" id="f52-E4-ROc"/>
+                        <segue destination="bB0-Vo-uOr" kind="show" identifier="LoginToSmallRequests" id="lUX-Jr-faT"/>
                     </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="czI-Kc-0gw" userLabel="First Responder" sceneMemberID="firstResponder"/>

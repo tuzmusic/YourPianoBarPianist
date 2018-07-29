@@ -64,7 +64,7 @@ class RequestTableViewCell: UITableViewCell {
 			// make even bolder, somehow! (or change color, or blink or something)
 		}
 		
-		userDateLabel.text = "\(nameString) - \(timeString))"
+		userDateLabel.text = "\(nameString ?? "") - \(timeString ?? ""))"
 		songTitleLabel.text = songString
 		artistLabel.text = artistString
 		notesLabel.text = request.notes

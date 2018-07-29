@@ -13,11 +13,11 @@ class Request_SMALL_Cell: RequestTableViewCell {
 	@IBOutlet weak var label: UILabel!
 	
 	override func updateUI() {
-		label.text = """
-		\"\(songString)\"
-		by \(artistString)
-		Requested by \(nameString) \(timeString)
-		\(request.notes)
-		"""
+			label.text = """
+			\"\(songString ?? "")\" by \(artistString ?? "")
+			Requested by \(nameString ?? "") \(timeString ?? "")
+			Notes: \"\(request.notes)\"
+			"""
 	}
 }
+
