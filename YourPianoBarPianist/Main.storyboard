@@ -393,10 +393,17 @@
                                                     <rect key="frame" x="0.0" y="0.0" width="768" height="43.5"/>
                                                     <subviews>
                                                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ZrR-br-EuB">
-                                                            <rect key="frame" x="0.0" y="7" width="768" height="30"/>
+                                                            <rect key="frame" x="0.0" y="7" width="384" height="30"/>
                                                             <state key="normal" title="Login"/>
                                                             <connections>
                                                                 <action selector="loginButtonTapped:" destination="PBs-Ke-UGt" eventType="touchUpInside" id="Y4U-O1-aRb"/>
+                                                            </connections>
+                                                        </button>
+                                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="JL7-Td-mXw">
+                                                            <rect key="frame" x="384" y="7" width="384" height="30"/>
+                                                            <state key="normal" title="Logout"/>
+                                                            <connections>
+                                                                <action selector="logOutTapped" destination="PBs-Ke-UGt" eventType="touchUpInside" id="hAJ-m0-ksq"/>
                                                             </connections>
                                                         </button>
                                                     </subviews>

@@ -143,7 +143,11 @@ class SignInTableViewController_Pianist: UITableViewController {
         }
     }
     
-    func logOutAll() {
+	@IBAction func logOutTapped() {
+		logOutAll()
+	}
+	
+	func logOutAll() {
         SyncUser.current?.logOut()
         YpbUser.current = nil
         realm = nil

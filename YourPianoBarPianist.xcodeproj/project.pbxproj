@@ -297,7 +297,6 @@
 				76B07FAB1E7ED9ED008F0F45 /* Resources */,
 				76B07FD61E7EDA68008F0F45 /* Embed Frameworks */,
 				6D224105EC8C21D81DA51405 /* [CP] Embed Pods Frameworks */,
-				ADEB415E67C69976D3EA0180 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -341,7 +340,7 @@
 				TargetAttributes = {
 					76B07FAC1E7ED9ED008F0F45 = {
 						CreatedOnToolsVersion = 8.2.1;
-						DevelopmentTeam = MS76ZC84AE;
+						DevelopmentTeam = 99DCWP49D6;
 						LastSwiftMigration = 0920;
 						ProvisioningStyle = Automatic;
 					};
@@ -407,7 +406,7 @@
 			);
 			name = "[CP] Copy Pods Resources";
 			outputPaths = (
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/GoogleSignIn.bundle",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -484,21 +483,6 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-YourPianoBarPianist/Pods-YourPianoBarPianist-frameworks.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		ADEB415E67C69976D3EA0180 /* [CP] Copy Pods Resources */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "[CP] Copy Pods Resources";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-YourPianoBarPianist/Pods-YourPianoBarPianist-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		C54A45E47B2496118E27613E /* [CP] Check Pods Manifest.lock */ = {
@@ -702,15 +686,17 @@
 			baseConfigurationReference = FA91F8A7DB23842A41A1921F /* Pods-YourPianoBarPianist.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				DEVELOPMENT_TEAM = MS76ZC84AE;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				DEVELOPMENT_TEAM = 99DCWP49D6;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)",
 				);
 				INFOPLIST_FILE = YourPianoBarPianist/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = TuzMusic.YourPianoBarPianist;
+				PRODUCT_BUNDLE_IDENTIFIER = com.yourepianobar.tuzmusic;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
 				SWIFT_VERSION = 4.0;
 				TARGETED_DEVICE_FAMILY = 2;
 			};
@@ -721,15 +707,18 @@
 			baseConfigurationReference = 5DA5280AFB2582BB2C8562DE /* Pods-YourPianoBarPianist.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				DEVELOPMENT_TEAM = MS76ZC84AE;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "Developer ID Application: JONATHAN TUZMAN (99DCWP49D6)";
+				DEVELOPMENT_TEAM = 99DCWP49D6;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)",
 				);
 				INFOPLIST_FILE = YourPianoBarPianist/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = TuzMusic.YourPianoBarPianist;
+				PRODUCT_BUNDLE_IDENTIFIER = com.yourepianobar.tuzmusic;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
 				SWIFT_VERSION = 4.0;
 				TARGETED_DEVICE_FAMILY = 2;
 			};
