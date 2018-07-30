@@ -116,20 +116,25 @@
                                     <rect key="frame" x="0.0" y="0.0" width="768" height="43.5"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
-                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="hLa-qr-Rv9">
-                                            <rect key="frame" x="20" y="0.0" width="728" height="44"/>
-                                            <fontDescription key="fontDescription" style="UICTFontTextStyleBody"/>
-                                            <nil key="textColor"/>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" usesAttributedText="YES" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontForContentSizeCategory="YES" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="hLa-qr-Rv9">
+                                            <rect key="frame" x="20" y="11" width="728" height="22"/>
+                                            <attributedString key="attributedText">
+                                                <fragment content="Label">
+                                                    <attributes>
+                                                        <font key="NSFont" metaFont="system" size="17"/>
+                                                        <paragraphStyle key="NSParagraphStyle" alignment="left" lineBreakMode="wordWrapping" baseWritingDirection="natural" tighteningFactorForTruncation="0.0"/>
+                                                    </attributes>
+                                                </fragment>
+                                            </attributedString>
                                             <nil key="highlightedColor"/>
                                         </label>
                                     </subviews>
                                     <constraints>
                                         <constraint firstItem="hLa-qr-Rv9" firstAttribute="trailing" secondItem="hDZ-jk-Uo5" secondAttribute="trailingMargin" id="4J4-rh-4lo"/>
                                         <constraint firstItem="hLa-qr-Rv9" firstAttribute="centerX" secondItem="hDZ-jk-Uo5" secondAttribute="centerX" id="9Qi-Kv-zko"/>
-                                        <constraint firstAttribute="bottom" secondItem="hLa-qr-Rv9" secondAttribute="bottom" id="Dsi-yx-l3C"/>
+                                        <constraint firstAttribute="bottomMargin" secondItem="hLa-qr-Rv9" secondAttribute="bottom" id="Dsi-yx-l3C"/>
                                         <constraint firstItem="hLa-qr-Rv9" firstAttribute="leading" secondItem="hDZ-jk-Uo5" secondAttribute="leadingMargin" id="gyJ-gV-z0g"/>
-                                        <constraint firstItem="hLa-qr-Rv9" firstAttribute="centerY" secondItem="hDZ-jk-Uo5" secondAttribute="centerY" id="iVF-tX-3t0"/>
-                                        <constraint firstItem="hLa-qr-Rv9" firstAttribute="top" secondItem="hDZ-jk-Uo5" secondAttribute="top" id="rEb-86-Zk4"/>
+                                        <constraint firstItem="hLa-qr-Rv9" firstAttribute="top" secondItem="hDZ-jk-Uo5" secondAttribute="topMargin" id="rEb-86-Zk4"/>
                                     </constraints>
                                 </tableViewCellContentView>
                                 <connections>
@@ -476,6 +481,8 @@
                     <navigationItem key="navigationItem" title="You're Piano Bar" id="1vR-J4-7ig"/>
                     <connections>
                         <outlet property="emailField" destination="rGi-oZ-j37" id="8Jr-WY-XV8"/>
+                        <outlet property="loginButton" destination="ZrR-br-EuB" id="foU-45-jVQ"/>
+                        <outlet property="logoutButton" destination="JL7-Td-mXw" id="tyq-LX-uv4"/>
                         <outlet property="passwordField" destination="8C8-h4-o5e" id="MWQ-zE-cK3"/>
                         <segue destination="IMy-Ez-j0x" kind="show" identifier="LoginToRequests" id="f52-E4-ROc"/>
                         <segue destination="bB0-Vo-uOr" kind="show" identifier="LoginToSmallRequests" id="lUX-Jr-faT"/>

@@ -251,12 +251,12 @@ class RequestsTableViewController: UITableViewController {
 			if let realm = self?.realm, let token = self?.token {
 				realm.beginWrite()
 				request.played = true
-				self?.tableView.deleteRows(at: [indexPath], with: .automatic)
 				do {
 					try realm.commitWrite(withoutNotifying: [token])
 				} catch {
 					print(error)
 				}
+				self?.tableView.deleteRows(at: [indexPath], with: .automatic)
 			}
 		}
 		markPlayed.backgroundColor = UIColor(red: 0, green: 0.153, blue: 0, alpha: 1)
@@ -293,7 +293,7 @@ class RequestsTableViewController: UITableViewController {
 		}
 		openInForScore.backgroundColor = .blue
 		
-		let actions = [markPlayed, searchInSafari, openInForScore, ignoreRequest]
+		let actions = [markPlayed, searchInSafari, openInForScore,]// ignoreRequest]
 		return UISwipeActionsConfiguration(actions: actions)
 	}
 }

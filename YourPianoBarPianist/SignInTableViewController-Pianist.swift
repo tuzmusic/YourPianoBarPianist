@@ -18,18 +18,23 @@ struct RealmConstants {
 
 class SignInTableViewController_Pianist: UITableViewController {
 	
-	var segueToPerform: String {
-		let name = ProcessInfo.init().environment["SIMULATOR_DEVICE_NAME"] ?? "NoN"
-		return name.contains("iPhone") ? "LoginToSmallRequests" : "LoginToRequests"
-	}
+	lazy var segueToPerform = UIDevice.current.userInterfaceIdiom == .pad ? "LoginToRequests" : "LoginToSmallRequests"
 	
 	@IBOutlet weak var emailField: UITextField!
 	@IBOutlet weak var passwordField: UITextField!
+	@IBOutlet weak var loginButton: UIButton!
+	@IBOutlet weak var logoutButton: UIButton!
+	
+	fileprivate func buttons() {
+		loginButton?.isEnabled = SyncUser.current == nil
+		logoutButton?.isEnabled = SyncUser.current != nil
+	}
 	
 	override func viewWillAppear(_ animated: Bool) {
 		super.viewWillAppear(true)
 		emailField.text = ""
 		passwordField.text = ""
+		buttons()
 	}
 	
 	var spinner = UIActivityIndicatorView()
@@ -48,7 +53,6 @@ class SignInTableViewController_Pianist: UITableViewController {
 			realm = nil
 		}
 	}
-	
 	
 	override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
 		spinner.stopAnimating()
@@ -83,6 +87,7 @@ class SignInTableViewController_Pianist: UITableViewController {
 		
 		SyncUser.logIn(with: cred, server: RealmConstants.authURL) { [weak self] (user, error) in
 			if let syncUser = user {    // can't check YpbUser yet because we're not in the realm, where YpbUsers are
+				self?.buttons()
 				self?.openRealmWithUser(user: syncUser); pr("SyncUser now logged in: \(syncUser.identity!)")
 			} else if let error = error {
 				self?.present(UIAlertController.basic(title: "Login failed", message: error.localizedDescription), animated: true); pr("SyncUser.login Error: \(error)")
@@ -159,6 +164,7 @@ class SignInTableViewController_Pianist: UITableViewController {
 		proposedUser = YpbUser()
 		emailField.text = ""
 		passwordField.text = ""
+		buttons()		
 	}
 }
 

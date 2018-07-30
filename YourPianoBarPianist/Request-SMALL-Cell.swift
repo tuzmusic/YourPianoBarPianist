@@ -13,11 +13,32 @@ class Request_SMALL_Cell: RequestTableViewCell {
 	@IBOutlet weak var label: UILabel!
 	
 	override func updateUI() {
-			label.text = """
-			\"\(songString ?? "")\" by \(artistString ?? "")
-			Requested by \(nameString ?? "") \(timeString ?? "")
-			Notes: \"\(request.notes)\"
-			"""
+		
+		let attrString = NSMutableAttributedString()
+		let titleSize: CGFloat = 20
+		let subtitleSize: CGFloat = 16
+		
+		let boldTitleAttribute = [NSAttributedStringKey.font : UIFont.boldSystemFont(ofSize: titleSize)]
+		let regularTitleAttribute = [NSAttributedStringKey.font : UIFont.systemFont(ofSize: titleSize)]
+		let regularSubtitleAttribute = [NSAttributedStringKey.font : UIFont.systemFont(ofSize: subtitleSize)]
+		let italicSubtitleAttribute = [NSAttributedStringKey.font : UIFont.italicSystemFont(ofSize: subtitleSize)]
+		
+		attrString.append(NSAttributedString(string: "\(songString ?? "")", attributes: boldTitleAttribute))
+
+		if let artistString = artistString {
+			attrString.append(NSAttributedString(string: " by \(artistString)", attributes: regularTitleAttribute))
+		}
+		
+		if let nameString = nameString {
+			attrString.append(NSAttributedString(string: "\nrequested by \(nameString)", attributes: regularSubtitleAttribute))
+		}
+		attrString.append(NSAttributedString(string: " \(timeString ?? "")", attributes: regularSubtitleAttribute))
+
+		if !request.notes.isEmpty {
+			attrString.append(NSAttributedString(string: "\n\(request.notes)", attributes: italicSubtitleAttribute))
+		}
+		
+		label.attributedText = attrString
 	}
 }
 
