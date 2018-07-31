@@ -45,7 +45,7 @@ class RequestTableViewCell: UITableViewCell {
 		artistString = request.songObject?.artist.name ?? nil
 	}
 
-	// MARK - View
+	// MARK: - View
 	@IBOutlet weak var userDateLabel: UILabel!
 	@IBOutlet weak var tipLabel: UILabel!
 	@IBOutlet weak var songTitleLabel: UILabel!

@@ -22,10 +22,4 @@ class Requests_SMALL_TableViewController: RequestsTableViewController {
 		}
 		return cell
 	}
-	
-	override func viewDidLoad() {
-		super.viewDidLoad()
-		let name = ProcessInfo.init().environment["SIMULATOR_DEVICE_NAME"] ?? "NoN"
-		pr(name)
-	}
 }

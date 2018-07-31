@@ -11,14 +11,7 @@ import RealmSwift
 
 final class Request: Object {
 	
-	@objc dynamic var user: YpbUser?
-		/* { didSet {
-			if let user = user {
-				userString = user.firstName + " " + user.lastName
-			}
-		}
-	} */
-	
+	@objc dynamic var user: YpbUser?	
 	@objc dynamic var userString: String = ""
 	@objc dynamic var songString: String = ""
 	@objc dynamic var songObject: Song? {
@@ -32,11 +25,14 @@ final class Request: Object {
 	@objc dynamic var date = Date()
 	var tip: Double? // This needs to either be a RealmOptional<Double> or non-optional and default to $0
 	@objc dynamic var played = false
+//	@objc dynamic var ignored = false
 	@objc dynamic var event: Event?
 	
 	// Implement later
 	@objc dynamic var singAtMic = false
-	
+}
+
+extension Request {
 	class func addSampleRequest() -> Bool {
 		if let realm = YPB.realm {
 			let user = YpbUser.user(firstName: "Jonathan", lastName: "Tuzman", email: "tuzmusic@gmail.com", in: realm)

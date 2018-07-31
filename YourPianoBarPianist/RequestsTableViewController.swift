@@ -84,6 +84,7 @@ class RequestsTableViewController: UITableViewController {
 		}
 		
 		static var showPlayed = false
+		static var showIgnored = false
 		static var startingDate: Date? = nil
 		
 		static var ascending = false
@@ -100,6 +101,8 @@ class RequestsTableViewController: UITableViewController {
 	}
 	
 	var sort: ViewOptions.sortBy = .date
+	
+	// MARK: - Request Model
 	
 	var requests: Results<Request>? {
 		
@@ -239,7 +242,7 @@ class RequestsTableViewController: UITableViewController {
 		return cell
 	}
 	
-	// MARK: Table view delegate
+	// MARK: - Table view delegate
 	
 	@available(iOS 11.0, *)
 	override func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
@@ -247,32 +250,35 @@ class RequestsTableViewController: UITableViewController {
 		guard let request = self.requests?[indexPath.row] else { return nil }
 		
 		let markPlayed = UIContextualAction(style: .normal, title: "Mark as Played")
-		{ [weak self] (action, sourceView, _) in
-			if let realm = self?.realm, let token = self?.token {
-				realm.beginWrite()
-				request.played = true
+		{ [weak self] (_, _, _) in
 				do {
-					try realm.commitWrite(withoutNotifying: [token])
+					try self?.realm?.write { request.played = true }
 				} catch {
 					print(error)
 				}
-				self?.tableView.deleteRows(at: [indexPath], with: .automatic)
-			}
 		}
 		markPlayed.backgroundColor = UIColor(red: 0, green: 0.153, blue: 0, alpha: 1)
 			
-		let ignoreRequest = UIContextualAction(style: .normal, title: "Ignore")
-		{ (action, sourceView, _) in
-			// add "ignored" property to Request
-			// request.ignored = true
-		}
-		ignoreRequest.backgroundColor = .red
+//		let ignoreRequest = UIContextualAction(style: .normal, title: "Ignore")
+//		{ [weak self] (_, _, _) in
+//			if let realm = self?.realm, let token = self?.token {
+//				realm.beginWrite()
+//				request.ignored = true
+//				do {
+//					try realm.commitWrite(withoutNotifying: [token])
+//				} catch {
+//					print(error)
+//				}
+//				self?.tableView.deleteRows(at: [indexPath], with: .automatic)
+//			}
+//		}
+//		ignoreRequest.backgroundColor = .red
 		
-		let lyricSuffix = "%20lyrics"
 		
 		let searchInSafari = UIContextualAction(style: .normal, title: "Search")
-		{ (action, sourceView, _) in
+		{ (_, _, _) in
 			let pasteboard = UIPasteboard.general
+			let lyricSuffix = "%20lyrics"
 			pasteboard.string = request.songObject?.title ?? request.songString
 			if let songWithoutSpaces = request.songObject?.title.replacingOccurrences(of: " ", with: "%20"),
 				let searchURL = URL(string: "https://www.google.com/search?q=\(songWithoutSpaces + lyricSuffix)") {
@@ -282,7 +288,7 @@ class RequestsTableViewController: UITableViewController {
 		searchInSafari.backgroundColor = .gray
 		
 		let openInForScore = UIContextualAction(style: .normal, title: "Open")
-		{ [weak self] (action, sourceView, _) in
+		{ [weak self] (_, _, _) in
 			let pasteboard = UIPasteboard.general
 			pasteboard.string = request.songObject?.title ?? request.songString
 			if let song = request.songObject?.title {
@@ -293,10 +299,18 @@ class RequestsTableViewController: UITableViewController {
 		}
 		openInForScore.backgroundColor = .blue
 		
-		let actions = [markPlayed, searchInSafari, openInForScore,]// ignoreRequest]
+		let actions = [
+			markPlayed,
+			searchInSafari,
+			openInForScore,
+//			ignoreRequest
+		]
+		
 		return UISwipeActionsConfiguration(actions: actions)
 	}
 }
+
+// MARK: - Utility functions
 
 extension RequestsTableViewController {
 	
