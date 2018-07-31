@@ -32,7 +32,7 @@ class Request_SMALL_Cell: RequestTableViewCell {
 		if let nameString = nameString {
 			attrString.append(NSAttributedString(string: "\nrequested by \(nameString)", attributes: regularSubtitleAttribute))
 		}
-		attrString.append(NSAttributedString(string: " \(timeString ?? "")", attributes: regularSubtitleAttribute))
+		attrString.append(NSAttributedString(string: " \n\(timeString ?? "")", attributes: regularSubtitleAttribute))
 
 		if !request.notes.isEmpty {
 			attrString.append(NSAttributedString(string: "\n\(request.notes)", attributes: italicSubtitleAttribute))

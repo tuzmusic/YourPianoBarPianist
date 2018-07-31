@@ -24,15 +24,10 @@ class RequestTableViewCell: UITableViewCell {
 
 	var isNewRequest = false
 	
-	func timeSince(time: Date) -> String {
-		// TO-DO - This can probably be simplified a bit with a TimeFormatter
-		let now = Date()
-		let secondsAgo = DateInterval(start: time, end: now).duration
-		let minutesAgo = secondsAgo / 60
-		let hoursAgo = Int(minutesAgo / 60)
-		let timeAgo = "\(hoursAgo)h \(Int(minutesAgo.truncatingRemainder(dividingBy: 60)))m ago"
-		
-		return timeAgo
+	func timeSince(time: Date) -> String! {
+		let formatter = DateComponentsFormatter()
+		formatter.unitsStyle = .short
+		return formatter.string(from: time, to: Date())
 	}
 	
 	func formulateRequestStrings() {
@@ -43,7 +38,7 @@ class RequestTableViewCell: UITableViewCell {
 			nameString = "\(request.userString) (\(nameString))"
 		}
 		
-		timeString = timeSince(time: request.date)
+		timeString = timeSince(time: request.date) + " ago"
 		
 		songString = request.songObject?.title ?? request.songString
 		
