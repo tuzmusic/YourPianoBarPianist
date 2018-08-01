@@ -19,10 +19,8 @@ extension Request {
 		let songNum = arc4random_uniform(UInt32(realm.objects(Song.self).count))
 		request.songObject = realm.objects(Song.self)[Int(songNum)]
 		
-		request.notes = "\(request.userString) wants to hear \(request.songString)"
+		request.notes = "Notes for Sample Request"
 		
 		return request
 	}
-	
-	
 }

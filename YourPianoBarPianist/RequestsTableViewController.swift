@@ -104,6 +104,8 @@ class RequestsTableViewController: UITableViewController {
 	
 	// MARK: - Request Model
 	
+	var basePredicate: NSPredicate?
+	
 	var requests: Results<Request>? {
 		
 		guard realm != nil else { return nil }
@@ -249,34 +251,22 @@ class RequestsTableViewController: UITableViewController {
 		
 		guard let request = self.requests?[indexPath.row] else { return nil }
 		
-		let markPlayed = UIContextualAction(style: .normal, title: "Mark as Played")
-		{ [weak self] (_, _, _) in
-				do {
-					try self?.realm?.write { request.played = true }
-				} catch {
-					print(error)
+		var actions = [UIContextualAction]()
+		
+		func markPlayedHander(_: UIContextualAction, _: UIView, _: (Bool) -> Void) {
+			do {
+				try realm?.write {
+					request.played = true
 				}
+			} catch {
+				print(error)
+			}
 		}
-		markPlayed.backgroundColor = UIColor(red: 0, green: 0.153, blue: 0, alpha: 1)
-			
-//		let ignoreRequest = UIContextualAction(style: .normal, title: "Ignore")
-//		{ [weak self] (_, _, _) in
-//			if let realm = self?.realm, let token = self?.token {
-//				realm.beginWrite()
-//				request.ignored = true
-//				do {
-//					try realm.commitWrite(withoutNotifying: [token])
-//				} catch {
-//					print(error)
-//				}
-//				self?.tableView.deleteRows(at: [indexPath], with: .automatic)
-//			}
-//		}
-//		ignoreRequest.backgroundColor = .red
-		
-		
-		let searchInSafari = UIContextualAction(style: .normal, title: "Search")
-		{ (_, _, _) in
+		let markPlayed = UIContextualAction(style: .normal, title: "Mark as Played", handler: markPlayedHander)
+		markPlayed.backgroundColor = UIColor(red: 0, green: 0.53, blue: 0, alpha: 1)
+		actions.append(markPlayed)
+	
+		func safariHandler(_: UIContextualAction, _: UIView, _: (Bool) -> Void) {
 			let pasteboard = UIPasteboard.general
 			let lyricSuffix = "%20lyrics"
 			pasteboard.string = request.songObject?.title ?? request.songString
@@ -285,26 +275,22 @@ class RequestsTableViewController: UITableViewController {
 				UIApplication.shared.open(searchURL, options: [:], completionHandler: nil)
 			}
 		}
+		let searchInSafari = UIContextualAction(style: .normal, title: "Search", handler: safariHandler)
 		searchInSafari.backgroundColor = .gray
+		actions.append(searchInSafari)
 		
-		let openInForScore = UIContextualAction(style: .normal, title: "Open")
-		{ [weak self] (_, _, _) in
+		func forScoreHandler(_: UIContextualAction, _: UIView, _: (Bool) -> Void) {
 			let pasteboard = UIPasteboard.general
 			pasteboard.string = request.songObject?.title ?? request.songString
 			if let song = request.songObject?.title {
-				if let url = self?.forScorePath(for: song) {
+				if let url = forScorePath(for: song) {
 					UIApplication.shared.open(url, options: [:], completionHandler: nil)
 				}
 			}
 		}
+		let openInForScore = UIContextualAction(style: .normal, title: "Open", handler: forScoreHandler)
 		openInForScore.backgroundColor = .blue
-		
-		let actions = [
-			markPlayed,
-			searchInSafari,
-			openInForScore,
-//			ignoreRequest
-		]
+		actions.append(openInForScore)
 		
 		return UISwipeActionsConfiguration(actions: actions)
 	}
@@ -318,12 +304,6 @@ extension RequestsTableViewController {
 		try! realm.write { [weak self] in
 			self?.realm.create(Request.self, value: Request.randomRequest(in: realm), update: false)
 		}
-		
-		//		if !Request.addSampleRequest() {
-		//			let alert = UIAlertController(title: "Can't add request", message: "Can't connect", preferredStyle: .alert)
-		//			alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
-		//			present(alert, animated: true)
-		//		}
 	}
 	
 }
